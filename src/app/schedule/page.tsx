@@ -93,29 +93,19 @@ export default function SchedulePage() {
     }
   };
 
-  const getClassSpan = (duration: number) => {
-    return Math.ceil(duration / 30);
-  };
-
-  const getStartingClasses = (day: string, timeSlot: string) => {
-    // Check all classes in this day for matching start time
-    const classes = Object.values(schedule[day] || {});
-    return classes.filter(c => c.startTime === timeSlot);
-  };
-
-  const isClassInProgress = (day: string, timeSlot: string, classStartTime: string, duration: number) => {
-    const [startHour, startMinute] = classStartTime.split(':').map(Number);
-    const [slotHour, slotMinute] = timeSlot.split(':').map(Number);
-    
-    const startTimeInMinutes = startHour * 60 + startMinute;
-    const slotTimeInMinutes = slotHour * 60 + slotMinute;
-    const endTimeInMinutes = startTimeInMinutes + duration;
-    
-    return slotTimeInMinutes > startTimeInMinutes && slotTimeInMinutes < endTimeInMinutes;
-  };
-
-  const isGapTime = (time: string) => {
-    return time === 'gap';
+  const getClassColor = (type: string) => {
+    switch (type) {
+      case 'tiny-kids':
+        return 'border-green-500 bg-green-500/10';
+      case 'kids':
+        return 'border-blue-500 bg-blue-500/10';
+      case 'adults':
+        return 'border-purple-500 bg-purple-500/10';
+      case 'womens':
+        return 'border-red-500 bg-red-500/10';
+      default:
+        return 'border-gray-800 bg-[#1c1c23]';
+    }
   };
 
   const schedule: ScheduleData = {
@@ -273,7 +263,9 @@ export default function SchedulePage() {
                   key={`${day}-${timeSlot}`} 
                   className={`p-2 relative min-h-[4rem] ${timeSlot === 'gap' ? 'bg-gray-900/30' : ''}`}
                 >
-                  {timeSlot !== 'gap' && getStartingClasses(day, timeSlot).map((classInfo, index, array) => 
+                  {timeSlot !== 'gap' && Object.values(schedule[day] || {})
+                    .filter(c => c.startTime === timeSlot)
+                    .map((classInfo, index, array) => 
                     (selectedTypes.has(classInfo.type) && 
                       ((classInfo.type === 'womens') || 
                         (showGi && !classInfo.isNoGi) || 
