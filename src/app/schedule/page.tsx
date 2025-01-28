@@ -210,12 +210,6 @@ export default function SchedulePage() {
   };
 
   const days = ['Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-  const classTypes = [
-    { id: 'tiny-kids', name: 'Tiny Kids (4 - 5)', color: 'green' },
-    { id: 'kids', name: 'Kids [6+]', color: 'blue' },
-    { id: 'adults', name: 'Adults', color: 'purple' },
-    { id: 'womens', name: "Women's", color: 'red' },
-  ];
 
   return (
     <main className="min-h-[calc(100vh-64px)] py-12 px-4 sm:px-6 lg:px-8">
@@ -396,6 +390,9 @@ export default function SchedulePage() {
             );
           })}
         </div>
+        <p className="text-gray-300 text-center mb-8">
+          Can&apos;t make it to class? Contact us to schedule a private lesson.
+        </p>
       </div>
     </main>
   );

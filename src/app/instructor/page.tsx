@@ -18,7 +18,7 @@ export default function InstructorPage() {
             </h2>
             <div className="space-y-4 text-gray-300 max-w-2xl mx-auto">
               <p>
-                Markangelo, the owner and primary instructor at Lovitt's Jiu Jitsu, has dedicated over 12 years to the art of jiu jitsu and the pursuit of mastery. A brown belt on the path to black, his journey is fueled by a deep passion for the sport and its transformative power. For Markangelo, jiu jitsu is more than technique—it is a forge where integrity and self-control are shaped. Through his teachings, he seeks to inspire both young and old to carry these virtues beyond the mat, into every corner of their lives.
+                Markangelo, the owner and primary instructor at Lovitt&apos;s Jiu Jitsu, has dedicated over 12 years to the art of jiu jitsu and the pursuit of mastery. A brown belt on the path to black, his journey is fueled by a deep passion for the sport and its transformative power. For Markangelo, jiu jitsu is more than technique—it is a forge where integrity and self-control are shaped. Through his teachings, he seeks to inspire both young and old to carry these virtues beyond the mat, into every corner of their lives.
               </p>
             </div>
           </div>
