@@ -12,7 +12,8 @@ export default {
           { title: 'Adult Programs', value: 'adult' },
           { title: 'Kids Programs', value: 'kids' }
         ]
-      }
+      },
+      validation: (Rule: any) => Rule.required()
     },
     {
       name: 'plans',
@@ -24,12 +25,14 @@ export default {
           {
             name: 'name',
             title: 'Plan Name',
-            type: 'string'
+            type: 'string',
+            validation: (Rule: any) => Rule.required()
           },
           {
             name: 'price',
             title: 'Price',
-            type: 'string'
+            type: 'string',
+            validation: (Rule: any) => Rule.required()
           },
           {
             name: 'perMonth',
@@ -41,7 +44,8 @@ export default {
             name: 'features',
             title: 'Features',
             type: 'array',
-            of: [{ type: 'string' }]
+            of: [{ type: 'string' }],
+            validation: (Rule: any) => Rule.required().min(1)
           },
           {
             name: 'highlighted',
@@ -50,7 +54,8 @@ export default {
             initialValue: false
           }
         ]
-      }]
+      }],
+      validation: (Rule: any) => Rule.required()
     }
   ]
 }

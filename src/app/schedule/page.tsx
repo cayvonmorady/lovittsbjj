@@ -1,12 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ScrollIndicator from "@/components/ScrollIndicator";
+import { client } from '../../../sanity/lib/client';
 
 interface ClassInfo {
   name: string;
   startTime: string;
-  duration: number; // in minutes
+  duration: number;
   type: string;
   isNoGi?: boolean;
   note?: string;
@@ -20,10 +21,111 @@ interface ScheduleData {
   [key: string]: DaySchedule;
 }
 
+// Development fallback data
+const devSchedule: ScheduleData = {
+  'Tuesday': {
+    '09:00': { name: "Women's Fitness", startTime: '09:00', duration: 60, type: 'womens' },
+    '12:00': { name: 'Adults BJJ', startTime: '12:00', duration: 60, type: 'adults' },
+    '17:30': { name: 'Tiny Kids BJJ', startTime: '17:30', duration: 30, type: 'tiny-kids' },
+    '18:30': { name: 'Kids BJJ', startTime: '18:30', duration: 60, type: 'kids' },
+    '19:30': { name: 'Adults BJJ', startTime: '19:30', duration: 120, type: 'adults' },
+  },
+  'Wednesday': {
+    '09:00': { name: "Women's Fitness", startTime: '09:00', duration: 60, type: 'womens' },
+    '12:00': { name: 'Adults BJJ', startTime: '12:00', duration: 60, type: 'adults', isNoGi: true },
+    '17:30': { name: 'Tiny Kids BJJ', startTime: '17:30', duration: 30, type: 'tiny-kids', isNoGi: true },
+    '18:30': { name: 'Kids BJJ', startTime: '18:30', duration: 60, type: 'kids', isNoGi: true },
+    '19:30': { name: 'Adults BJJ', startTime: '19:30', duration: 120, type: 'adults', isNoGi: true },
+  },
+  'Thursday': {
+    '09:00': { name: "Women's Fitness", startTime: '09:00', duration: 60, type: 'womens' },
+    '12:00': { name: 'Adults BJJ', startTime: '12:00', duration: 60, type: 'adults', isNoGi: true },
+    '17:30': { name: 'Tiny Kids BJJ', startTime: '17:30', duration: 30, type: 'tiny-kids', isNoGi: true },
+    '18:30': { name: 'Kids BJJ', startTime: '18:30', duration: 60, type: 'kids', isNoGi: true },
+    '19:30': { name: 'Adults BJJ', startTime: '19:30', duration: 120, type: 'adults', isNoGi: true },
+  },
+  'Friday': {
+    '09:00': { name: "Women's Fitness", startTime: '09:00', duration: 60, type: 'womens' },
+    '12:00': { name: 'Adults BJJ', startTime: '12:00', duration: 60, type: 'adults' },
+    '17:30': { name: 'Tiny Kids BJJ', startTime: '17:30', duration: 30, type: 'tiny-kids' },
+    '18:30': { name: 'Kids BJJ', startTime: '18:30', duration: 60, type: 'kids' },
+    '19:30': { name: 'Adults BJJ', startTime: '19:30', duration: 120, type: 'adults' },
+  },
+  'Saturday': {
+    'kids': { name: 'Kids BJJ', startTime: '11:45', duration: 75, type: 'kids' },
+    'tiny': { name: 'Tiny Kids BJJ', startTime: '11:45', duration: 75, type: 'tiny-kids' },
+    'adults': { name: 'Adults BJJ', startTime: '13:00', duration: 60, type: 'adults' },
+    'womens': { name: "Women's Self Defense", startTime: '17:30', duration: 60, type: 'womens', note: 'First Saturdays' },
+  },
+  'Sunday': {
+    '12:00': { name: 'Open Mat', startTime: '12:00', duration: 120, type: 'adults' },
+  },
+};
+
 export default function SchedulePage() {
   const [selectedTypes, setSelectedTypes] = useState<Set<string>>(new Set(['tiny-kids', 'kids', 'adults', 'womens']));
   const [showNoGi, setShowNoGi] = useState(true);
   const [showGi, setShowGi] = useState(true);
+  const [schedule, setSchedule] = useState<ScheduleData>(devSchedule);
+
+  useEffect(() => {
+    async function fetchClasses() {
+      try {
+        // In development, use the hardcoded data
+        if (process.env.NODE_ENV === 'development') {
+          return;
+        }
+
+        const query = `*[_type == "class"] {
+          name,
+          dayOfWeek,
+          startTime,
+          duration,
+          type,
+          isNoGi,
+          note
+        }`;
+        
+        const classes = await client.fetch(query);
+        
+        if (!classes || classes.length === 0) {
+          console.log('No classes found in Sanity, using development data');
+          return;
+        }
+
+        // Transform the flat array of classes into our schedule data structure
+        const scheduleData: ScheduleData = {};
+        
+        classes.forEach((classInfo: any) => {
+          if (!scheduleData[classInfo.dayOfWeek]) {
+            scheduleData[classInfo.dayOfWeek] = {};
+          }
+          
+          // Use startTime as the key, but handle potential collisions
+          let key = classInfo.startTime;
+          if (scheduleData[classInfo.dayOfWeek][key]) {
+            // If there's a collision, append the class type to make a unique key
+            key = `${key}-${classInfo.type}`;
+          }
+          
+          scheduleData[classInfo.dayOfWeek][key] = {
+            name: classInfo.name,
+            startTime: classInfo.startTime,
+            duration: classInfo.duration,
+            type: classInfo.type,
+            isNoGi: classInfo.isNoGi || false,
+            note: classInfo.note,
+          };
+        });
+
+        setSchedule(scheduleData);
+      } catch (error) {
+        console.error('Error fetching classes:', error);
+      }
+    }
+
+    fetchClasses();
+  }, []);
 
   const filterSections = {
     age: [
@@ -91,46 +193,6 @@ export default function SchedulePage() {
       default:
         return 'border-gray-800 bg-[#1c1c23]';
     }
-  };
-
-  const schedule: ScheduleData = {
-    'Tuesday': {
-      '09:00': { name: "Women's Fitness", startTime: '09:00', duration: 60, type: 'womens' },
-      '12:00': { name: 'Adults BJJ', startTime: '12:00', duration: 60, type: 'adults' },
-      '17:30': { name: 'Tiny Kids BJJ', startTime: '17:30', duration: 30, type: 'tiny-kids' },
-      '18:30': { name: 'Kids BJJ', startTime: '18:30', duration: 60, type: 'kids' },
-      '19:30': { name: 'Adults BJJ', startTime: '19:30', duration: 120, type: 'adults' },
-    },
-    'Wednesday': {
-      '09:00': { name: "Women's Fitness", startTime: '09:00', duration: 60, type: 'womens' },
-      '12:00': { name: 'Adults BJJ', startTime: '12:00', duration: 60, type: 'adults', isNoGi: true },
-      '17:30': { name: 'Tiny Kids BJJ', startTime: '17:30', duration: 30, type: 'tiny-kids', isNoGi: true },
-      '18:30': { name: 'Kids BJJ', startTime: '18:30', duration: 60, type: 'kids', isNoGi: true },
-      '19:30': { name: 'Adults BJJ', startTime: '19:30', duration: 120, type: 'adults', isNoGi: true },
-    },
-    'Thursday': {
-      '09:00': { name: "Women's Fitness", startTime: '09:00', duration: 60, type: 'womens' },
-      '12:00': { name: 'Adults BJJ', startTime: '12:00', duration: 60, type: 'adults', isNoGi: true },
-      '17:30': { name: 'Tiny Kids BJJ', startTime: '17:30', duration: 30, type: 'tiny-kids', isNoGi: true },
-      '18:30': { name: 'Kids BJJ', startTime: '18:30', duration: 60, type: 'kids', isNoGi: true },
-      '19:30': { name: 'Adults BJJ', startTime: '19:30', duration: 120, type: 'adults', isNoGi: true },
-    },
-    'Friday': {
-      '09:00': { name: "Women's Fitness", startTime: '09:00', duration: 60, type: 'womens' },
-      '12:00': { name: 'Adults BJJ', startTime: '12:00', duration: 60, type: 'adults' },
-      '17:30': { name: 'Tiny Kids BJJ', startTime: '17:30', duration: 30, type: 'tiny-kids' },
-      '18:30': { name: 'Kids BJJ', startTime: '18:30', duration: 60, type: 'kids' },
-      '19:30': { name: 'Adults BJJ', startTime: '19:30', duration: 120, type: 'adults' },
-    },
-    'Saturday': {
-      'kids': { name: 'Kids BJJ', startTime: '11:45', duration: 75, type: 'kids' },
-      'tiny': { name: 'Tiny Kids BJJ', startTime: '11:45', duration: 75, type: 'tiny-kids' },
-      'adults': { name: 'Adults BJJ', startTime: '13:00', duration: 60, type: 'adults' },
-      'womens': { name: "Women's Self Defense", startTime: '17:30', duration: 60, type: 'womens', note: 'First Saturdays' },
-    },
-    'Sunday': {
-      '12:00': { name: 'Open Mat', startTime: '12:00', duration: 120, type: 'adults' },
-    },
   };
 
   const days = ['Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];

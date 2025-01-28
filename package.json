@@ -6,12 +6,14 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "migrate-content": "ts-node sanity/migrations/migrate-content.ts"
   },
   "dependencies": {
     "@sanity/client": "^6.27.1",
     "@sanity/image-url": "^1.1.0",
     "@sanity/vision": "^3.71.2",
+    "dotenv": "^16.4.7",
     "next": "15.1.6",
     "next-sanity": "^9.8.43",
     "react": "^19.0.0",
@@ -20,13 +22,14 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
-    "@types/node": "^20",
+    "@types/node": "^20.17.16",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.1.6",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
   }
 }

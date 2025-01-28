@@ -1,29 +1,177 @@
-export default function InstructorPage() {
+import { client } from '../../../sanity/lib/client'
+
+interface SocialMedia {
+  instagram?: string
+  facebook?: string
+  youtube?: string
+}
+
+interface InstructorData {
+  name: string
+  title: string
+  image: {
+    url: string
+    alt?: string
+  }
+  bio: string[]
+  achievements: string[]
+  certifications: string[]
+  socialMedia: SocialMedia
+}
+
+// Development fallback data
+const devInstructorData: InstructorData = {
+  name: "Professor Lovitt",
+  title: "Head Instructor & Founder",
+  image: {
+    url: "/assets/images/instructor.jpg",
+    alt: "Professor Lovitt"
+  },
+  bio: [
+    "Professor Lovitt began his martial arts journey at a young age, dedicating himself to the art of Brazilian Jiu-Jitsu.",
+    "With over 15 years of experience in BJJ, he has developed a teaching style that emphasizes technical precision and practical application.",
+    "His passion for BJJ extends beyond competition to creating a positive and inclusive training environment where students of all levels can thrive."
+  ],
+  achievements: [
+    "Black Belt under renowned instructor",
+    "Multiple-time competition champion",
+    "Certified instructor with extensive teaching experience",
+    "Active competitor in major tournaments"
+  ],
+  certifications: [
+    "Brazilian Jiu-Jitsu Black Belt",
+    "First Aid and CPR Certified",
+    "Youth Training Specialist"
+  ],
+  socialMedia: {
+    instagram: "https://instagram.com/lovittsbjj",
+    facebook: "https://facebook.com/lovittsbjj",
+    youtube: "https://youtube.com/@lovittsbjj"
+  }
+}
+
+async function getInstructorData(): Promise<InstructorData> {
+  try {
+    // In development, return the hardcoded data
+    if (process.env.NODE_ENV === 'development') {
+      return devInstructorData
+    }
+
+    const query = `*[_type == "instructor"][0]{
+      name,
+      title,
+      "image": {
+        "url": image.asset->url,
+        "alt": image.alt
+      },
+      bio,
+      achievements,
+      certifications,
+      socialMedia
+    }`
+    const data = await client.fetch(query)
+    
+    if (!data) {
+      console.log('No data from Sanity, using development data')
+      return devInstructorData
+    }
+
+    return data
+  } catch (error) {
+    console.error('Error fetching instructor data:', error)
+    return devInstructorData
+  }
+}
+
+export default async function InstructorPage() {
+  const instructorData = await getInstructorData()
+
   return (
-    <main className="min-h-[calc(100vh-64px)] py-12 px-4 sm:px-6 lg:px-8 flex items-center">
+    <main className="min-h-[calc(100vh-64px)] py-12 px-4 sm:px-6 lg:px-8 bg-[#141419]">
       <div className="max-w-[1400px] mx-auto">
-        <div className="max-w-4xl mx-auto space-y-8">
+        <div className="grid md:grid-cols-2 gap-12">
           {/* Instructor Image */}
-          <div className="rounded-lg overflow-hidden shadow-lg">
-            {/* Add instructor image here */}
-            <div className="bg-[#1c1c23] border border-gray-800 h-[400px] flex items-center justify-center">
-              <span className="text-gray-400">Instructor Image</span>
-            </div>
+          <div className="relative h-[500px] rounded-lg overflow-hidden">
+            <img
+              src={instructorData.image.url}
+              alt={instructorData.image.alt || instructorData.name}
+              className="object-cover w-full h-full"
+            />
           </div>
 
           {/* Instructor Info */}
-          <div className="space-y-6 text-center">
-            <h2 className="text-3xl font-[--font-bebas-neue] text-white tracking-wide">
-              Markangelo Lovitt
-            </h2>
-            <div className="space-y-4 text-gray-300 max-w-2xl mx-auto">
-              <p>
-                Markangelo, the owner and primary instructor at Lovitt&apos;s Jiu Jitsu, has dedicated over 12 years to the art of jiu jitsu and the pursuit of mastery. A brown belt on the path to black, his journey is fueled by a deep passion for the sport and its transformative power. For Markangelo, jiu jitsu is more than technique—it is a forge where integrity and self-control are shaped. Through his teachings, he seeks to inspire both young and old to carry these virtues beyond the mat, into every corner of their lives.
-              </p>
+          <div>
+            <h1 className="text-4xl font-[--font-bebas-neue] text-white mb-2 tracking-wider">
+              {instructorData.name}
+            </h1>
+            <h2 className="text-xl text-blue-500 mb-6">{instructorData.title}</h2>
+
+            {/* Biography */}
+            <div className="mb-8">
+              <h3 className="text-2xl font-[--font-bebas-neue] text-white mb-4 tracking-wider">Biography</h3>
+              {instructorData.bio.map((paragraph, index) => (
+                <p key={index} className="text-gray-300 mb-4">
+                  {paragraph}
+                </p>
+              ))}
+            </div>
+
+            {/* Achievements */}
+            <div className="mb-8">
+              <h3 className="text-2xl font-[--font-bebas-neue] text-white mb-4 tracking-wider">Achievements</h3>
+              <ul className="list-disc list-inside text-gray-300 space-y-2">
+                {instructorData.achievements.map((achievement, index) => (
+                  <li key={index}>{achievement}</li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Certifications */}
+            <div className="mb-8">
+              <h3 className="text-2xl font-[--font-bebas-neue] text-white mb-4 tracking-wider">Certifications</h3>
+              <ul className="list-disc list-inside text-gray-300 space-y-2">
+                {instructorData.certifications.map((cert, index) => (
+                  <li key={index}>{cert}</li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Social Media Links */}
+            <div className="flex space-x-4">
+              {instructorData.socialMedia.instagram && (
+                <a
+                  href={instructorData.socialMedia.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-500 hover:text-blue-400"
+                >
+                  Instagram
+                </a>
+              )}
+              {instructorData.socialMedia.facebook && (
+                <a
+                  href={instructorData.socialMedia.facebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-500 hover:text-blue-400"
+                >
+                  Facebook
+                </a>
+              )}
+              {instructorData.socialMedia.youtube && (
+                <a
+                  href={instructorData.socialMedia.youtube}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-500 hover:text-blue-400"
+                >
+                  YouTube
+                </a>
+              )}
             </div>
           </div>
         </div>
       </div>
     </main>
-  );
+  )
 }
