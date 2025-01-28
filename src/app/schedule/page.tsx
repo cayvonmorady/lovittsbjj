@@ -103,18 +103,6 @@ export default function SchedulePage() {
     return classes.filter(c => c.startTime === timeSlot);
   };
 
-  const getDayClasses = (day: string) => {
-    return Object.values(schedule[day] || {})
-      .filter(classInfo => isClassVisible(classInfo.type, classInfo.isNoGi))
-      .sort((a, b) => {
-        // First sort by start time
-        const timeCompare = a.startTime.localeCompare(b.startTime);
-        if (timeCompare !== 0) return timeCompare;
-        // If same start time, sort by type (tiny-kids, kids, adults)
-        return a.type.localeCompare(b.type);
-      });
-  };
-
   const isClassInProgress = (day: string, timeSlot: string, classStartTime: string, duration: number) => {
     const [startHour, startMinute] = classStartTime.split(':').map(Number);
     const [slotHour, slotMinute] = timeSlot.split(':').map(Number);
@@ -124,45 +112,6 @@ export default function SchedulePage() {
     const endTimeInMinutes = startTimeInMinutes + duration;
     
     return slotTimeInMinutes > startTimeInMinutes && slotTimeInMinutes < endTimeInMinutes;
-  };
-
-  const shouldShowClass = (classInfo: ClassInfo) => {
-    // Age/type filter applies to all classes
-    const passesAgeFilter = selectedTypes.has(classInfo.type);
-    
-    // For women's classes, ignore gi/no-gi filter
-    if (classInfo.type === 'womens') {
-      return passesAgeFilter;
-    }
-    
-    // For other classes, apply both age and gi/no-gi filters
-    const passesGiFilter = showGi && !classInfo.isNoGi;
-    const passesNoGiFilter = showNoGi && classInfo.isNoGi;
-
-    return passesAgeFilter && (passesGiFilter || passesNoGiFilter);
-  };
-
-  const toggleFilter = (type: string) => {
-    const newSelected = new Set(selectedTypes);
-    if (selectedTypes.has(type)) {
-      newSelected.delete(type);
-    } else {
-      newSelected.add(type);
-    }
-    setSelectedTypes(newSelected);
-  };
-
-  const toggleGi = () => setShowGi(!showGi);
-  const toggleNoGi = () => setShowNoGi(!showNoGi);
-
-  const isClassVisible = (type: string, isNoGi: boolean = false) => {
-    return shouldShowClass({ type, isNoGi } as ClassInfo);
-  };
-
-  const getClassesAtTime = (day: string, timeSlot: string) => {
-    return Object.values(schedule[day] || {})
-      .filter(classInfo => classInfo.startTime === timeSlot)
-      .sort((a, b) => a.type.localeCompare(b.type)); // Sort by type to maintain consistent order
   };
 
   const isGapTime = (time: string) => {
@@ -230,7 +179,15 @@ export default function SchedulePage() {
                 {filterSections.age.map((type) => (
                   <button
                     key={type.id}
-                    onClick={() => toggleFilter(type.id)}
+                    onClick={() => setSelectedTypes(prev => {
+                      const newSelected = new Set(prev);
+                      if (prev.has(type.id)) {
+                        newSelected.delete(type.id);
+                      } else {
+                        newSelected.add(type.id);
+                      }
+                      return newSelected;
+                    })}
                     className={`w-full px-4 py-3 rounded-lg border transition-all duration-200 text-center
                       ${selectedTypes.has(type.id)
                         ? `border-${type.color}-500 bg-${type.color}-500/20 text-${type.color}-500`
@@ -248,7 +205,7 @@ export default function SchedulePage() {
               <h3 className="text-white font-[--font-bebas-neue] text-xl mb-3">Uniform</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 <button
-                  onClick={toggleGi}
+                  onClick={() => setShowGi(!showGi)}
                   className={`w-full px-4 py-3 rounded-lg border transition-all duration-200 text-center
                     ${showGi
                       ? 'border-cyan-500 bg-cyan-500/20 text-cyan-500'
@@ -258,7 +215,7 @@ export default function SchedulePage() {
                   Gi
                 </button>
                 <button
-                  onClick={toggleNoGi}
+                  onClick={() => setShowNoGi(!showNoGi)}
                   className={`w-full px-4 py-3 rounded-lg border transition-all duration-200 text-center
                     ${showNoGi
                       ? 'border-yellow-500 bg-yellow-500/20 text-yellow-500'
@@ -280,7 +237,7 @@ export default function SchedulePage() {
               <p>• All BJJ classes encompass fundamentals and advanced techniques</p>
               <p>• All classes on Wednesday and Thursday are No Gi</p>
               <p>• Please arrive 10-15 minutes before class starts</p>
-              <p>• Women's self-defense classes are on the first Saturday of each month</p>
+              <p>• Women&apos;s self-defense classes are on the first Saturday of each month</p>
               <p>• Sunday Open Mat is available to anyone. NO DROP IN FEE.</p>
             </div>
           </div>
@@ -316,8 +273,11 @@ export default function SchedulePage() {
                   key={`${day}-${timeSlot}`} 
                   className={`p-2 relative min-h-[4rem] ${timeSlot === 'gap' ? 'bg-gray-900/30' : ''}`}
                 >
-                  {timeSlot !== 'gap' && getClassesAtTime(day, timeSlot).map((classInfo, index, array) => 
-                    isClassVisible(classInfo.type, classInfo.isNoGi) && (
+                  {timeSlot !== 'gap' && getStartingClasses(day, timeSlot).map((classInfo, index, array) => 
+                    (selectedTypes.has(classInfo.type) && 
+                      ((classInfo.type === 'womens') || 
+                        (showGi && !classInfo.isNoGi) || 
+                        (showNoGi && classInfo.isNoGi))) && (
                       <div 
                         key={`${day}-${timeSlot}-${classInfo.type}`}
                         className={`absolute rounded-lg border-2 ${getClassStyles(classInfo.type)} p-2`}
@@ -355,7 +315,19 @@ export default function SchedulePage() {
         {/* Mobile Schedule View */}
         <div className="md:hidden space-y-6">
           {days.map((day) => {
-            const dayClasses = getDayClasses(day);
+            const dayClasses = Object.values(schedule[day] || {})
+              .filter(classInfo => 
+                selectedTypes.has(classInfo.type) && 
+                ((classInfo.type === 'womens') || 
+                  (showGi && !classInfo.isNoGi) || 
+                  (showNoGi && classInfo.isNoGi)))
+              .sort((a, b) => {
+                // First sort by start time
+                const timeCompare = a.startTime.localeCompare(b.startTime);
+                if (timeCompare !== 0) return timeCompare;
+                // If same start time, sort by type (tiny-kids, kids, adults)
+                return a.type.localeCompare(b.type);
+              });
             if (dayClasses.length === 0) return null;
 
             return (
