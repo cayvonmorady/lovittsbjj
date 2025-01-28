@@ -30,7 +30,7 @@ export default function SchedulePage() {
       { id: 'tiny-kids', label: 'Tiny Kids', color: 'green' },
       { id: 'kids', label: 'Kids', color: 'blue' },
       { id: 'adults', label: 'Adults', color: 'purple' },
-      { id: 'womens', label: "Women's", color: 'pink' },
+      { id: 'womens', label: "Women's", color: 'red' },
     ],
     uniform: [
       { id: 'gi', label: 'Gi', color: 'cyan' },
@@ -74,35 +74,20 @@ export default function SchedulePage() {
     return day === 'Wednesday' || day === 'Thursday';
   };
 
-  const getClassStyles = (type: string) => {
+  const getClassColor = (type: string) => {
     // Women's classes get their own style regardless of gi/no-gi
     if (type === 'womens') {
-      return 'border-pink-900/50 bg-pink-900/20';
+      return 'border-red-500 bg-red-500/20';
     }
 
     // For other classes, use the existing logic
     switch (type) {
       case 'tiny-kids':
-        return 'border-green-900/50 bg-green-900/20';
+        return 'border-green-500 bg-green-500/20';
       case 'kids':
-        return 'border-blue-900/50 bg-blue-900/20';
+        return 'border-blue-500 bg-blue-500/20';
       case 'adults':
-        return 'border-purple-900/50 bg-purple-900/20';
-      default:
-        return 'border-gray-800 bg-[#1c1c23]';
-    }
-  };
-
-  const getClassColor = (type: string) => {
-    switch (type) {
-      case 'tiny-kids':
-        return 'border-green-500 bg-green-500/10';
-      case 'kids':
-        return 'border-blue-500 bg-blue-500/10';
-      case 'adults':
-        return 'border-purple-500 bg-purple-500/10';
-      case 'womens':
-        return 'border-red-500 bg-red-500/10';
+        return 'border-purple-500 bg-purple-500/20';
       default:
         return 'border-gray-800 bg-[#1c1c23]';
     }
@@ -180,7 +165,7 @@ export default function SchedulePage() {
                     })}
                     className={`w-full px-4 py-3 rounded-lg border transition-all duration-200 text-center
                       ${selectedTypes.has(type.id)
-                        ? `border-${type.color}-500 bg-${type.color}-500/20 text-${type.color}-500`
+                        ? `border-${type.color}-500 bg-${type.color}-500/20 text-white`
                         : 'border-gray-600 bg-gray-800/50 text-gray-400'
                       }`}
                   >
@@ -198,7 +183,7 @@ export default function SchedulePage() {
                   onClick={() => setShowGi(!showGi)}
                   className={`w-full px-4 py-3 rounded-lg border transition-all duration-200 text-center
                     ${showGi
-                      ? 'border-cyan-500 bg-cyan-500/20 text-cyan-500'
+                      ? 'border-cyan-500 bg-cyan-500/20 text-white'
                       : 'border-gray-600 bg-gray-800/50 text-gray-400'
                     }`}
                 >
@@ -208,7 +193,7 @@ export default function SchedulePage() {
                   onClick={() => setShowNoGi(!showNoGi)}
                   className={`w-full px-4 py-3 rounded-lg border transition-all duration-200 text-center
                     ${showNoGi
-                      ? 'border-yellow-500 bg-yellow-500/20 text-yellow-500'
+                      ? 'border-yellow-500 bg-yellow-500/20 text-white'
                       : 'border-gray-600 bg-gray-800/50 text-gray-400'
                     }`}
                 >
@@ -272,7 +257,7 @@ export default function SchedulePage() {
                         (showNoGi && classInfo.isNoGi))) && (
                       <div 
                         key={`${day}-${timeSlot}-${classInfo.type}`}
-                        className={`absolute rounded-lg border-2 ${getClassStyles(classInfo.type)} p-2`}
+                        className={`absolute rounded-lg border-2 ${getClassColor(classInfo.type)} p-2`}
                         style={{ 
                           left: array.length > 1 ? `${index * 50}%` : '0.5rem',
                           right: array.length > 1 ? 'auto' : '0.5rem',
@@ -333,7 +318,7 @@ export default function SchedulePage() {
                   {dayClasses.map((classInfo, index) => (
                     <div 
                       key={`${day}-${classInfo.startTime}-${index}`}
-                      className={`p-3 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 border-2 rounded-lg ${getClassStyles(classInfo.type)}`}
+                      className={`p-3 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 border-2 rounded-lg ${getClassColor(classInfo.type)}`}
                     >
                       <div className="font-[--font-bebas-neue] tracking-wide text-lg">
                         {classInfo.name}
