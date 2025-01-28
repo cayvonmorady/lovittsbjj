@@ -1,23 +1,181 @@
 import { client } from '../../../sanity/lib/client'
 
-async function getPricingData() {
-  const query = `*[_type == "pricing"] {
-    category,
-    plans[] {
-      name,
-      price,
-      perMonth,
-      features,
-      highlighted
+interface PricingPlan {
+  name: string
+  price: string
+  perMonth: boolean
+  features: string[]
+  highlighted?: boolean
+}
+
+interface PricingCategory {
+  category: string
+  plans: PricingPlan[]
+}
+
+// Development fallback data
+const devPricingData: PricingCategory[] = [
+  {
+    category: 'adult',
+    plans: [
+      {
+        name: 'Monthly Unlimited',
+        price: '150',
+        perMonth: true,
+        features: [
+          'Unlimited BJJ Classes',
+          'Access to All Adult Programs',
+          'Open Mat Sessions',
+          'Competition Training'
+        ],
+        highlighted: true
+      },
+      {
+        name: 'Annual Membership',
+        price: '1500',
+        perMonth: false,
+        features: [
+          'Best Value - Save $300/year',
+          'Unlimited BJJ Classes',
+          'Access to All Adult Programs',
+          'Open Mat Sessions',
+          'Competition Training',
+          'Free Gi'
+        ],
+        highlighted: false
+      },
+      {
+        name: 'Drop-In Class',
+        price: '25',
+        perMonth: false,
+        features: [
+          'Single Class Access',
+          'No Commitment Required',
+          'Great for Visitors',
+          'Available for Any Class Time'
+        ],
+        highlighted: false
+      }
+    ]
+  },
+  {
+    category: 'kids',
+    plans: [
+      {
+        name: 'Kids Monthly',
+        price: '120',
+        perMonth: true,
+        features: [
+          'Structured Learning Environment',
+          'Age-Appropriate Training',
+          'Character Development',
+          'Physical Fitness'
+        ],
+        highlighted: true
+      },
+      {
+        name: 'Kids Annual',
+        price: '1200',
+        perMonth: false,
+        features: [
+          'Save $240/year',
+          'Structured Learning Environment',
+          'Age-Appropriate Training',
+          'Character Development',
+          'Physical Fitness',
+          'Free Kids Gi'
+        ],
+        highlighted: false
+      },
+      {
+        name: 'Family Plan',
+        price: '250',
+        perMonth: true,
+        features: [
+          'Up to 3 Family Members',
+          'Access to All Programs',
+          'Flexible Schedule',
+          'Build Family Bonds'
+        ],
+        highlighted: false
+      }
+    ]
+  }
+]
+
+async function getPricingData(): Promise<PricingCategory[]> {
+  try {
+    // In development, return the hardcoded data
+    if (process.env.NODE_ENV === 'development') {
+      return devPricingData
     }
-  }`
-  return client.fetch(query)
+
+    const query = `*[_type == "pricing"]{
+      "category": category,
+      "plans": plans[]{
+        "name": name,
+        "price": price,
+        "perMonth": perMonth,
+        "features": features,
+        "highlighted": highlighted
+      }
+    }`
+    const data = await client.fetch(query)
+    
+    if (!data || !Array.isArray(data) || data.length === 0) {
+      console.log('No data from Sanity, using development data')
+      return devPricingData
+    }
+
+    // Log each step of data transformation
+    const validData = data.map((item: any) => {
+      console.log('Processing category:', item.category)
+      console.log('Plans for category:', item.plans)
+      
+      return {
+        category: item.category,
+        plans: Array.isArray(item.plans) ? item.plans.map((plan: any) => {
+          console.log('Processing plan:', plan)
+          return {
+            name: plan.name || '',
+            price: plan.price || '',
+            perMonth: Boolean(plan.perMonth),
+            features: Array.isArray(plan.features) ? plan.features : [],
+            highlighted: Boolean(plan.highlighted)
+          }
+        }) : []
+      }
+    })
+
+    console.log('Final processed data:', JSON.stringify(validData, null, 2))
+    return validData
+  } catch (error) {
+    console.error('Error fetching pricing data:', error)
+    console.error('Error details:', {
+      name: error.name,
+      message: error.message,
+      stack: error.stack
+    })
+    // Return development data as fallback
+    return devPricingData
+  }
 }
 
 export default async function PricingPage() {
   const pricingData = await getPricingData()
-  const adultPlans = pricingData.find(p => p.category === 'adult')?.plans || []
-  const kidsPlans = pricingData.find(p => p.category === 'kids')?.plans || []
+  console.log('Processed pricing data:', JSON.stringify(pricingData, null, 2))
+  
+  const adultPlans = pricingData.find((p: PricingCategory) => p.category === 'adult')?.plans || []
+  const kidsPlans = pricingData.find((p: PricingCategory) => p.category === 'kids')?.plans || []
+
+  if (!adultPlans.length && !kidsPlans.length) {
+    console.error('No plans found. Current data:', {
+      totalCategories: pricingData.length,
+      categories: pricingData.map(p => p.category),
+      adultPlansFound: Boolean(pricingData.find(p => p.category === 'adult')),
+      kidsPlansFound: Boolean(pricingData.find(p => p.category === 'kids'))
+    })
+  }
 
   return (
     <main className="min-h-[calc(100vh-64px)] py-12 px-4 sm:px-6 lg:px-8 bg-[#141419]">
