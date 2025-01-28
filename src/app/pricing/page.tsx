@@ -1,65 +1,23 @@
-export default function PricingPage() {
-  const adultPlans = [
-    {
-      name: "Drop In",
-      price: "25",
-      features: [
-        "No Commitment",
-        "Great for Visitors",
-        "1st Visit is Free",
-      ],
-    },
-    {
-      name: "Monthly",
-      price: "200",
-      features: [
-        "Unlimited Classes",
-        "Month-to-Month Commitment",
-      ],
-    },
-    {
-      name: "Yearly",
-      price: "120",
-      perMonth: true,
-      features: [
-        "Unlimited Classes",
-        "Save $900/year; 2 Installments",
-        "Gi Included",
-      ],
-      highlighted: true,
-    },
-  ];
+import { client } from '../../../sanity/lib/client'
 
-  const kidsPlans = [
-    {
-      name: "Drop In",
-      price: "25",
-      features: [
-        "No Commitment",
-        "Great for Visitors",
-        "1st Visit is Free",
-      ],
-    },
-    {
-      name: "Monthly",
-      price: "200",
-      features: [
-        "Unlimited Classes",
-        "Month-to-Month Commitment",
-      ],
-    },
-    {
-      name: "Yearly",
-      price: "120",
-      perMonth: true,
-      features: [
-        "Unlimited Classes",
-        "Save $900/year; 2 Installments",
-        "Gi Included",
-      ],
-      highlighted: true,
-    },
-  ];
+async function getPricingData() {
+  const query = `*[_type == "pricing"] {
+    category,
+    plans[] {
+      name,
+      price,
+      perMonth,
+      features,
+      highlighted
+    }
+  }`
+  return client.fetch(query)
+}
+
+export default async function PricingPage() {
+  const pricingData = await getPricingData()
+  const adultPlans = pricingData.find(p => p.category === 'adult')?.plans || []
+  const kidsPlans = pricingData.find(p => p.category === 'kids')?.plans || []
 
   return (
     <main className="min-h-[calc(100vh-64px)] py-12 px-4 sm:px-6 lg:px-8 bg-[#141419]">
