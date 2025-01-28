@@ -1,0 +1,11 @@
+.navLink:nth-child(3n+1):hover {
+  color: #2196F3;
+}
+
+.navLink:nth-child(3n+2):hover {
+  color: #9C27B0;
+}
+
+.navLink:nth-child(3n+3):hover {
+  color: #795548;
+}
