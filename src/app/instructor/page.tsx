@@ -1,4 +1,5 @@
 import { client } from '../../../sanity/lib/client'
+import Image from 'next/image'
 
 interface SocialMedia {
   instagram?: string
@@ -91,11 +92,14 @@ export default async function InstructorPage() {
       <div className="max-w-[1400px] mx-auto">
         <div className="grid md:grid-cols-2 gap-12">
           {/* Instructor Image */}
-          <div className="relative h-[500px] rounded-lg overflow-hidden">
-            <img
+          <div className="relative aspect-square overflow-hidden rounded-lg shadow-lg">
+            <Image
               src={instructorData.image.url}
               alt={instructorData.image.alt || instructorData.name}
-              className="object-cover w-full h-full"
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 50vw"
+              priority
             />
           </div>
 

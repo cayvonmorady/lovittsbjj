@@ -1,21 +1,23 @@
-import { client } from '../../../sanity/lib/client'
+import { client } from '../../../sanity/lib/client';
 
 interface PricingPlan {
-  name: string
-  price: string
-  perMonth: boolean
-  features: string[]
-  highlighted?: boolean
+  name: string;
+  price: string;
+  perMonth: boolean;
+  features: string[];
+  highlighted?: boolean;
 }
 
 interface PricingCategory {
-  category: string
-  plans: PricingPlan[]
+  _id: string;
+  category: string;
+  plans: PricingPlan[];
 }
 
 // Development fallback data
 const devPricingData: PricingCategory[] = [
   {
+    _id: 'adult-pricing',
     category: 'adult',
     plans: [
       {
@@ -59,6 +61,7 @@ const devPricingData: PricingCategory[] = [
     ]
   },
   {
+    _id: 'kids-pricing',
     category: 'kids',
     plans: [
       {
@@ -101,81 +104,26 @@ const devPricingData: PricingCategory[] = [
       }
     ]
   }
-]
+];
 
 async function getPricingData(): Promise<PricingCategory[]> {
+  if (process.env.NODE_ENV === 'development') {
+    return devPricingData;
+  }
+
   try {
-    // In development, return the hardcoded data
-    if (process.env.NODE_ENV === 'development') {
-      return devPricingData
-    }
-
-    const query = `*[_type == "pricing"]{
-      "category": category,
-      "plans": plans[]{
-        "name": name,
-        "price": price,
-        "perMonth": perMonth,
-        "features": features,
-        "highlighted": highlighted
-      }
-    }`
-    const data = await client.fetch(query)
-    
-    if (!data || !Array.isArray(data) || data.length === 0) {
-      console.log('No data from Sanity, using development data')
-      return devPricingData
-    }
-
-    // Log each step of data transformation
-    const validData = data.map((item: any) => {
-      console.log('Processing category:', item.category)
-      console.log('Plans for category:', item.plans)
-      
-      return {
-        category: item.category,
-        plans: Array.isArray(item.plans) ? item.plans.map((plan: any) => {
-          console.log('Processing plan:', plan)
-          return {
-            name: plan.name || '',
-            price: plan.price || '',
-            perMonth: Boolean(plan.perMonth),
-            features: Array.isArray(plan.features) ? plan.features : [],
-            highlighted: Boolean(plan.highlighted)
-          }
-        }) : []
-      }
-    })
-
-    console.log('Final processed data:', JSON.stringify(validData, null, 2))
-    return validData
+    const pricing = await client.fetch<PricingCategory[]>(`*[_type == "pricing"]`);
+    return pricing.length > 0 ? pricing : devPricingData;
   } catch (error) {
-    console.error('Error fetching pricing data:', error)
-    console.error('Error details:', {
-      name: error.name,
-      message: error.message,
-      stack: error.stack
-    })
-    // Return development data as fallback
-    return devPricingData
+    console.error('Error fetching pricing data:', error);
+    return devPricingData;
   }
 }
 
 export default async function PricingPage() {
-  const pricingData = await getPricingData()
-  console.log('Processed pricing data:', JSON.stringify(pricingData, null, 2))
-  
-  const adultPlans = pricingData.find((p: PricingCategory) => p.category === 'adult')?.plans || []
-  const kidsPlans = pricingData.find((p: PricingCategory) => p.category === 'kids')?.plans || []
-
-  if (!adultPlans.length && !kidsPlans.length) {
-    console.error('No plans found. Current data:', {
-      totalCategories: pricingData.length,
-      categories: pricingData.map(p => p.category),
-      adultPlansFound: Boolean(pricingData.find(p => p.category === 'adult')),
-      kidsPlansFound: Boolean(pricingData.find(p => p.category === 'kids'))
-    })
-  }
+  const pricingData = await getPricingData();
+  const adultPlans = pricingData.find(p => p.category === 'adult')?.plans || [];
+  const kidsPlans = pricingData.find(p => p.category === 'kids')?.plans || [];
 
   return (
     <main className="min-h-[calc(100vh-64px)] py-12 px-4 sm:px-6 lg:px-8 bg-[#141419]">
