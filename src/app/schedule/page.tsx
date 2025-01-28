@@ -86,7 +86,15 @@ export default function SchedulePage() {
           note
         }`;
         
-        const classes = await client.fetch(query);
+        const classes = await client.fetch<{
+          name: string;
+          dayOfWeek: string;
+          startTime: string;
+          duration: number;
+          type: string;
+          isNoGi?: boolean;
+          note?: string;
+        }[]>(query);
         
         if (!classes || classes.length === 0) {
           console.log('No classes found in Sanity, using development data');
@@ -96,7 +104,7 @@ export default function SchedulePage() {
         // Transform the flat array of classes into our schedule data structure
         const scheduleData: ScheduleData = {};
         
-        classes.forEach((classInfo: any) => {
+        classes.forEach((classInfo) => {
           if (!scheduleData[classInfo.dayOfWeek]) {
             scheduleData[classInfo.dayOfWeek] = {};
           }
@@ -272,7 +280,7 @@ export default function SchedulePage() {
             </h2>
             <div className="space-y-4 text-gray-300">
               <p>• All BJJ classes encompass fundamentals and advanced techniques</p>
-              <p>• All classes on Wednesday and Thursday are No Gi</p>
+              <p>• For No Gi classes, wear rash guards and shorts or spats; For Gi classes, wear a BJJ Gi. </p>
               <p>• Please arrive 10-15 minutes before class starts</p>
               <p>• Women&apos;s self-defense classes are on the first Saturday of each month</p>
               <p>• Sunday Open Mat is available to anyone. NO DROP IN FEE.</p>
@@ -401,7 +409,7 @@ export default function SchedulePage() {
             );
           })}
         </div>
-        <p className="text-gray-300 text-center mb-8">
+        <p className="text-gray-300 text-center mb-8 mt-10">
           Can&apos;t make it to class? Contact us to schedule a private lesson.
         </p>
       </div>
