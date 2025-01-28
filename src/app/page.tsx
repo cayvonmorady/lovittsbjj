@@ -23,7 +23,7 @@ export default function Home() {
           <div className="text-center space-y-6">
             <Image
               src="/logo.svg"
-              alt="Lovitts BJJ Logo"
+              alt="Lovitt&apos;s BJJ Logo"
               width={240}
               height={50}
               priority
@@ -33,7 +33,7 @@ export default function Home() {
               Train with Purpose, Grow with Community
             </h1>
             <p className="max-w-2xl mx-auto text-gray-300 text-lg">
-              At Lovitt's BJJ, we blend technical excellence with a welcoming atmosphere, 
+              At Lovitt&apos;s BJJ, we blend technical excellence with a welcoming atmosphere, 
               creating an environment where both beginners and advanced practitioners can thrive.
             </p>
           </div>
@@ -42,11 +42,12 @@ export default function Home() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
             {/* Tiny Kids Program */}
             <div className="bg-[#1c1c23] rounded-lg border border-gray-800 overflow-hidden text-center">
-              <div className="aspect-w-16 aspect-h-9">
-                <img
+              <div className="aspect-w-16 aspect-h-9 relative h-48">
+                <Image
                   src="/assets/images/programs/tiny-kids.jpg"
                   alt="Tiny Kids BJJ Program"
-                  className="object-cover w-full h-full"
+                  fill
+                  className="object-cover"
                 />
               </div>
               <div className="p-6">
@@ -63,11 +64,12 @@ export default function Home() {
 
             {/* Kids Program */}
             <div className="bg-[#1c1c23] rounded-lg border border-gray-800 overflow-hidden text-center">
-              <div className="aspect-w-16 aspect-h-9">
-                <img
+              <div className="aspect-w-16 aspect-h-9 relative h-48">
+                <Image
                   src="/assets/images/programs/kids.jpg"
                   alt="Kids BJJ Program"
-                  className="object-cover w-full h-full"
+                  fill
+                  className="object-cover"
                 />
               </div>
               <div className="p-6">
@@ -84,19 +86,20 @@ export default function Home() {
 
             {/* Adult Program */}
             <div className="bg-[#1c1c23] rounded-lg border border-gray-800 overflow-hidden text-center">
-              <div className="aspect-w-16 aspect-h-9">
-                <img
+              <div className="aspect-w-16 aspect-h-9 relative h-48">
+                <Image
                   src="/assets/images/programs/adults.jpg"
                   alt="Adult BJJ Program"
-                  className="object-cover w-full h-full"
+                  fill
+                  className="object-cover"
                 />
               </div>
               <div className="p-6">
                 <h3 className="text-2xl font-[--font-bebas-neue] text-white mb-2 tracking-wide">Adults BJJ</h3>
                 <p className="text-gray-400 text-sm leading-relaxed">
-                  Experience the transformative power of Brazilian Jiu Jitsu in our adult program. Whether you're a beginner 
+                  Experience the transformative power of Brazilian Jiu Jitsu in our adult program. Whether you&apos;re a beginner 
                   or experienced practitioner, our classes offer comprehensive training in technique, strategy, and physical 
-                  conditioning. Train in a supportive community where you'll develop practical self-defense skills while 
+                  conditioning. Train in a supportive community where you&apos;ll develop practical self-defense skills while 
                   improving strength, flexibility, and mental resilience. Our structured curriculum ensures steady progress 
                   while fostering the camaraderie that makes BJJ truly special.
                 </p>
@@ -105,17 +108,18 @@ export default function Home() {
 
             {/* Women's Program */}
             <div className="bg-[#1c1c23] rounded-lg border border-gray-800 overflow-hidden text-center">
-              <div className="aspect-w-16 aspect-h-9">
-                <img
-                  src="/assets/images/programs/womens.jpg"
-                  alt="Women's Self Defense Program"
-                  className="object-cover w-full h-full"
+              <div className="aspect-w-16 aspect-h-9 relative h-48">
+                <Image
+                  src="/assets/images/programs/women.jpg"
+                  alt="Women&apos;s BJJ Program"
+                  fill
+                  className="object-cover"
                 />
               </div>
               <div className="p-6">
-                <h3 className="text-2xl font-[--font-bebas-neue] text-white mb-2 tracking-wide">Women's Self Defense</h3>
+                <h3 className="text-2xl font-[--font-bebas-neue] text-white mb-2 tracking-wide">Women&apos;s Self Defense</h3>
                 <p className="text-gray-400 text-sm leading-relaxed">
-                  Empower yourself in our women's self-defense program. Learn practical, proven techniques in a welcoming, 
+                  Empower yourself in our women&apos;s self-defense program. Learn practical, proven techniques in a welcoming, 
                   women-only environment. Our classes blend Brazilian Jiu Jitsu principles with real-world self-defense 
                   scenarios, building both physical skills and mental preparedness. Develop confidence, strength, and 
                   awareness while connecting with a supportive community of women. From fitness enthusiasts to those seeking 

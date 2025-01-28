@@ -57,7 +57,7 @@ export default function ChatBot() {
           {/* Chat Header */}
           <div className="p-4 border-b border-gray-800">
             <h3 className="font-[--font-bebas-neue] text-xl text-white tracking-wide">
-              Lovitt's BJJ Assistant
+              Lovitt&apos;s BJJ Assistant
             </h3>
           </div>
 
