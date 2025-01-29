@@ -1,0 +1,3 @@
+- Integrate LlamaIndex and Chroma DB; ensuring we're set for Chroma to run in production
+- Move indexing script to a githib action so that it indexes on commit
+- Correct integration with Sanity CMS

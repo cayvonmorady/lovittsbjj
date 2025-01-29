@@ -22,7 +22,7 @@ export default function Home() {
           {/* Hero Section */}
           <div className="text-center space-y-6">
             <Image
-              src="/logo.svg"
+              src="/assets/images/logo.svg"
               alt="Lovitt&apos;s BJJ Logo"
               width={240}
               height={50}
@@ -51,13 +51,10 @@ export default function Home() {
                 />
               </div>
               <div className="p-6">
-                <h3 className="text-2xl font-[--font-bebas-neue] text-white mb-2 tracking-wide">Tiny Kids <br />(Ages 4-5)</h3>
+                <h3 className="text-2xl font-[--font-bebas-neue] text-white mb-2 tracking-wide">Tiny Kids BJJ<br />(Ages 4-5)</h3>
                 <p className="text-gray-400 text-sm leading-relaxed">
-                  Welcome to our Little Champions program! Through playful games and interactive activities, we introduce young 
-                  students to the magic of Jiu Jitsu. Our classes focus on developing essential life skills like listening, 
-                  following directions, and working with others. Children build coordination, balance, and body awareness in a 
-                  safe, nurturing environment. Each class is an adventure that builds confidence while teaching fundamental 
-                  movements through fun and engaging exercises.
+                  Children develop essential life skills and physical coordination in a nurturing environment.
+                  Through fun, engaging exercises, they build confidence while learning fundamental movements and social skills.
                 </p>
               </div>
             </div>
@@ -75,11 +72,9 @@ export default function Home() {
               <div className="p-6">
                 <h3 className="text-2xl font-[--font-bebas-neue] text-white mb-2 tracking-wide">Kids BJJ <br /> (Ages 6-12)</h3>
                 <p className="text-gray-400 text-sm leading-relaxed">
-                  Our Kids BJJ program combines dynamic training with character development. Students learn effective 
-                  self-defense techniques while building strength, agility, and mental focus. Through structured drills and 
-                  partner work, children develop problem-solving skills and gain confidence in their abilities. We emphasize 
-                  core values like respect, discipline, and perseverance, helping young practitioners grow both on and off 
-                  the mats.
+                  Our Kids BJJ program builds physical skills and character. Students learn self-defense while developing
+                  strength, focus, and confidence through structured training. We emphasize respect, discipline, and
+                  perseverance both on and off the mats.
                 </p>
               </div>
             </div>
@@ -97,11 +92,9 @@ export default function Home() {
               <div className="p-6">
                 <h3 className="text-2xl font-[--font-bebas-neue] text-white mb-2 tracking-wide">Adults BJJ</h3>
                 <p className="text-gray-400 text-sm leading-relaxed">
-                  Experience the transformative power of Brazilian Jiu Jitsu in our adult program. Whether you&apos;re a beginner 
-                  or experienced practitioner, our classes offer comprehensive training in technique, strategy, and physical 
-                  conditioning. Train in a supportive community where you&apos;ll develop practical self-defense skills while 
-                  improving strength, flexibility, and mental resilience. Our structured curriculum ensures steady progress 
-                  while fostering the camaraderie that makes BJJ truly special.
+                  Join our welcoming adult BJJ program, suitable for all skill levels. Learn effective self-defense while
+                  improving technique, strength, and mental resilience. Our structured classes and supportive community
+                  ensure consistent progress in your martial arts journey.
                 </p>
               </div>
             </div>
@@ -119,11 +112,9 @@ export default function Home() {
               <div className="p-6">
                 <h3 className="text-2xl font-[--font-bebas-neue] text-white mb-2 tracking-wide">Women&apos;s Self Defense</h3>
                 <p className="text-gray-400 text-sm leading-relaxed">
-                  Empower yourself in our women&apos;s self-defense program. Learn practical, proven techniques in a welcoming, 
-                  women-only environment. Our classes blend Brazilian Jiu Jitsu principles with real-world self-defense 
-                  scenarios, building both physical skills and mental preparedness. Develop confidence, strength, and 
-                  awareness while connecting with a supportive community of women. From fitness enthusiasts to those seeking 
-                  practical self-defense, our program provides the tools and confidence to feel secure in any situation.
+                  Train in our women-only self-defense program, combining BJJ techniques with real-world scenarios.
+                  Build confidence, strength, and practical skills in a supportive environment. Our classes empower you
+                  with the tools and mindset for personal security.
                 </p>
               </div>
             </div>
@@ -153,8 +144,8 @@ export default function Home() {
                 {/* Phone */}
                 <div className="bg-[#1c1c23] p-6 rounded-lg border border-gray-800">
                   <div className="flex items-center">
-                    <div className="w-12 h-12 bg-purple-900/20 rounded-full flex items-center justify-center mr-4">
-                      <svg className="w-6 h-6 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="w-12 h-12 bg-[#2196F3]/10 rounded-full flex items-center justify-center mr-4">
+                      <svg className="w-6 h-6 text-[#2196F3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                       </svg>
                     </div>
@@ -168,8 +159,8 @@ export default function Home() {
                 {/* Email */}
                 <div className="bg-[#1c1c23] p-6 rounded-lg border border-gray-800">
                   <div className="flex items-center">
-                    <div className="w-12 h-12 bg-purple-900/20 rounded-full flex items-center justify-center mr-4">
-                      <svg className="w-6 h-6 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="w-12 h-12 bg-[#4CAF50]/10 rounded-full flex items-center justify-center mr-4">
+                      <svg className="w-6 h-6 text-[#4CAF50]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                       </svg>
                     </div>
@@ -183,8 +174,8 @@ export default function Home() {
                 {/* Location */}
                 <div className="bg-[#1c1c23] p-6 rounded-lg border border-gray-800">
                   <div className="flex items-center">
-                    <div className="w-12 h-12 bg-purple-900/20 rounded-full flex items-center justify-center mr-4">
-                      <svg className="w-6 h-6 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="w-12 h-12 bg-[#F44336]/10 rounded-full flex items-center justify-center mr-4">
+                      <svg className="w-6 h-6 text-[#F44336]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                       </svg>

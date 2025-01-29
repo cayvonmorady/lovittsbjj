@@ -22,11 +22,11 @@ interface InstructorData {
 
 // Development fallback data
 const devInstructorData: InstructorData = {
-  name: "Professor Lovitt",
+  name: "Markangelo Lovitt",
   title: "Head Instructor & Founder",
   image: {
     url: "/assets/images/instructor.jpg",
-    alt: "Professor Lovitt"
+    alt: "Markangelo Lovitt"
   },
   bio: [
     "Professor Lovitt began his martial arts journey at a young age, dedicating himself to the art of Brazilian Jiu-Jitsu.",
@@ -34,21 +34,16 @@ const devInstructorData: InstructorData = {
     "His passion for BJJ extends beyond competition to creating a positive and inclusive training environment where students of all levels can thrive."
   ],
   achievements: [
-    "Black Belt under renowned instructor",
+    "Brown Belt under renowned instructor",
     "Multiple-time competition champion",
     "Certified instructor with extensive teaching experience",
     "Active competitor in major tournaments"
   ],
   certifications: [
-    "Brazilian Jiu-Jitsu Black Belt",
+    "Brazilian Jiu-Jitsu Brown Belt",
     "First Aid and CPR Certified",
-    "Youth Training Specialist"
+    "Fitness Training Specialist"
   ],
-  socialMedia: {
-    instagram: "https://instagram.com/lovittsbjj",
-    facebook: "https://facebook.com/lovittsbjj",
-    youtube: "https://youtube.com/@lovittsbjj"
-  }
 }
 
 async function getInstructorData(): Promise<InstructorData> {
@@ -67,8 +62,7 @@ async function getInstructorData(): Promise<InstructorData> {
       },
       bio,
       achievements,
-      certifications,
-      socialMedia
+      certifications
     }`
     const data = await client.fetch(query)
     
@@ -88,7 +82,7 @@ export default async function InstructorPage() {
   const instructorData = await getInstructorData()
 
   return (
-    <main className="min-h-[calc(100vh-64px)] py-12 px-4 sm:px-6 lg:px-8 bg-[#141419]">
+    <main className="min-h-[calc(70vh-64px)] py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-[1400px] mx-auto">
         <div className="grid md:grid-cols-2 gap-12">
           {/* Instructor Image */}
@@ -138,40 +132,6 @@ export default async function InstructorPage() {
                   <li key={index}>{cert}</li>
                 ))}
               </ul>
-            </div>
-
-            {/* Social Media Links */}
-            <div className="flex space-x-4">
-              {instructorData.socialMedia.instagram && (
-                <a
-                  href={instructorData.socialMedia.instagram}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-500 hover:text-blue-400"
-                >
-                  Instagram
-                </a>
-              )}
-              {instructorData.socialMedia.facebook && (
-                <a
-                  href={instructorData.socialMedia.facebook}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-500 hover:text-blue-400"
-                >
-                  Facebook
-                </a>
-              )}
-              {instructorData.socialMedia.youtube && (
-                <a
-                  href={instructorData.socialMedia.youtube}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-500 hover:text-blue-400"
-                >
-                  YouTube
-                </a>
-              )}
             </div>
           </div>
         </div>

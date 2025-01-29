@@ -1,11 +1,20 @@
-.navLink:nth-child(3n+1):hover {
-  color: #2196F3;
+.navLink {
+  position: relative;
 }
 
-.navLink:nth-child(3n+2):hover {
-  color: #9C27B0;
+.navLink:hover {
+  transform: translateY(-1px);
 }
 
-.navLink:nth-child(3n+3):hover {
-  color: #795548;
+/* Custom hover colors for variety */
+.navLink:nth-child(3n+1)::after {
+  background-color: #2196F3;
+}
+
+.navLink:nth-child(3n+2)::after {
+  background-color: #4CAF50;
+}
+
+.navLink:nth-child(3n+3)::after {
+  background-color: #F44336;
 }
