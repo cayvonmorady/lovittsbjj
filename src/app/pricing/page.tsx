@@ -22,29 +22,24 @@ const devPricingData: PricingCategory[] = [
     plans: [
       {
         name: 'Monthly Unlimited',
-        price: '150',
+        price: '200',
         perMonth: true,
         features: [
-          'Unlimited BJJ Classes',
-          'Access to All Adult Programs',
-          'Open Mat Sessions',
-          'Competition Training'
-        ],
-        highlighted: true
-      },
-      {
-        name: 'Annual Membership',
-        price: '1500',
-        perMonth: false,
-        features: [
-          'Best Value - Save $300/year',
-          'Unlimited BJJ Classes',
-          'Access to All Adult Programs',
-          'Open Mat Sessions',
-          'Competition Training',
-          'Free Gi'
+          'Month-to-Month Commitment',
+          'Unlimited BJJ Classes'
         ],
         highlighted: false
+      },
+      {
+        name: 'Annual Unlimited',
+        price: '125',
+        perMonth: true,
+        features: [
+          'Best Value - Save $900/year',
+          'Unlimited BJJ Classes',
+          'Lovitts BJJ Gi'
+        ],
+        highlighted: true
       },
       {
         name: 'Drop-In Class',
@@ -52,9 +47,8 @@ const devPricingData: PricingCategory[] = [
         perMonth: false,
         features: [
           'Single Class Access',
-          'No Commitment Required',
-          'Great for Visitors',
-          'Available for Any Class Time'
+          'No Commitment',
+          'Great for Visitors'
         ],
         highlighted: false
       }
@@ -69,36 +63,30 @@ const devPricingData: PricingCategory[] = [
         price: '120',
         perMonth: true,
         features: [
-          'Structured Learning Environment',
-          'Age-Appropriate Training',
-          'Character Development',
-          'Physical Fitness'
-        ],
-        highlighted: true
-      },
-      {
-        name: 'Kids Annual',
-        price: '1200',
-        perMonth: false,
-        features: [
-          'Save $240/year',
-          'Structured Learning Environment',
-          'Age-Appropriate Training',
-          'Character Development',
-          'Physical Fitness',
-          'Free Kids Gi'
+          'Month-to-Month Commitment',
+          'Unlimited BJJ Classes'
         ],
         highlighted: false
       },
       {
-        name: 'Family Plan',
-        price: '250',
+        name: 'Kids Annual',
+        price: '100',
         perMonth: true,
         features: [
-          'Up to 3 Family Members',
-          'Access to All Programs',
-          'Flexible Schedule',
-          'Build Family Bonds'
+          'Best Value - Save $240/year',
+          'Unlimited BJJ Classes',
+          'Lovitts BJJ Gi'
+        ],
+        highlighted: true
+      },
+      {
+        name: 'Drop-In Class',
+        price: '25',
+        perMonth: false,
+        features: [
+          'Single Class Access',
+          'No Commitment',
+          'Great for Visitors'
         ],
         highlighted: false
       }
@@ -126,16 +114,13 @@ export default async function PricingPage() {
   const kidsPlans = pricingData.find(p => p.category === 'kids')?.plans || [];
 
   return (
-    <main className="min-h-[calc(100vh-64px)] py-12 px-4 sm:px-6 lg:px-8 bg-[#141419]">
+    <main className="min-h-[calc(100vh-64px)] py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-[1400px] mx-auto">
         <h1 className="text-4xl font-[--font-bebas-neue] text-white mb-8 tracking-wider text-center">
           Membership Plans
         </h1>
 
         <div className="bg-[#1c1c23] border border-gray-800 rounded-lg shadow-lg p-8 mb-16">
-          <h2 className="text-2xl font-[--font-bebas-neue] text-white mb-6 tracking-wider text-center">
-            Why Train With Us
-          </h2>
           <div className="grid md:grid-cols-3 gap-8 text-gray-300">
             <div className="flex items-start space-x-3">
               <svg
@@ -185,7 +170,7 @@ export default async function PricingPage() {
               </svg>
               <div>
                 <h3 className="font-semibold text-white mb-1">Family Friendly</h3>
-                <p>Special rates for families training together. Build bonds on the mats.</p>
+                <p>Special rates for families training together. Build bonds on the mats. Please visit for more info.</p>
               </div>
             </div>
           </div>

@@ -46,7 +46,7 @@ export default function GalleryPage() {
   }, []);
 
   return (
-    <main className="flex min-h-[calc(100vh-64px)] flex-col bg-[#141419]">
+    <main className="flex min-h-[calc(100vh-64px)] flex-col min-h-[calc(100vh-64px)] py-12 px-4 sm:px-6 lg:px-8">
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-4xl font-[--font-bebas-neue] text-white mb-8 tracking-wider">
           Gallery

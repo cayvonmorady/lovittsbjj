@@ -1,0 +1,27 @@
+version: '3.9'
+
+services:
+  chroma:
+    image: chromadb/chroma
+    volumes:
+      - chroma-data:/chroma/chroma
+    environment:
+      - CHROMA_DB_IMPL=clickhouse
+      - CLICKHOUSE_HOST=clickhouse
+      - CLICKHOUSE_PORT=8123
+    ports:
+      - 8000:8000
+    depends_on:
+      - clickhouse
+
+  clickhouse:
+    image: clickhouse/clickhouse-server:23.11
+    volumes:
+      - clickhouse-data:/var/lib/clickhouse
+    ports:
+      - 8123:8123
+      - 9000:9000
+
+volumes:
+  chroma-data:
+  clickhouse-data:

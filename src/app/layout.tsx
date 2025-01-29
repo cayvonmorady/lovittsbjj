@@ -3,7 +3,6 @@ import { Bebas_Neue } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import ChatBot from "@/components/ChatBot";
-import ScrollIndicator from '@/components/ScrollIndicator';
 
 const bebasNeue = Bebas_Neue({
   weight: "400",
@@ -26,7 +25,6 @@ export default function RootLayout({
       <body className={`${bebasNeue.variable} bg-[#15151b] text-white text-stroke`}>
         <Navbar />
         {children}
-        <ScrollIndicator />
         <ChatBot />
       </body>
     </html>
