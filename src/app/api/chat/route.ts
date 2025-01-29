@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { queryIndex } from '@/utils/llama-index';
+import { NextResponse } from 'next/server';
+import { findResponse } from '@/lib/chatResponses';
 
-export async function POST(req: NextRequest) {
+export async function POST(req: Request) {
   try {
     const { query } = await req.json();
 
@@ -12,13 +12,13 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const response = await queryIndex(query);
+    const response = findResponse(query);
 
     return NextResponse.json({ response });
   } catch (error) {
-    console.error('Error processing query:', error);
+    console.error('Error in chat route:', error);
     return NextResponse.json(
-      { error: 'Failed to process query' },
+      { error: 'Internal server error' },
       { status: 500 }
     );
   }

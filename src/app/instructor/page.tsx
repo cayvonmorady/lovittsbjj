@@ -25,25 +25,27 @@ const devInstructorData: InstructorData = {
   name: "Markangelo Lovitt",
   title: "Head Instructor & Founder",
   image: {
-    url: "/assets/images/instructor.jpg",
+    url: "/assets/images/instructor/mark.jpg",
     alt: "Markangelo Lovitt"
   },
   bio: [
-    "Professor Lovitt began his martial arts journey at a young age, dedicating himself to the art of Brazilian Jiu-Jitsu.",
-    "With over 15 years of experience in BJJ, he has developed a teaching style that emphasizes technical precision and practical application.",
-    "His passion for BJJ extends beyond competition to creating a positive and inclusive training environment where students of all levels can thrive."
+    "Markangelo Lovitt is a dedicated Brazilian Jiu-Jitsu practitioner and instructor with over a decade of experience on the mats.",
+    "His teaching philosophy emphasizes technical precision, practical application, and creating a supportive learning environment for students of all levels."
   ],
   achievements: [
-    "Brown Belt under renowned instructor",
-    "Multiple-time competition champion",
-    "Certified instructor with extensive teaching experience",
-    "Active competitor in major tournaments"
+    "Black Belt under Professor John Doe",
+    "Multiple-time IBJJF competitor",
+    "10+ years of teaching experience"
   ],
   certifications: [
-    "Brazilian Jiu-Jitsu Brown Belt",
+    "IBJJF Certified Black Belt",
     "First Aid and CPR Certified",
-    "Fitness Training Specialist"
+    "Kids BJJ Instructor Certification"
   ],
+  socialMedia: {
+    instagram: "https://instagram.com/lovittsbjj",
+    facebook: "https://facebook.com/lovittsbjj"
+  }
 }
 
 async function getInstructorData(): Promise<InstructorData> {
@@ -62,7 +64,12 @@ async function getInstructorData(): Promise<InstructorData> {
       },
       bio,
       achievements,
-      certifications
+      certifications,
+      "socialMedia": {
+        "instagram": socialMedia.instagram,
+        "facebook": socialMedia.facebook,
+        "youtube": socialMedia.youtube
+      }
     }`
     const data = await client.fetch(query)
     
@@ -131,6 +138,34 @@ export default async function InstructorPage() {
                 {instructorData.certifications.map((cert, index) => (
                   <li key={index}>{cert}</li>
                 ))}
+              </ul>
+            </div>
+
+            {/* Social Media */}
+            <div className="mb-8">
+              <h3 className="text-2xl font-[--font-bebas-neue] text-white mb-4 tracking-wider">Social Media</h3>
+              <ul className="list-none list-inside text-gray-300 space-y-2">
+                {instructorData.socialMedia.instagram && (
+                  <li key="instagram">
+                    <a href={instructorData.socialMedia.instagram} target="_blank" rel="noopener noreferrer">
+                      Instagram
+                    </a>
+                  </li>
+                )}
+                {instructorData.socialMedia.facebook && (
+                  <li key="facebook">
+                    <a href={instructorData.socialMedia.facebook} target="_blank" rel="noopener noreferrer">
+                      Facebook
+                    </a>
+                  </li>
+                )}
+                {instructorData.socialMedia.youtube && (
+                  <li key="youtube">
+                    <a href={instructorData.socialMedia.youtube} target="_blank" rel="noopener noreferrer">
+                      YouTube
+                    </a>
+                  </li>
+                )}
               </ul>
             </div>
           </div>

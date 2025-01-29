@@ -46,7 +46,7 @@ export default function GalleryPage() {
   }, []);
 
   return (
-    <main className="flex min-h-[calc(100vh-64px)] flex-col min-h-[calc(100vh-64px)] py-12 px-4 sm:px-6 lg:px-8">
+    <main className="flex min-h-[calc(100vh-64px)] flex-col py-12 px-4 sm:px-6 lg:px-8">
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-4xl font-[--font-bebas-neue] text-white mb-8 tracking-wider">
           Gallery
@@ -56,10 +56,10 @@ export default function GalleryPage() {
           {images.map((image) => (
             <div
               key={image._id}
-              className="relative aspect-square overflow-hidden rounded-lg bg-gray-800"
+              className="relative aspect-square overflow-hidden rounded-lg bg-[#111111] border border-gray-800"
             >
               <Image
-                src={image.image && urlForImage(image.image) ? urlForImage(image.image).url() : '/assets/images/placeholder-image.jpg'}
+                src={image.image && urlForImage(image.image) ? urlForImage(image.image).url() : `/assets/images/gallery/gallery-${image.order}.jpg`}
                 alt={image.alt}
                 fill
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
