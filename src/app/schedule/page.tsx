@@ -68,71 +68,40 @@ export default function SchedulePage() {
   const [showGi, setShowGi] = useState(true);
   const [schedule, setSchedule] = useState<ScheduleData>(devSchedule);
 
-  useEffect(() => {
-    async function fetchClasses() {
-      try {
-        // In development, use the hardcoded data
-        if (process.env.NODE_ENV === 'development') {
-          return;
-        }
-
-        const query = `*[_type == "class"] {
-          name,
-          dayOfWeek,
-          startTime,
-          duration,
-          type,
-          isNoGi,
-          note
-        }`;
-        
-        const classes = await client.fetch<{
-          name: string;
-          dayOfWeek: string;
-          startTime: string;
-          duration: number;
-          type: string;
-          isNoGi?: boolean;
-          note?: string;
-        }[]>(query);
-        
-        if (!classes || classes.length === 0) {
-          console.log('No classes found in Sanity, using development data');
-          return;
-        }
-
-        // Transform the flat array of classes into our schedule data structure
-        const scheduleData: ScheduleData = {};
-        
-        classes.forEach((classInfo) => {
-          if (!scheduleData[classInfo.dayOfWeek]) {
-            scheduleData[classInfo.dayOfWeek] = {};
-          }
-          
-          // Use startTime as the key, but handle potential collisions
-          let key = classInfo.startTime;
-          if (scheduleData[classInfo.dayOfWeek][key]) {
-            // If there's a collision, append the class type to make a unique key
-            key = `${key}-${classInfo.type}`;
-          }
-          
-          scheduleData[classInfo.dayOfWeek][key] = {
-            name: classInfo.name,
-            startTime: classInfo.startTime,
-            duration: classInfo.duration,
-            type: classInfo.type,
-            isNoGi: classInfo.isNoGi || false,
-            note: classInfo.note,
-          };
-        });
-
-        setSchedule(scheduleData);
-      } catch (error) {
-        console.error('Error fetching classes:', error);
+  async function getScheduleData(): Promise<ScheduleData> {
+    try {
+      const query = `*[_type == "schedule"][0] {
+        Monday,
+        Tuesday,
+        Wednesday,
+        Thursday,
+        Friday,
+        Saturday,
+        Sunday
+      }`
+      const data = await client.fetch(query, {}, {
+        next: { revalidate: 60 } // Revalidate every 60 seconds
+      })
+      
+      if (!data) {
+        console.log('No data from Sanity, using development data');
+        return devSchedule;
       }
+
+      return data;
+    } catch (error) {
+      console.error('Error fetching schedule:', error);
+      return devSchedule;
+    }
+  }
+
+  useEffect(() => {
+    async function fetchSchedule() {
+      const scheduleData = await getScheduleData();
+      setSchedule(scheduleData);
     }
 
-    fetchClasses();
+    fetchSchedule();
   }, []);
 
   const filterSections = {
