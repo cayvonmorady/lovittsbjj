@@ -138,7 +138,7 @@ export default function SchedulePage() {
   const filterSections = {
     age: [
       { id: 'tiny-kids', label: 'Tiny Kids', color: 'green' },
-      { id: 'kids', label: 'Kids', color: 'blue' },
+      { id: 'kids', label: 'Kids', color: 'green' },
       { id: 'adults', label: 'Adults', color: 'purple' },
       { id: 'womens', label: "Women's", color: 'red' },
     ],
@@ -195,7 +195,7 @@ export default function SchedulePage() {
       case 'tiny-kids':
         return 'border-green-500 bg-green-500/20';
       case 'kids':
-        return 'border-blue-500 bg-blue-500/20';
+        return 'border-green-500 bg-green-500/20';
       case 'adults':
         return 'border-purple-500 bg-purple-500/20';
       default:
@@ -274,7 +274,7 @@ export default function SchedulePage() {
           </div>
 
           {/* Class Info */}
-          <div className="md:col-span-2 bg-[#1c1c23] border border-gray-800 rounded-lg p-6">
+          <div className="md:col-span-2 bg-[#111111] border border-gray-800 rounded-lg p-6">
             <h2 className="text-2xl font-[--font-bebas-neue] text-white mb-4 tracking-wider">
               Class Information
             </h2>
@@ -289,9 +289,9 @@ export default function SchedulePage() {
         </div>
 
         {/* Schedule Grid - Desktop */}
-        <div className="hidden md:block bg-[#1c1c23] border border-gray-800 rounded-lg shadow-lg overflow-hidden">
+        <div className="hidden md:block bg-[#111111] border border-gray-800 rounded-lg overflow-hidden">
           {/* Days Header */}
-          <div className="grid grid-cols-7 border-b border-gray-800 bg-gray-900">
+          <div className="grid grid-cols-7 border-b border-gray-800 bg-[#0a0a0a]">
             <div className="p-4 font-[--font-bebas-neue] text-lg text-gray-400">
               Time
             </div>
@@ -378,7 +378,7 @@ export default function SchedulePage() {
             if (dayClasses.length === 0) return null;
 
             return (
-              <div key={day} className="bg-[#1c1c23] border border-gray-800 rounded-lg overflow-hidden">
+              <div key={day} className="bg-[#111111] border border-gray-800 rounded-lg overflow-hidden">
                 <div className="bg-gray-800 p-4">
                   <h3 className="font-[--font-bebas-neue] text-xl text-white tracking-wide">
                     {day}

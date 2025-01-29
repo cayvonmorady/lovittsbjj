@@ -22,7 +22,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${bebasNeue.variable} bg-[#15151b] text-white text-stroke`}>
+      <body className={`${bebasNeue.variable} bg-black text-white text-stroke`}>
         <Navbar />
         {children}
         <ChatBot />

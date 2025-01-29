@@ -7,20 +7,20 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "migrate-content": "ts-node sanity/migrations/migrate-content.ts"
+    "migrate-content": "ts-node sanity/migrations/migrate-content.ts",
+    "populate-db": "ts-node scripts/populate-db.ts"
   },
   "dependencies": {
     "@sanity/client": "^6.27.1",
     "@sanity/image-url": "^1.1.0",
     "@sanity/vision": "^3.71.2",
-    "chromadb": "^1.10.4",
     "dotenv": "^16.4.7",
-    "llamaindex": "^0.8.31",
     "next": "15.1.6",
     "next-sanity": "^9.8.43",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "sanity": "^3.71.2"
+    "sanity": "^3.33.0",
+    "styled-components": "^6.1.8"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

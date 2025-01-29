@@ -120,8 +120,8 @@ export default async function PricingPage() {
           Membership Plans
         </h1>
 
-        <div className="bg-[#1c1c23] border border-gray-800 rounded-lg shadow-lg p-8 mb-16">
-          <div className="grid md:grid-cols-3 gap-8 text-gray-300">
+        <div className="bg-[#111111] border border-gray-800 rounded-lg p-8 mb-16">
+          <div className="grid md:grid-cols-3 gap-8 text-gray-400">
             <div className="flex items-start space-x-3">
               <svg
                 className="h-6 w-6 text-blue-500 mt-1 flex-shrink-0"
@@ -139,6 +139,7 @@ export default async function PricingPage() {
                 <p>No hidden fees or surprise charges. What you see is what you pay.</p>
               </div>
             </div>
+
             <div className="flex items-start space-x-3">
               <svg
                 className="h-6 w-6 text-blue-500 mt-1 flex-shrink-0"
@@ -156,6 +157,7 @@ export default async function PricingPage() {
                 <p>Choose between drop-in classes, monthly, or yearly memberships.</p>
               </div>
             </div>
+
             <div className="flex items-start space-x-3">
               <svg
                 className="h-6 w-6 text-blue-500 mt-1 flex-shrink-0"
@@ -184,7 +186,7 @@ export default async function PricingPage() {
             {adultPlans.map((plan) => (
               <div
                 key={plan.name}
-                className={`bg-[#1c1c23] border border-gray-800 rounded-lg shadow-lg overflow-hidden ${
+                className={`bg-[#111111] border border-gray-800 rounded-lg overflow-hidden ${
                   plan.highlighted ? "ring-2 ring-blue-500" : ""
                 }`}
               >
@@ -195,7 +197,7 @@ export default async function PricingPage() {
                   <div className="text-center mb-6">
                     <span className="text-4xl font-bold text-white">${plan.price}</span>
                     {plan.perMonth && (
-                      <span className="text-gray-300">/month</span>
+                      <span className="text-gray-400">/month</span>
                     )}
                   </div>
                   <ul className="space-y-4">
@@ -212,7 +214,7 @@ export default async function PricingPage() {
                         >
                           <path d="M5 13l4 4L19 7"></path>
                         </svg>
-                        <span className="text-gray-300">{feature}</span>
+                        <span className="text-gray-400">{feature}</span>
                       </li>
                     ))}
                   </ul>
@@ -230,7 +232,7 @@ export default async function PricingPage() {
             {kidsPlans.map((plan) => (
               <div
                 key={plan.name}
-                className={`bg-[#1c1c23] border border-gray-800 rounded-lg shadow-lg overflow-hidden ${
+                className={`bg-[#111111] border border-gray-800 rounded-lg overflow-hidden ${
                   plan.highlighted ? "ring-2 ring-blue-500" : ""
                 }`}
               >
@@ -241,7 +243,7 @@ export default async function PricingPage() {
                   <div className="text-center mb-6">
                     <span className="text-4xl font-bold text-white">${plan.price}</span>
                     {plan.perMonth && (
-                      <span className="text-gray-300">/month</span>
+                      <span className="text-gray-400">/month</span>
                     )}
                   </div>
                   <ul className="space-y-4">
@@ -258,7 +260,7 @@ export default async function PricingPage() {
                         >
                           <path d="M5 13l4 4L19 7"></path>
                         </svg>
-                        <span className="text-gray-300">{feature}</span>
+                        <span className="text-gray-400">{feature}</span>
                       </li>
                     ))}
                   </ul>

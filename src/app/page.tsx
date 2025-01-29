@@ -41,7 +41,7 @@ export default function Home() {
           {/* Programs Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
             {/* Tiny Kids Program */}
-            <div className="bg-[#1c1c23] rounded-lg border border-gray-800 overflow-hidden text-center">
+            <div className="bg-[#111111] rounded-lg border border-gray-800 overflow-hidden text-center">
               <div className="aspect-w-16 aspect-h-9 relative h-48">
                 <Image
                   src="/assets/images/programs/tiny-kids.jpg"
@@ -60,7 +60,7 @@ export default function Home() {
             </div>
 
             {/* Kids Program */}
-            <div className="bg-[#1c1c23] rounded-lg border border-gray-800 overflow-hidden text-center">
+            <div className="bg-[#111111] rounded-lg border border-gray-800 overflow-hidden text-center">
               <div className="aspect-w-16 aspect-h-9 relative h-48">
                 <Image
                   src="/assets/images/programs/kids.jpg"
@@ -80,7 +80,7 @@ export default function Home() {
             </div>
 
             {/* Adult Program */}
-            <div className="bg-[#1c1c23] rounded-lg border border-gray-800 overflow-hidden text-center">
+            <div className="bg-[#111111] rounded-lg border border-gray-800 overflow-hidden text-center">
               <div className="aspect-w-16 aspect-h-9 relative h-48">
                 <Image
                   src="/assets/images/programs/adults.jpg"
@@ -100,7 +100,7 @@ export default function Home() {
             </div>
 
             {/* Women's Program */}
-            <div className="bg-[#1c1c23] rounded-lg border border-gray-800 overflow-hidden text-center">
+            <div className="bg-[#111111] rounded-lg border border-gray-800 overflow-hidden text-center">
               <div className="aspect-w-16 aspect-h-9 relative h-48">
                 <Image
                   src="/assets/images/programs/women.jpg"
@@ -142,7 +142,7 @@ export default function Home() {
             <div>
               <div className="grid grid-cols-1 gap-8">
                 {/* Phone */}
-                <div className="bg-[#1c1c23] p-6 rounded-lg border border-gray-800">
+                <div className="bg-[#111111] p-6 rounded-lg border border-gray-800">
                   <div className="flex items-center">
                     <div className="w-12 h-12 bg-[#2196F3]/10 rounded-full flex items-center justify-center mr-4">
                       <svg className="w-6 h-6 text-[#2196F3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -157,7 +157,7 @@ export default function Home() {
                 </div>
 
                 {/* Email */}
-                <div className="bg-[#1c1c23] p-6 rounded-lg border border-gray-800">
+                <div className="bg-[#111111] p-6 rounded-lg border border-gray-800">
                   <div className="flex items-center">
                     <div className="w-12 h-12 bg-[#4CAF50]/10 rounded-full flex items-center justify-center mr-4">
                       <svg className="w-6 h-6 text-[#4CAF50]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -172,7 +172,7 @@ export default function Home() {
                 </div>
 
                 {/* Location */}
-                <div className="bg-[#1c1c23] p-6 rounded-lg border border-gray-800">
+                <div className="bg-[#111111] p-6 rounded-lg border border-gray-800">
                   <div className="flex items-center">
                     <div className="w-12 h-12 bg-[#F44336]/10 rounded-full flex items-center justify-center mr-4">
                       <svg className="w-6 h-6 text-[#F44336]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
