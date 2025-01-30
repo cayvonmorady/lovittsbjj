@@ -30,17 +30,17 @@ interface PricingCategory {
 }
 
 interface SanityImage {
-  _type: 'image';
+  _type: 'image'
   asset: {
-    _type: 'reference';
-    _ref: string;
-  };
+    _type: 'reference'
+    _ref: string
+  }
 }
 
 interface Program {
   title: string;
   description: string;
-  image?: SanityImage;
+  image: SanityImage;
 }
 
 interface HomepageContent {
@@ -169,18 +169,46 @@ const homepageContent: HomepageContent = {
     {
       title: 'Tiny Kids BJJ',
       description: 'A fun and engaging program designed specifically for our youngest practitioners, focusing on basic movements, coordination, and discipline.',
+      image: {
+        _type: 'image' as const,
+        asset: {
+          _type: 'reference' as const,
+          _ref: 'placeholder-tiny-kids'
+        }
+      }
     },
     {
       title: 'Kids BJJ',
       description: 'Building confidence, discipline, and self-defense skills in a safe and structured environment.',
+      image: {
+        _type: 'image' as const,
+        asset: {
+          _type: 'reference' as const,
+          _ref: 'placeholder-kids'
+        }
+      }
     },
     {
       title: 'Adult BJJ',
       description: 'Technical training for all skill levels, with both Gi and No-Gi classes available throughout the week.',
+      image: {
+        _type: 'image' as const,
+        asset: {
+          _type: 'reference' as const,
+          _ref: 'placeholder-adult'
+        }
+      }
     },
     {
       title: "Women's Program",
       description: 'Empowering women through Brazilian Jiu-Jitsu in a supportive and focused training environment.',
+      image: {
+        _type: 'image' as const,
+        asset: {
+          _type: 'reference' as const,
+          _ref: 'placeholder-womens'
+        }
+      }
     }
   ],
   location: {
@@ -306,9 +334,9 @@ async function migrateHomepage() {
     const heroImageRef = await uploadImage('/public/assets/images/hero.jpg');
     if (heroImageRef) {
       content.hero.image = {
-        _type: 'image',
+        _type: 'image' as const,
         asset: {
-          _type: 'reference',
+          _type: 'reference' as const,
           _ref: heroImageRef
         }
       };
@@ -321,9 +349,9 @@ async function migrateHomepage() {
           return {
             ...program,
             image: {
-              _type: 'image',
+              _type: 'image' as const,
               asset: {
-                _type: 'reference',
+                _type: 'reference' as const,
                 _ref: imageRef
               }
             }
