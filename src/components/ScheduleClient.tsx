@@ -31,7 +31,7 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
 
   const filterSections = {
     age: [
-      { id: 'tiny-kids', label: 'Tiny Kids', color: 'green' },
+      { id: 'tiny-kids', label: 'Tiny Kids', color: 'blue' },
       { id: 'kids', label: 'Kids', color: 'green' },
       { id: 'adults', label: 'Adults', color: 'purple' },
       { id: 'womens', label: "Women's", color: 'red' },
@@ -66,6 +66,7 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
     if (type === 'womens') return 'border-red-500 bg-red-500/20';
     switch (type) {
       case 'tiny-kids':
+        return 'border-blue-500 bg-blue-500/20';
       case 'kids':
         return 'border-green-500 bg-green-500/20';
       case 'adults':

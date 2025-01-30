@@ -1,5 +1,6 @@
 import { client } from '../../../sanity/lib/client'
 import Image from 'next/image'
+import ScrollIndicator from '@/components/ScrollIndicator'
 
 interface SocialMedia {
   instagram?: string
@@ -89,7 +90,8 @@ export default async function InstructorPage() {
   const instructorData = await getInstructorData()
 
   return (
-    <main className="min-h-[calc(70vh-64px)] py-12 px-4 sm:px-6 lg:px-8">
+    <main className="min-h-[calc(100vh-64px)] py-12 px-4 sm:px-6 lg:px-8">
+      <ScrollIndicator />
       <div className="max-w-[1400px] mx-auto">
         <div className="grid md:grid-cols-2 gap-12">
           {/* Instructor Image */}

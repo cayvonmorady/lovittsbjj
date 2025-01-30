@@ -1,23 +1,70 @@
 import Image from "next/image";
 import Map from '@/components/Map';
+import { client } from "../../sanity/lib/client";
+import ScrollIndicator from '@/components/ScrollIndicator';
 
-export default function Home() {
+interface Alert {
+  isActive: boolean;
+  message: string;
+  type: 'info' | 'warning' | 'success';
+}
+
+interface HomepageData {
+  alert?: Alert;
+}
+
+async function getHomepageData(): Promise<HomepageData> {
+  return await client.fetch(`
+    *[_type == "homepage"][0] {
+      alert {
+        isActive,
+        message,
+        type
+      }
+    }
+  `);
+}
+
+export default async function Home() {
+  const { alert } = await getHomepageData();
+
+  const alertStyles = {
+    success: {
+      bg: 'bg-green-900/20',
+      border: 'border-green-900/20',
+      text: 'text-green-200'
+    },
+    warning: {
+      bg: 'bg-yellow-900/20',
+      border: 'border-yellow-900/20',
+      text: 'text-yellow-200'
+    },
+    info: {
+      bg: 'bg-blue-900/20',
+      border: 'border-blue-900/20',
+      text: 'text-blue-200'
+    }
+  };
+
   return (
     <>
       {/* Alert Section */}
-      <div className="bg-red-900/20 border-b border-red-900/20">
-        <div className="max-w-7xl mx-auto py-3 px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-center">
-            <div className="flex-1 flex items-center justify-center">
-              <p className="font-[--font-bebas-neue] text-xl text-red-200 tracking-wide text-center">
-                Holiday Closure: December 24th to January 1st — Classes Resume January 2nd
-              </p>
+      {alert?.isActive && (
+        <div className={`${alertStyles[alert.type].bg} border-b ${alertStyles[alert.type].border}`}>
+          <div className="max-w-7xl mx-auto py-3 px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-center">
+              <div className="flex-1 flex items-center justify-center">
+                <p className={`font-[--font-bebas-neue] text-xl ${alertStyles[alert.type].text} tracking-wide text-center`}>
+                  {alert.message}
+                </p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
 
       <div className="min-h-[calc(100vh-64px)] py-12 px-4 sm:px-6 lg:px-8">
+        <ScrollIndicator />
         <div className="max-w-7xl mx-auto space-y-16">
           {/* Hero Section */}
           <div className="text-center space-y-6">

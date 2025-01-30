@@ -4,6 +4,7 @@ import React from 'react';
 import Image from 'next/image';
 import { client } from '../../../sanity/lib/client';
 import { urlForImage } from '../../../sanity/lib/image';
+import ScrollIndicator from '@/components/ScrollIndicator';
 
 interface SanityImage {
   _type: 'image';
@@ -29,16 +30,24 @@ const devGalleryImages: GalleryImage[] = Array.from({ length: 8 }, (_, i) => ({
 }));
 
 export default function GalleryPage() {
-  const [images, setImages] = React.useState<GalleryImage[]>([]);
+  const [images, setImages] = React.useState<GalleryImage[]>(devGalleryImages);
 
   React.useEffect(() => {
     async function fetchImages() {
       try {
-        const fetchedImages = await client.fetch<GalleryImage[]>(`*[_type == "galleryImage"] | order(order asc)`);
-        setImages(fetchedImages);
+        const data = await client.fetch<GalleryImage[]>(`
+          *[_type == "galleryImage"] | order(order asc) {
+            _id,
+            image,
+            alt,
+            order
+          }
+        `);
+        if (data && data.length > 0) {
+          setImages(data);
+        }
       } catch (error) {
         console.error('Error fetching gallery images:', error);
-        setImages(devGalleryImages);
       }
     }
 
@@ -46,8 +55,9 @@ export default function GalleryPage() {
   }, []);
 
   return (
-    <main className="flex min-h-[calc(100vh-64px)] flex-col py-12 px-4 sm:px-6 lg:px-8">
-      <div className="container mx-auto px-4 py-8">
+    <main className="min-h-[calc(100vh-64px)] py-12 px-4 sm:px-6 lg:px-8">
+      <ScrollIndicator />
+      <div className="container mx-auto px-4 py-8 max-w-7xl">
         <h1 className="text-4xl font-[--font-bebas-neue] text-white mb-8 tracking-wider">
           Gallery
         </h1>
