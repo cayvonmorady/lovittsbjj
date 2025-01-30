@@ -101,8 +101,6 @@ export const metadata: Metadata = {
   description: 'View our membership plans and pricing options for both adults and kids BJJ programs.',
 };
 
-export const revalidate = 60; // Revalidate this page every 60 seconds
-
 async function getPricingData(): Promise<PricingCategory[]> {
   try {
     const query = `*[_type == "pricing"] {
