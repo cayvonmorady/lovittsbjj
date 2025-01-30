@@ -8,9 +8,7 @@ const nextConfig = {
         pathname: '**',
       },
     ],
-  },
-  // Enable ISR for automatic content updates
-  revalidate: 60, // Revalidate pages every 60 seconds
+  }
 }
 
 module.exports = nextConfig
