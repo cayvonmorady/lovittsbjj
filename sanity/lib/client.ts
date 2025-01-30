@@ -4,10 +4,10 @@ export const client = createClient({
   projectId: 'xtgasnb2',
   dataset: 'production',
   apiVersion: '2024-01-27',
-  useCdn: false, // Disable CDN to get real-time updates
-  perspective: 'published',
+  useCdn: true, // Enable CDN for better performance
+  perspective: 'published', // Only show published content
   stega: {
-    enabled: true,
-    studioUrl: '/studio',
+    enabled: false, // Enable live preview
+    studioUrl: '/studio', // Path to your Sanity Studio
   },
 })
