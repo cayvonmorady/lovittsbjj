@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "@sanity/client": "^6.27.1",
-    "@sanity/dashboard": "^4.1.2",
     "@sanity/image-url": "^1.1.0",
     "@sanity/vision": "^3.71.2",
     "dotenv": "^16.4.7",
@@ -20,9 +19,7 @@
     "next-sanity": "^9.8.43",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-is": "^19.0.0",
     "sanity": "^3.33.0",
-    "sanity-plugin-dashboard-widget-document-list": "^2.0.0",
     "styled-components": "^6.1.8"
   },
   "devDependencies": {
