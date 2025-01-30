@@ -25,7 +25,7 @@ export default {
       name: 'bio',
       title: 'Biography',
       type: 'array',
-      of: [{ type: 'text' }]
+      of: [{ type: 'block' }]
     },
     {
       name: 'achievements',
@@ -61,5 +61,12 @@ export default {
         }
       ]
     }
-  ]
+  ],
+  preview: {
+    select: {
+      title: 'name',
+      subtitle: 'title',
+      media: 'image'
+    }
+  }
 }

@@ -16,21 +16,14 @@ interface SanityImage {
 
 interface GalleryImage {
   _id: string;
-  image: SanityImage | null;
-  alt: string;
-  order: number;
+  image: SanityImage;
+  alt?: string;
+  order?: number;
 }
 
-// Development fallback data
-const devGalleryImages: GalleryImage[] = Array.from({ length: 8 }, (_, i) => ({
-  _id: `dev-image-${i + 1}`,
-  image: null,
-  alt: `Gallery image ${i + 1}`,
-  order: i + 1
-}));
-
 export default function GalleryPage() {
-  const [images, setImages] = React.useState<GalleryImage[]>(devGalleryImages);
+  const [images, setImages] = React.useState<GalleryImage[]>([]);
+  const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
     async function fetchImages() {
@@ -48,11 +41,33 @@ export default function GalleryPage() {
         }
       } catch (error) {
         console.error('Error fetching gallery images:', error);
+      } finally {
+        setIsLoading(false);
       }
     }
 
     fetchImages();
   }, []);
+
+  if (isLoading) {
+    return (
+      <main className="min-h-[calc(100vh-64px)] py-12 px-4 sm:px-6 lg:px-8">
+        <div className="container mx-auto px-4 py-8 max-w-7xl">
+          <h1 className="text-4xl font-[--font-bebas-neue] text-white mb-8 tracking-wider">
+            Gallery
+          </h1>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {[...Array(8)].map((_, index) => (
+              <div
+                key={index}
+                className="relative aspect-square overflow-hidden rounded-lg bg-[#111111] border border-gray-800 animate-pulse"
+              />
+            ))}
+          </div>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className="min-h-[calc(100vh-64px)] py-12 px-4 sm:px-6 lg:px-8">
@@ -68,13 +83,15 @@ export default function GalleryPage() {
               key={image._id}
               className="relative aspect-square overflow-hidden rounded-lg bg-[#111111] border border-gray-800"
             >
-              <Image
-                src={image.image && urlForImage(image.image) ? urlForImage(image.image).url() : `/assets/images/gallery/gallery-${image.order}.jpg`}
-                alt={image.alt}
-                fill
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                className="object-cover transition-all duration-300 hover:scale-110"
-              />
+              {image.image && image.image.asset && (
+                <Image
+                  src={urlForImage(image.image).url()}
+                  alt={image.alt || 'Gallery image'}
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                  className="object-cover transition-all duration-300 hover:scale-110"
+                />
+              )}
             </div>
           ))}
         </div>
