@@ -29,11 +29,49 @@ interface PricingCategory {
   plans: PricingPlan[];
 }
 
+interface SanityImage {
+  _type: 'image';
+  asset: {
+    _type: 'reference';
+    _ref: string;
+  };
+}
+
+interface Program {
+  title: string;
+  description: string;
+  image?: SanityImage;
+}
+
+interface HomepageContent {
+  _type: 'homepage';
+  alert: {
+    isActive: boolean;
+    message: string;
+    type: string;
+  };
+  hero: {
+    title: string;
+    subtitle: string;
+    image?: SanityImage;
+  };
+  programs: Program[];
+  location: {
+    address: string;
+    city: string;
+    state: string;
+    zipCode: string;
+    phone: string;
+    email: string;
+    googleMapsUrl: string;
+  };
+}
+
 // Initialize the Sanity client
 const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || '',
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
-  token: process.env.SANITY_API_TOKEN, 
+  token: process.env.SANITY_API_TOKEN,
   apiVersion: '2024-01-27',
   useCdn: false,
 });
@@ -49,17 +87,17 @@ const scheduleData: ScheduleData = {
   },
   'Wednesday': {
     '09:00': { name: "Women's Fitness", startTime: '09:00', duration: 60, type: 'womens' },
-    '12:00': { name: 'Adults BJJ', startTime: '12:00', duration: 60, type: 'adults', isNoGi: true },
-    '17:30': { name: 'Tiny Kids BJJ', startTime: '17:30', duration: 30, type: 'tiny-kids', isNoGi: true },
-    '18:30': { name: 'Kids BJJ', startTime: '18:30', duration: 60, type: 'kids', isNoGi: true },
-    '19:30': { name: 'Adults BJJ', startTime: '19:30', duration: 120, type: 'adults', isNoGi: true },
+    '12:00': { name: 'Adults BJJ', startTime: '12:00', duration: 60, type: 'adults' },
+    '17:30': { name: 'Tiny Kids BJJ', startTime: '17:30', duration: 30, type: 'tiny-kids' },
+    '18:30': { name: 'Kids BJJ', startTime: '18:30', duration: 60, type: 'kids' },
+    '19:30': { name: 'Adults BJJ', startTime: '19:30', duration: 120, type: 'adults' },
   },
   'Thursday': {
     '09:00': { name: "Women's Fitness", startTime: '09:00', duration: 60, type: 'womens' },
-    '12:00': { name: 'Adults BJJ', startTime: '12:00', duration: 60, type: 'adults', isNoGi: true },
-    '17:30': { name: 'Tiny Kids BJJ', startTime: '17:30', duration: 30, type: 'tiny-kids', isNoGi: true },
-    '18:30': { name: 'Kids BJJ', startTime: '18:30', duration: 60, type: 'kids', isNoGi: true },
-    '19:30': { name: 'Adults BJJ', startTime: '19:30', duration: 120, type: 'adults', isNoGi: true },
+    '12:00': { name: 'Adults BJJ', startTime: '12:00', duration: 60, type: 'adults' },
+    '17:30': { name: 'Tiny Kids BJJ', startTime: '17:30', duration: 30, type: 'tiny-kids' },
+    '18:30': { name: 'Kids BJJ', startTime: '18:30', duration: 60, type: 'kids' },
+    '19:30': { name: 'Adults BJJ', startTime: '19:30', duration: 120, type: 'adults' },
   },
   'Friday': {
     '09:00': { name: "Women's Fitness", startTime: '09:00', duration: 60, type: 'womens' },
@@ -69,85 +107,44 @@ const scheduleData: ScheduleData = {
     '19:30': { name: 'Adults BJJ', startTime: '19:30', duration: 120, type: 'adults' },
   },
   'Saturday': {
-    'kids': { name: 'Kids BJJ', startTime: '11:45', duration: 75, type: 'kids' },
-    'tiny': { name: 'Tiny Kids BJJ', startTime: '11:45', duration: 75, type: 'tiny-kids' },
-    'adults': { name: 'Adults BJJ', startTime: '13:00', duration: 60, type: 'adults' },
-    'womens': { name: "Women's Self Defense", startTime: '17:30', duration: 60, type: 'womens', note: 'First Saturdays' },
-  },
-  'Sunday': {
-    '12:00': { name: 'Open Mat', startTime: '12:00', duration: 120, type: 'adults' },
-  },
+    '10:00': { name: 'Adults BJJ', startTime: '10:00', duration: 90, type: 'adults', isNoGi: true },
+    '11:30': { name: 'Kids BJJ', startTime: '11:30', duration: 60, type: 'kids', isNoGi: true },
+  }
 };
 
-// Pricing data
-const pricingData: PricingCategory[] = [
+const pricingData = [
   {
-    category: 'adult',
+    category: 'Monthly Memberships',
     plans: [
       {
-        name: 'Monthly Unlimited',
+        name: 'Kids Program',
         price: '150',
         perMonth: true,
         features: [
-          'Unlimited BJJ Classes',
-          'Access to All Adult Programs',
-          'Open Mat Sessions',
-          'Competition Training'
-        ],
-        highlighted: true
-      },
-      {
-        name: 'Annual Membership',
-        price: '1500',
-        perMonth: false,
-        features: [
-          'Best Value - Save $300/year',
-          'Unlimited BJJ Classes',
-          'Access to All Adult Programs',
-          'Open Mat Sessions',
-          'Competition Training',
+          'Access to Kids BJJ Classes',
+          'Belt Promotions',
           'Free Gi'
         ],
         highlighted: false
       },
       {
-        name: 'Drop-In Class',
-        price: '25',
-        perMonth: false,
-        features: [
-          'Single Class Access',
-          'Available for Visitors',
-          'No Commitment Required'
-        ],
-        highlighted: false
-      }
-    ]
-  },
-  {
-    category: 'kids',
-    plans: [
-      {
-        name: 'Monthly Kids Program',
-        price: '125',
+        name: 'Adult Program',
+        price: '175',
         perMonth: true,
         features: [
-          'Structured Learning Environment',
-          'Age-Appropriate Training',
-          'Character Development',
-          'Physical Fitness'
+          'Access to All Adult Classes',
+          'Belt Promotions',
+          'Free Gi'
         ],
         highlighted: true
       },
       {
-        name: 'Annual Kids Program',
-        price: '1250',
-        perMonth: false,
+        name: "Women's Program",
+        price: '150',
+        perMonth: true,
         features: [
-          'Best Value - Save $250/year',
-          'Structured Learning Environment',
-          'Age-Appropriate Training',
-          'Character Development',
-          'Physical Fitness',
+          "Access to Women's Classes",
+          'Belt Promotions',
           'Free Gi'
         ],
         highlighted: false
@@ -157,56 +154,72 @@ const pricingData: PricingCategory[] = [
 ];
 
 // Homepage content
-const homepageContent = {
+const homepageContent: HomepageContent = {
   _type: 'homepage',
   alert: {
-    enabled: true,
-    message: 'Holiday Closure: December 24th to January 1st — Classes Resume January 2nd'
+    isActive: true,
+    message: 'Holiday Closure: December 24th to January 1st — Classes Resume January 2nd',
+    type: 'info'
   },
   hero: {
     title: 'Train with Purpose, Grow with Community',
-    subtitle: "At Lovitt's BJJ, we blend technical excellence with a welcoming atmosphere, creating an environment where both beginners and advanced practitioners can thrive."
+    subtitle: "At Lovitt's BJJ, we blend technical excellence with a welcoming atmosphere, creating an environment where both beginners and advanced practitioners can thrive.",
   },
   programs: [
     {
       title: 'Tiny Kids BJJ',
       description: 'A fun and engaging program designed specifically for our youngest practitioners, focusing on basic movements, coordination, and discipline.',
-      imageUrl: '/assets/images/programs/tiny-kids.jpg',
-      link: '/schedule'
     },
     {
       title: 'Kids BJJ',
       description: 'Building confidence, discipline, and self-defense skills in a safe and structured environment.',
-      imageUrl: '/assets/images/programs/kids.jpg',
-      link: '/schedule'
     },
     {
       title: 'Adult BJJ',
       description: 'Technical training for all skill levels, with both Gi and No-Gi classes available throughout the week.',
-      imageUrl: '/assets/images/programs/adults.jpg',
-      link: '/schedule'
     },
     {
       title: "Women's Program",
       description: 'Empowering women through Brazilian Jiu-Jitsu in a supportive and focused training environment.',
-      imageUrl: '/assets/images/programs/womens.jpg',
-      link: '/schedule'
     }
   ],
   location: {
-    title: 'Visit Our Academy',
-    address: '1234 Main Street, Seattle, WA 98101',
-    description: 'Located in the heart of Seattle, our academy offers a spacious training area with state-of-the-art facilities.'
+    address: '1234 Main Street',
+    city: 'Seattle',
+    state: 'WA',
+    zipCode: '98101',
+    phone: '(206) 555-0123',
+    email: 'info@lovittsbjj.com',
+    googleMapsUrl: 'https://goo.gl/maps/your-gym-location'
   }
 };
+
+async function uploadImage(imagePath: string): Promise<string | null> {
+  try {
+    const fullPath = `${process.cwd()}${imagePath}`;
+    const fs = require('fs');
+    
+    if (!fs.existsSync(fullPath)) {
+      console.warn(`Warning: Image not found at ${fullPath}`);
+      return null;
+    }
+    
+    const imageAsset = await client.assets.upload('image', fs.createReadStream(fullPath));
+    console.log(`Successfully uploaded image: ${imagePath}`);
+    return imageAsset._id;
+  } catch (error) {
+    console.error(`Error uploading image ${imagePath}:`, error);
+    return null;
+  }
+}
 
 async function migrateSchedule() {
   console.log('Starting schedule migration...');
   
   try {
     // First, delete all existing class documents
-    await client.delete({ query: '*[_type == "class"]' });
-    console.log('Deleted existing class documents');
+    const deleteResult = await client.delete({ query: '*[_type == "class"]' });
+    console.log(`Deleted ${deleteResult.length} existing class documents`);
     
     // Convert schedule data to array of class documents
     const classDocuments = [];
@@ -228,16 +241,18 @@ async function migrateSchedule() {
     
     console.log(`Creating ${classDocuments.length} class documents...`);
     
-    // Create all class documents one by one
-    for (const doc of classDocuments) {
-      await client.create(doc);
-      console.log(`Created class: ${doc.name} on ${doc.dayOfWeek} at ${doc.startTime}`);
-    }
+    // Create all class documents using a transaction
+    const transaction = client.transaction();
+    classDocuments.forEach(doc => {
+      transaction.create(doc);
+    });
     
-    console.log('Schedule migration completed');
+    await transaction.commit();
+    console.log('Schedule migration completed successfully');
     
   } catch (error) {
     console.error('Error migrating schedule:', error);
+    throw error;
   }
 }
 
@@ -246,11 +261,13 @@ async function migratePricing() {
   
   try {
     // First, delete all existing pricing documents
-    await client.delete({ query: '*[_type == "pricing"]' });
-    console.log('Deleted existing pricing documents');
+    const deleteResult = await client.delete({ query: '*[_type == "pricing"]' });
+    console.log(`Deleted ${deleteResult.length} existing pricing documents`);
     
-    // Create pricing documents
-    for (const category of pricingData) {
+    // Create pricing documents using a transaction
+    const transaction = client.transaction();
+    
+    pricingData.forEach(category => {
       const pricingDoc = {
         _type: 'pricing',
         category: category.category,
@@ -263,14 +280,15 @@ async function migratePricing() {
         }))
       };
       
-      await client.create(pricingDoc);
-      console.log(`Created pricing category: ${category.category}`);
-    }
+      transaction.create(pricingDoc);
+    });
     
-    console.log('Pricing migration completed');
+    await transaction.commit();
+    console.log('Pricing migration completed successfully');
     
   } catch (error) {
     console.error('Error migrating pricing:', error);
+    throw error;
   }
 }
 
@@ -279,27 +297,73 @@ async function migrateHomepage() {
   
   try {
     // First, delete all existing homepage documents
-    await client.delete({ query: '*[_type == "homepage"]' });
-    console.log('Deleted existing homepage documents');
+    const deleteResult = await client.delete({ query: '*[_type == "homepage"]' });
+    console.log(`Deleted ${deleteResult.length} existing homepage documents`);
+    
+    const content = { ...homepageContent };
+    
+    // Upload images and update references
+    const heroImageRef = await uploadImage('/public/assets/images/hero.jpg');
+    if (heroImageRef) {
+      content.hero.image = {
+        _type: 'image',
+        asset: {
+          _type: 'reference',
+          _ref: heroImageRef
+        }
+      };
+    }
+    
+    const updatedPrograms = await Promise.all(
+      content.programs.map(async (program) => {
+        const imageRef = await uploadImage(`/public/assets/images/programs/${program.title.toLowerCase().replace(/\s+/g, '-')}.jpg`);
+        if (imageRef) {
+          return {
+            ...program,
+            image: {
+              _type: 'image',
+              asset: {
+                _type: 'reference',
+                _ref: imageRef
+              }
+            }
+          };
+        }
+        return program;
+      })
+    );
+    
+    content.programs = updatedPrograms;
     
     // Create homepage document
-    await client.create(homepageContent);
-    console.log('Created homepage content');
+    await client.create(content);
+    console.log('Homepage migration completed successfully');
     
   } catch (error) {
     console.error('Error migrating homepage:', error);
+    throw error;
   }
 }
 
 // Function to migrate all content
 async function migrateAllContent() {
+  console.log('Starting content migration...');
+  
   try {
+    // Check Sanity connection
+    await client.fetch('*[_type == "system"][0]').catch(() => {
+      throw new Error('Could not connect to Sanity. Please check your credentials and network connection.');
+    });
+    
+    // Run migrations in sequence
     await migrateSchedule();
     await migratePricing();
     await migrateHomepage();
-    console.log('All content migrated successfully!');
+    
+    console.log('All content migrated successfully! ');
   } catch (error) {
-    console.error('Error during migration:', error);
+    console.error('Migration failed:', error);
+    process.exit(1);
   }
 }
 
