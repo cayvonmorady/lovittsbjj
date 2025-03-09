@@ -1,3 +1,4 @@
+/* Temporarily hidden gallery page
 'use client';
 
 import React from 'react';
@@ -99,3 +100,4 @@ export default function GalleryPage() {
     </main>
   );
 }
+*/

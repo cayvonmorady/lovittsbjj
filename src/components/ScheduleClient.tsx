@@ -25,7 +25,7 @@ interface ScheduleClientProps {
 }
 
 export default function ScheduleClient({ initialSchedule }: ScheduleClientProps) {
-  const [selectedTypes, setSelectedTypes] = useState<Set<string>>(new Set(['tiny-kids', 'kids', 'adults', 'womens']));
+  const [selectedTypes, setSelectedTypes] = useState<Set<string>>(new Set(['tiny-kids', 'kids', 'adults', 'womens', 'muay-thai']));
   const [showNoGi, setShowNoGi] = useState(true);
   const [showGi, setShowGi] = useState(true);
 
@@ -35,6 +35,7 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
       { id: 'kids', label: 'Kids', color: 'green' },
       { id: 'adults', label: 'Adults', color: 'purple' },
       { id: 'womens', label: "Women's", color: 'red' },
+      { id: 'muay-thai', label: "Muay Thai", color: 'orange' },
     ],
     uniform: [
       { id: 'gi', label: 'Gi', color: 'cyan' },
@@ -43,7 +44,7 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
   };
 
   const timeSlots = [
-    '09:00', '09:30', '10:00', '11:45', '12:00', '12:30', '13:00', '13:30',
+    '08:00', '08:30', '09:00', '09:30', '10:00', '11:45', '12:00', '12:30', '13:00', '13:30',
     'gap',
     '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30', '21:00',
   ];
@@ -64,6 +65,7 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
 
   const getClassColor = (type: string) => {
     if (type === 'womens') return 'border-red-500 bg-red-500/20';
+    if (type === 'muay-thai') return 'border-orange-500 bg-orange-500/20';
     switch (type) {
       case 'tiny-kids':
         return 'border-blue-500 bg-blue-500/20';
@@ -76,7 +78,7 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
     }
   };
 
-  const days = ['Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+  const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
   return (
     <main className="min-h-[calc(100vh-64px)] py-12 px-4 sm:px-6 lg:px-8">
@@ -154,6 +156,7 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
             <div className="space-y-4 text-gray-300">
               <p>• All BJJ classes encompass fundamentals and advanced techniques</p>
               <p>• For No Gi classes, wear rash guards and shorts or spats; For Gi classes, wear a BJJ Gi. </p>
+              <p>• For Muay Thai classes, wear comfortable athletic clothing, hand wraps, and a mouthguard</p>
               <p>• Please arrive 10-15 minutes before class starts</p>
               <p>• Women&apos;s self-defense classes are on the first Saturday of each month</p>
               <p>• Sunday Open Mat is available to anyone. NO DROP IN FEE.</p>
@@ -164,7 +167,7 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
         {/* Schedule Grid - Desktop */}
         <div className="hidden md:block bg-[#111111] border border-gray-800 rounded-lg overflow-hidden">
           {/* Days Header */}
-          <div className="grid grid-cols-7 border-b border-gray-800 bg-[#0a0a0a]">
+          <div className="grid grid-cols-8 border-b border-gray-800 bg-[#0a0a0a]">
             <div className="p-4 font-[--font-bebas-neue] text-lg text-gray-400">
               Time
             </div>
@@ -182,7 +185,7 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
 
           {/* Time Slots */}
           {timeSlots.map((timeSlot) => (
-            <div key={timeSlot} className="grid grid-cols-7 border-b border-gray-800">
+            <div key={timeSlot} className="grid grid-cols-8 border-b border-gray-800">
               <div className={`p-4 font-[--font-bebas-neue] text-lg ${timeSlot === 'gap' ? 'text-gray-600 italic' : 'text-gray-400'}`}>
                 {timeSlot === 'gap' ? '...' : formatTime(timeSlot)}
               </div>
@@ -211,7 +214,7 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
                           zIndex: index + 1
                         }}
                       >
-                        <div className="font-[--font-bebas-neue] tracking-wide text-lg">
+                        <div className={`font-[--font-bebas-neue] tracking-wide ${classInfo.type === 'tiny-kids' || classInfo.type === 'kids' ? 'text-sm' : 'text-lg'}`}>
                           {classInfo.name}
                           {classInfo.note && (
                             <div className="text-sm font-normal opacity-75">
@@ -221,7 +224,7 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
                         </div>
                         <div className="text-sm opacity-90">
                           {formatTime(classInfo.startTime)} • {formatDuration(classInfo.duration)}
-                          {classInfo.type !== 'womens' && ` • ${classInfo.isNoGi ? 'No Gi' : 'Gi'}`}
+                          {classInfo.type !== 'womens' && classInfo.type !== 'muay-thai' && ` • ${classInfo.isNoGi ? 'No Gi' : 'Gi'}`}
                         </div>
                       </div>
                     )
@@ -261,7 +264,7 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
                       key={`${day}-${classInfo.startTime}-${index}`}
                       className={`p-3 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 border-2 rounded-lg ${getClassColor(classInfo.type)}`}
                     >
-                      <div className="font-[--font-bebas-neue] tracking-wide text-lg">
+                      <div className={`font-[--font-bebas-neue] tracking-wide ${classInfo.type === 'tiny-kids' || classInfo.type === 'kids' ? 'text-sm' : 'text-lg'}`}>
                         {classInfo.name}
                         {classInfo.note && (
                           <div className="text-sm font-normal opacity-75">
@@ -271,7 +274,7 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
                       </div>
                       <div className="text-sm opacity-90 sm:text-right">
                         {formatTime(classInfo.startTime)} • {formatDuration(classInfo.duration)}
-                        {classInfo.type !== 'womens' && ` • ${classInfo.isNoGi ? 'No Gi' : 'Gi'}`}
+                        {classInfo.type !== 'womens' && classInfo.type !== 'muay-thai' && ` • ${classInfo.isNoGi ? 'No Gi' : 'Gi'}`}
                       </div>
                     </div>
                   ))}

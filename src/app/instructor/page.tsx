@@ -32,7 +32,7 @@ interface InstructorData {
   name: string
   title: string
   image?: SanityImage
-  bio?: string[]
+  bio?: any[]
   achievements?: string[]
   certifications?: string[]
   socialMedia?: SocialMedia
@@ -79,7 +79,7 @@ export default async function InstructorPage() {
         <div className="grid md:grid-cols-2 gap-12">
           {/* Instructor Image */}
           {instructorData.image?.asset && (
-            <div className="relative aspect-square overflow-hidden rounded-lg shadow-lg">
+            <div className="relative aspect-[2/3] overflow-hidden rounded-lg shadow-lg">
               <Image
                 src={urlFor(instructorData.image).url()}
                 alt={instructorData.image.alt || instructorData.name}
@@ -102,9 +102,9 @@ export default async function InstructorPage() {
             {instructorData.bio && instructorData.bio.length > 0 && (
               <div className="mb-8">
                 <h3 className="text-2xl font-[--font-bebas-neue] text-white mb-4 tracking-wider">Biography</h3>
-                {instructorData.bio.map((paragraph, index) => (
+                {instructorData.bio.map((block, index) => (
                   <p key={index} className="text-gray-300 mb-4">
-                    {paragraph}
+                    {block.children?.map((child: any) => child.text).join('')}
                   </p>
                 ))}
               </div>

@@ -21,6 +21,9 @@ interface ScheduleData {
 
 // Development fallback data
 const devSchedule: ScheduleData = {
+  'Monday': {
+    '19:30': { name: 'Muay Thai', startTime: '19:30', duration: 60, type: 'muay-thai' },
+  },
   'Tuesday': {
     '09:00': { name: "Women's Fitness", startTime: '09:00', duration: 60, type: 'womens' },
     '12:00': { name: 'Adults BJJ', startTime: '12:00', duration: 60, type: 'adults' },
@@ -50,6 +53,7 @@ const devSchedule: ScheduleData = {
     '19:30': { name: 'Adults BJJ', startTime: '19:30', duration: 120, type: 'adults' },
   },
   'Saturday': {
+    '08:30': { name: 'Muay Thai', startTime: '08:30', duration: 60, type: 'muay-thai' },
     'kids': { name: 'Kids BJJ', startTime: '11:45', duration: 75, type: 'kids' },
     'tiny': { name: 'Tiny Kids BJJ', startTime: '11:45', duration: 75, type: 'tiny-kids' },
     'adults': { name: 'Adults BJJ', startTime: '13:00', duration: 60, type: 'adults' },
