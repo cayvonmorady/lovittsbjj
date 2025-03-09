@@ -1,4 +1,11 @@
-/* Temporarily hidden gallery page
+// Gallery page temporarily hidden
+// Will be implemented in the future
+
+export default function GalleryPage() {
+  return null; // Return null to prevent rendering while keeping the file as a valid module
+}
+
+/* Original implementation saved for future use
 'use client';
 
 import React from 'react';
@@ -22,7 +29,7 @@ interface GalleryImage {
   order?: number;
 }
 
-export default function GalleryPage() {
+function GalleryPageImplementation() {
   const [images, setImages] = React.useState<GalleryImage[]>([]);
   const [isLoading, setIsLoading] = React.useState(true);
 
