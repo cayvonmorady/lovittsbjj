@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
-    "start": "next start",
+    "start": "NODE_ENV=production node server.js",
     "lint": "next lint",
     "migrate-content": "ts-node sanity/migrations/migrate-content.ts",
     "populate-db": "ts-node scripts/populate-db.ts"
@@ -19,6 +19,7 @@
     "next-sanity": "^9.8.43",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-is": "^18.2.0",
     "sanity": "^3.33.0",
     "styled-components": "^6.1.8"
   },
