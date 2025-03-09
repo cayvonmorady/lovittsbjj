@@ -28,11 +28,25 @@ interface SanityImage {
   alt?: string
 }
 
+// Define the block content interface for Sanity's rich text
+interface SanityBlockContent {
+  _type: string
+  children: SanityBlockChild[]
+  style?: string
+  markDefs?: unknown[]
+}
+
+interface SanityBlockChild {
+  _type: string
+  text: string
+  marks?: string[]
+}
+
 interface InstructorData {
   name: string
   title: string
   image?: SanityImage
-  bio?: any[]
+  bio?: SanityBlockContent[]
   achievements?: string[]
   certifications?: string[]
   socialMedia?: SocialMedia
@@ -104,7 +118,7 @@ export default async function InstructorPage() {
                 <h3 className="text-2xl font-[--font-bebas-neue] text-white mb-4 tracking-wider">Biography</h3>
                 {instructorData.bio.map((block, index) => (
                   <p key={index} className="text-gray-300 mb-4">
-                    {block.children?.map((child: any) => child.text).join('')}
+                    {block.children?.map((child: SanityBlockChild) => child.text).join('')}
                   </p>
                 ))}
               </div>
