@@ -69,7 +69,7 @@ export const metadata: Metadata = {
   description: 'View our class schedule and find the perfect time to start your BJJ journey.',
 };
 
-export const revalidate = 60; // Revalidate this page every 60 seconds
+export const revalidate = 0; // Revalidate this page on every request
 
 async function getScheduleData(): Promise<ScheduleData> {
   try {

@@ -128,5 +128,15 @@ export default {
         }
       ]
     }
-  ]
+  ],
+  preview: {
+    select: {
+      title: 'hero.title'
+    },
+    prepare() {
+      return {
+        title: 'Homepage Content'
+      }
+    }
+  }
 }
