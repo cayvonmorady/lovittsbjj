@@ -22,7 +22,7 @@ interface ScheduleData {
 // Development fallback data
 const devSchedule: ScheduleData = {
   'Monday': {
-    '19:30': { name: 'Muay Thai', startTime: '19:30', duration: 60, type: 'muay-thai' },
+    '19:30': { name: 'Muay Thai', startTime: '19:30', duration: 60, type: 'muay-thai', note: 'Wear comfortable athletic clothing, hand wraps, and a mouthguard.' },
   },
   'Tuesday': {
     '09:00': { name: "Women's Fitness", startTime: '09:00', duration: 60, type: 'womens' },
@@ -40,24 +40,21 @@ const devSchedule: ScheduleData = {
   },
   'Thursday': {
     '09:00': { name: "Women's Fitness", startTime: '09:00', duration: 60, type: 'womens' },
-    '12:00': { name: 'Adults BJJ', startTime: '12:00', duration: 60, type: 'adults', isNoGi: true },
-    '17:30': { name: 'Tiny Kids BJJ', startTime: '17:30', duration: 30, type: 'tiny-kids', isNoGi: true },
-    '18:30': { name: 'Kids BJJ', startTime: '18:30', duration: 60, type: 'kids', isNoGi: true },
-    '19:30': { name: 'Adults BJJ', startTime: '19:30', duration: 120, type: 'adults', isNoGi: true },
-  },
-  'Friday': {
-    '09:00': { name: "Women's Fitness", startTime: '09:00', duration: 60, type: 'womens' },
     '12:00': { name: 'Adults BJJ', startTime: '12:00', duration: 60, type: 'adults' },
     '17:30': { name: 'Tiny Kids BJJ', startTime: '17:30', duration: 30, type: 'tiny-kids' },
     '18:30': { name: 'Kids BJJ', startTime: '18:30', duration: 60, type: 'kids' },
     '19:30': { name: 'Adults BJJ', startTime: '19:30', duration: 120, type: 'adults' },
   },
+  'Friday': {
+    '09:00': { name: "Women's Fitness", startTime: '09:00', duration: 60, type: 'womens' },
+    '12:00': { name: 'Adults BJJ', startTime: '12:00', duration: 60, type: 'adults', isNoGi: true },
+    '17:30': { name: 'Tiny Kids BJJ', startTime: '17:30', duration: 30, type: 'tiny-kids', isNoGi: true },
+    '18:30': { name: 'Kids BJJ', startTime: '18:30', duration: 60, type: 'kids', isNoGi: true },
+    '19:30': { name: 'Adults BJJ', startTime: '19:30', duration: 120, type: 'adults', isNoGi: true },
+  },
   'Saturday': {
-    '08:30': { name: 'Muay Thai', startTime: '08:30', duration: 60, type: 'muay-thai' },
-    'kids': { name: 'Kids BJJ', startTime: '11:45', duration: 75, type: 'kids' },
-    'tiny': { name: 'Tiny Kids BJJ', startTime: '11:45', duration: 75, type: 'tiny-kids' },
-    'adults': { name: 'Adults BJJ', startTime: '13:00', duration: 60, type: 'adults' },
-    'womens': { name: "Women's Self Defense", startTime: '17:30', duration: 60, type: 'womens', note: 'First Saturdays' },
+    '08:30': { name: 'Muay Thai', startTime: '08:30', duration: 60, type: 'muay-thai', note: 'Wear comfortable athletic clothing, hand wraps, and a mouthguard.' },
+    '10:00': { name: 'Adults BJJ', startTime: '10:00', duration: 90, type: 'adults' },
   },
   'Sunday': {
     '12:00': { name: 'Open Mat', startTime: '12:00', duration: 120, type: 'adults' },
@@ -73,25 +70,54 @@ export const revalidate = 0; // Revalidate this page on every request
 
 async function getScheduleData(): Promise<ScheduleData> {
   try {
-    const query = `*[_type == "schedule"][0] {
-      Monday,
-      Tuesday,
-      Wednesday,
-      Thursday,
-      Friday,
-      Saturday,
-      Sunday
+    // Fetch all classes from Sanity
+    const query = `*[_type == "class"] {
+      name,
+      dayOfWeek,
+      startTime,
+      duration,
+      type,
+      isNoGi,
+      note
     }`
-    const data = await client.fetch(query)
     
-    if (!data) {
-      console.log('No data from Sanity, using development data');
+    const classes = await client.fetch(query);
+    
+    if (!classes || classes.length === 0) {
+      console.log('No classes found in Sanity, using development data');
       return devSchedule;
     }
 
-    return data;
+    // Organize classes by day and time
+    const schedule: ScheduleData = {
+      'Monday': {},
+      'Tuesday': {},
+      'Wednesday': {},
+      'Thursday': {},
+      'Friday': {},
+      'Saturday': {},
+      'Sunday': {},
+    };
+
+    // Add each class to the appropriate day and time slot
+    classes.forEach((classItem: any) => {
+      if (!schedule[classItem.dayOfWeek]) {
+        schedule[classItem.dayOfWeek] = {};
+      }
+      
+      schedule[classItem.dayOfWeek][classItem.startTime] = {
+        name: classItem.name,
+        startTime: classItem.startTime,
+        duration: classItem.duration,
+        type: classItem.type,
+        isNoGi: classItem.isNoGi || false,
+        note: classItem.note || '',
+      };
+    });
+
+    return schedule;
   } catch (error) {
-    console.error('Error fetching schedule:', error);
+    console.error('Error fetching classes:', error);
     return devSchedule;
   }
 }
