@@ -51,7 +51,7 @@ export default function StudioNavbar(props) {
       // Commit the transaction
       await transaction.commit()
       
-      // Trigger a single build after all documents are published
+      // Only trigger a SINGLE revalidation AFTER all documents are published
       try {
         // Use the batch revalidation endpoint
         const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
@@ -62,6 +62,8 @@ export default function StudioNavbar(props) {
           },
           body: JSON.stringify({ type: 'batch-publish' })
         });
+        
+        console.log('Triggered batch revalidation for all published documents');
       } catch (err) {
         console.error('Error triggering revalidation:', err)
       }
@@ -75,7 +77,7 @@ export default function StudioNavbar(props) {
       toast.push({
         status: 'success',
         title: `Published ${drafts.length} documents`,
-        description: 'All draft documents have been published successfully.'
+        description: 'All draft documents have been published successfully with a single deployment.'
       })
     } catch (err) {
       console.error('Error in publish operation:', err)
@@ -101,27 +103,26 @@ export default function StudioNavbar(props) {
           </Flex>
           
           <Text size={1}>
-            Publish all draft documents in one click. This will publish all documents that have unpublished changes and trigger a single build.
+            Publish all draft documents in a single operation with one deployment.
           </Text>
           
-          <Button
-            text="Publish All Drafts"
-            tone="primary"
+          <Button 
+            tone="primary" 
+            text={isPublishing ? 'Publishing...' : 'Publish All'} 
             onClick={handlePublishAll}
             disabled={isPublishing}
             loading={isPublishing}
           />
           
           {results && (
-            <Card padding={3} tone={results.failed > 0 ? 'caution' : 'positive'}>
-              <Text size={1}>
-                Published {results.published} of {results.total} documents
-                {results.failed > 0 ? ` (${results.failed} failed)` : ''}
-              </Text>
-            </Card>
+            <Text size={1}>
+              Published {results.published} of {results.total} documents
+              {results.failed > 0 && ` (${results.failed} failed)`}
+            </Text>
           )}
         </Stack>
       </Card>
+      
       {props.renderDefault(props)}
     </div>
   )
