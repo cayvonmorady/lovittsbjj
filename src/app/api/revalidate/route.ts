@@ -3,7 +3,27 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
   try {
-    // Verify the request is from Sanity
+    // Check if this is a batch revalidation request
+    const { searchParams } = new URL(request.url);
+    const isBatch = searchParams.get('batch') === 'true';
+    
+    if (isBatch) {
+      // Revalidate all main paths for batch publishing
+      revalidatePath('/');
+      revalidatePath('/pricing');
+      revalidatePath('/schedule');
+      revalidatePath('/instructor');
+      // Gallery page is temporarily hidden, but we'll revalidate it anyway
+      revalidatePath('/gallery');
+      
+      return NextResponse.json({ 
+        revalidated: true, 
+        message: 'Batch revalidation successful',
+        now: Date.now() 
+      });
+    }
+    
+    // Regular single-document revalidation
     const body = await request.json();
     
     // Get the paths to revalidate based on the document type
