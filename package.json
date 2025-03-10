@@ -12,7 +12,7 @@
     "publish-all": "ts-node scripts/publish-all.ts"
   },
   "dependencies": {
-    "@sanity/client": "^6.27.1",
+    "@sanity/client": "^6.28.3",
     "@sanity/image-url": "^1.1.0",
     "@sanity/vision": "^3.71.2",
     "dotenv": "^16.4.7",

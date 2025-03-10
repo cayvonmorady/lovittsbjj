@@ -1,16 +1,19 @@
-import React, { useState } from 'react'
-import { Button, Card, Flex, Stack, Text, useToast } from '@sanity/ui'
+// publishAllButton.jsx
+import React from 'react'
 import { useClient } from 'sanity'
+import { Button, Card, Flex, Stack, Text, useToast } from '@sanity/ui'
 import { PublishIcon } from '@sanity/icons'
-import { definePlugin } from 'sanity'
 
-export const PublishAllTool = () => {
-  const [isPublishing, setIsPublishing] = useState(false)
-  const [results, setResults] = useState<{
-    published: number
-    failed: number
-    total: number
-  } | null>(null)
+// Define the plugin
+export const publishAllButton = {
+  name: 'publish-all-button',
+  component: PublishAllButton
+}
+
+// Define the component
+function PublishAllButton() {
+  const [isPublishing, setIsPublishing] = React.useState(false)
+  const [results, setResults] = React.useState(null)
   const toast = useToast()
   const client = useClient({ apiVersion: '2023-05-03' })
 
@@ -73,7 +76,7 @@ export const PublishAllTool = () => {
   }
 
   return (
-    <Card padding={4} margin={4}>
+    <Card padding={4} radius={2} shadow={1} tone="primary" margin={4}>
       <Stack space={4}>
         <Flex align="center">
           <PublishIcon style={{ marginRight: '0.5em' }} />
@@ -106,16 +109,3 @@ export const PublishAllTool = () => {
     </Card>
   )
 }
-
-// Export the tool as a Sanity plugin using definePlugin
-export default definePlugin({
-  name: 'publish-all',
-  tools: [
-    {
-      name: 'publish-all',
-      title: 'Publish All',
-      icon: PublishIcon,
-      component: PublishAllTool
-    }
-  ]
-})
