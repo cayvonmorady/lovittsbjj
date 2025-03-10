@@ -1,8 +1,21 @@
+import { Metadata } from 'next'
 import { client } from '../../../sanity/lib/client'
 import Image from 'next/image'
 import ScrollIndicator from '@/components/ScrollIndicator'
 import imageUrlBuilder from '@sanity/image-url'
 import { SanityImageSource } from '@sanity/image-url/lib/types/types'
+
+export const metadata: Metadata = {
+  title: "Our Instructor | Lovitts BJJ",
+  description: "Meet our expert Brazilian Jiu-Jitsu instructor at Lovitts BJJ in Concord. Learn from experienced professionals in a supportive environment.",
+  keywords: "BJJ instructor, Brazilian Jiu-Jitsu coach, Concord BJJ instructor, martial arts teacher, Lovitts BJJ coach",
+  openGraph: {
+    title: "Our Instructor | Lovitts BJJ",
+    description: "Meet our expert Brazilian Jiu-Jitsu instructor at Lovitts BJJ in Concord.",
+    url: "https://lovittsbjj.com/instructor",
+    type: "profile",
+  },
+};
 
 // Add revalidation
 export const revalidate = 0 // revalidate this page on every request

@@ -2,6 +2,18 @@ import { Metadata } from 'next';
 import { client } from '../../../sanity/lib/client';
 import ScheduleClient from '@/components/ScheduleClient';
 
+export const metadata: Metadata = {
+  title: "Class Schedule | Lovitts BJJ",
+  description: "View our complete schedule of BJJ, Muay Thai, and fitness classes for all ages and skill levels at Lovitts BJJ in Concord.",
+  keywords: "BJJ schedule, Muay Thai classes, Kids BJJ classes, Concord martial arts schedule, Lovitts BJJ timetable",
+  openGraph: {
+    title: "Class Schedule | Lovitts BJJ",
+    description: "View our complete schedule of BJJ, Muay Thai, and fitness classes for all ages and skill levels.",
+    url: "https://lovittsbjj.com/schedule",
+    type: "website",
+  },
+};
+
 interface ClassInfo {
   name: string;
   startTime: string;
@@ -59,11 +71,6 @@ const devSchedule: ScheduleData = {
   'Sunday': {
     '12:00': { name: 'Open Mat', startTime: '12:00', duration: 120, types: ['adults'] },
   },
-};
-
-export const metadata: Metadata = {
-  title: 'Class Schedule | Lovitt\'s BJJ',
-  description: 'View our class schedule and find the perfect time to start your BJJ journey.',
 };
 
 export const revalidate = 0; 
