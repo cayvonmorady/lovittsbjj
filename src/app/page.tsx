@@ -1,6 +1,7 @@
 import Map from '@/components/Map';
 import { client } from "../../sanity/lib/client";
 import ScrollIndicator from '@/components/ScrollIndicator';
+import Image from 'next/image';
 
 interface Alert {
   isActive: boolean;
@@ -67,19 +68,19 @@ export default async function Home() {
         <div className="max-w-7xl mx-auto space-y-16">
           {/* Hero Section */}
           <div className="text-center space-y-6">
-            {/* Using regular img tag instead of Next.js Image component */}
-            <img
+            {/* Using Next.js Image component */}
+            <Image
               src="/assets/images/logo.png"
-              alt="Lovitt's BJJ Logo"
-              width="240"
-              height="240"
+              alt="Lovitt&apos;s BJJ Logo"
+              width={240}
+              height={240}
               className="mx-auto"
             />
             <h1 className="font-[--font-bebas-neue] text-4xl sm:text-5xl text-white tracking-wide">
               Train with Purpose, Grow with Community
             </h1>
             <p className="max-w-2xl mx-auto text-gray-300 text-lg">
-              At Lovitt's BJJ, we blend technical excellence with a welcoming atmosphere, 
+              At Lovitt&apos;s BJJ, we blend technical excellence with a welcoming atmosphere, 
               creating an environment where both beginners and advanced practitioners can thrive.
             </p>
           </div>
@@ -89,10 +90,12 @@ export default async function Home() {
             {/* Tiny Kids Program */}
             <div className="bg-[#111111] rounded-lg border border-gray-800 overflow-hidden text-center">
               <div className="aspect-w-16 aspect-h-9 relative h-48">
-                <img
+                <Image
                   src="/assets/images/programs/tiny-kids.jpg"
                   alt="Tiny Kids BJJ Program"
-                  className="object-cover h-full w-full"
+                  fill
+                  style={{ objectFit: 'cover' }}
+                  sizes="(max-width: 768px) 100vw, 33vw"
                 />
               </div>
               <div className="p-6">
@@ -107,10 +110,12 @@ export default async function Home() {
             {/* Kids Program */}
             <div className="bg-[#111111] rounded-lg border border-gray-800 overflow-hidden text-center">
               <div className="aspect-w-16 aspect-h-9 relative h-48">
-                <img
+                <Image
                   src="/assets/images/programs/kids.jpg"
                   alt="Kids BJJ Program"
-                  className="object-cover h-full w-full"
+                  fill
+                  style={{ objectFit: 'cover' }}
+                  sizes="(max-width: 768px) 100vw, 33vw"
                 />
               </div>
               <div className="p-6">
@@ -126,10 +131,12 @@ export default async function Home() {
             {/* Adult Program */}
             <div className="bg-[#111111] rounded-lg border border-gray-800 overflow-hidden text-center">
               <div className="aspect-w-16 aspect-h-9 relative h-48">
-                <img
+                <Image
                   src="/assets/images/programs/adults.jpg"
                   alt="Adult BJJ Program"
-                  className="object-cover h-full w-full"
+                  fill
+                  style={{ objectFit: 'cover' }}
+                  sizes="(max-width: 768px) 100vw, 33vw"
                 />
               </div>
               <div className="p-6">
@@ -145,16 +152,18 @@ export default async function Home() {
             {/* Muay Thai */}
             <div className="bg-[#111111] rounded-lg border border-gray-800 overflow-hidden text-center">
               <div className="aspect-w-16 aspect-h-9 relative h-48">
-                <img
+                <Image
                   src="/assets/images/programs/women.jpg"
                   alt="Muay Thai"
-                  className="object-cover h-full w-full"
+                  fill
+                  style={{ objectFit: 'cover' }}
+                  sizes="(max-width: 768px) 100vw, 33vw"
                 />
               </div>
               <div className="p-6">
                 <h3 className="text-2xl font-[--font-bebas-neue] text-white mb-2 tracking-wide">Muay Thai</h3>
                 <p className="text-gray-400 text-sm leading-relaxed">
-                  Experience the "Art of Eight Limbs" in our dynamic Muay Thai program. Classes focus on striking techniques, 
+                  Experience the &quot;Art of Eight Limbs&quot; in our dynamic Muay Thai program. Classes focus on striking techniques, 
                   clinch work, and conditioning. Join us Monday evenings at 7:30pm and Saturday mornings at 8:30am. 
                   Wear comfortable athletic clothing, hand wraps, and a mouthguard.
                 </p>
