@@ -7,7 +7,7 @@ interface ClassInfo {
   name: string;
   startTime: string;
   duration: number;
-  types: string[];
+  types: string[] | string; 
   isNoGi?: boolean;
   note?: string;
 }
@@ -63,34 +63,47 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
     return day === 'Wednesday' || day === 'Thursday';
   };
 
-  const getClassColor = (types: string[]) => {
-    if (types.includes('womens')) return 'border-red-500 bg-red-500/20';
-    if (types.includes('muay-thai')) return 'border-orange-500 bg-orange-500/20';
-    if (types.includes('tiny-kids')) return 'border-blue-500 bg-blue-500/20';
-    if (types.includes('kids')) return 'border-green-500 bg-green-500/20';
-    if (types.includes('adults')) return 'border-purple-500 bg-purple-500/20';
+  const normalizeTypes = (types: string[] | string): string[] => {
+    if (Array.isArray(types)) {
+      return types;
+    }
+    return types ? [types] : [];
+  };
+
+  const getClassColor = (types: string[] | string) => {
+    const typeArray = normalizeTypes(types);
+    
+    if (typeArray.includes('womens')) return 'border-red-500 bg-red-500/20';
+    if (typeArray.includes('muay-thai')) return 'border-orange-500 bg-orange-500/20';
+    if (typeArray.includes('tiny-kids')) return 'border-blue-500 bg-blue-500/20';
+    if (typeArray.includes('kids')) return 'border-green-500 bg-green-500/20';
+    if (typeArray.includes('adults')) return 'border-purple-500 bg-purple-500/20';
     return 'border-gray-800 bg-[#1c1c23]';
   };
 
   const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
-  // Function to check if a class should be displayed based on selected filters
   const shouldDisplayClass = (classInfo: ClassInfo) => {
-    // Check if any of the class types match the selected types
-    const hasSelectedType = classInfo.types.some(type => selectedTypes.has(type));
+    const typeArray = normalizeTypes(classInfo.types);
     
-    // Check uniform type (gi/nogi)
+    const hasSelectedType = typeArray.some(type => selectedTypes.has(type));
+    
     const matchesUniformFilter = 
-      (classInfo.types.includes('womens') || classInfo.types.includes('muay-thai')) || 
+      (typeArray.includes('womens') || typeArray.includes('muay-thai')) || 
       (showGi && !classInfo.isNoGi) || 
       (showNoGi && classInfo.isNoGi);
     
     return hasSelectedType && matchesUniformFilter;
   };
 
-  // Function to determine the font size based on class types
-  const getFontSize = (types: string[]) => {
-    return types.includes('tiny-kids') || types.includes('kids') ? 'text-sm' : 'text-lg';
+  const getFontSize = (types: string[] | string) => {
+    const typeArray = normalizeTypes(types);
+    return typeArray.includes('tiny-kids') || typeArray.includes('kids') ? 'text-sm' : 'text-lg';
+  };
+
+  const getClassKey = (day: string, timeSlot: string, classInfo: ClassInfo) => {
+    const typeArray = normalizeTypes(classInfo.types);
+    return `${day}-${timeSlot}-${typeArray.join('-')}`;
   };
 
   return (
@@ -101,11 +114,8 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
           Class Schedule
         </h1>
 
-        {/* Top Section - Filters and Info */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          {/* Filters */}
           <div className="mb-8 space-y-6">
-            {/* Age Filters */}
             <div>
               <h3 className="text-white font-[--font-bebas-neue] text-xl mb-3">Age</h3>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
@@ -133,7 +143,6 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
               </div>
             </div>
 
-            {/* Uniform Filters */}
             <div>
               <h3 className="text-white font-[--font-bebas-neue] text-xl mb-3">Uniform</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -161,7 +170,6 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
             </div>
           </div>
 
-          {/* Class Info */}
           <div className="md:col-span-2 bg-[#111111] border border-gray-800 rounded-lg p-6">
             <h2 className="text-2xl font-[--font-bebas-neue] text-white mb-4 tracking-wider">
               Class Information
@@ -177,9 +185,7 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
           </div>
         </div>
 
-        {/* Schedule Grid - Desktop */}
         <div className="hidden md:block bg-[#111111] border border-gray-800 rounded-lg overflow-hidden">
-          {/* Days Header */}
           <div className="grid grid-cols-8 border-b border-gray-800 bg-[#0a0a0a]">
             <div className="p-4 font-[--font-bebas-neue] text-lg text-gray-400">
               Time
@@ -196,7 +202,6 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
             ))}
           </div>
 
-          {/* Time Slots */}
           {timeSlots.map((timeSlot) => (
             <div key={timeSlot} className="grid grid-cols-8 border-b border-gray-800">
               <div className={`p-4 font-[--font-bebas-neue] text-lg ${timeSlot === 'gap' ? 'text-gray-600 italic' : 'text-gray-400'}`}>
@@ -211,7 +216,7 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
                     .filter(c => c.startTime === timeSlot && shouldDisplayClass(c))
                     .map((classInfo, index, array) => (
                       <div 
-                        key={`${day}-${timeSlot}-${classInfo.types.join('-')}`}
+                        key={getClassKey(day, timeSlot, classInfo)}
                         className={`absolute rounded-lg border-2 ${getClassColor(classInfo.types)} p-2`}
                         style={{ 
                           left: array.length > 1 ? `${index * 50}%` : '0.5rem',
@@ -233,7 +238,7 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
                         </div>
                         <div className="text-sm opacity-90">
                           {formatTime(classInfo.startTime)} • {formatDuration(classInfo.duration)}
-                          {!classInfo.types.includes('womens') && !classInfo.types.includes('muay-thai') && ` • ${classInfo.isNoGi ? 'No Gi' : 'Gi'}`}
+                          {!normalizeTypes(classInfo.types).includes('womens') && !normalizeTypes(classInfo.types).includes('muay-thai') && ` • ${classInfo.isNoGi ? 'No Gi' : 'Gi'}`}
                         </div>
                       </div>
                     )
@@ -244,7 +249,6 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
           ))}
         </div>
 
-        {/* Mobile Schedule View */}
         <div className="md:hidden space-y-6">
           {days.map((day) => {
             const dayClasses = Object.values(initialSchedule[day] || {})
@@ -252,7 +256,10 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
               .sort((a, b) => {
                 const timeCompare = a.startTime.localeCompare(b.startTime);
                 if (timeCompare !== 0) return timeCompare;
-                return a.types[0]?.localeCompare(b.types[0] || '') || 0;
+                
+                const aTypes = normalizeTypes(a.types);
+                const bTypes = normalizeTypes(b.types);
+                return (aTypes[0] || '').localeCompare(bTypes[0] || '');
               });
             if (dayClasses.length === 0) return null;
 
@@ -279,7 +286,7 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
                       </div>
                       <div className="text-sm opacity-90 sm:text-right">
                         {formatTime(classInfo.startTime)} • {formatDuration(classInfo.duration)}
-                        {!classInfo.types.includes('womens') && !classInfo.types.includes('muay-thai') && ` • ${classInfo.isNoGi ? 'No Gi' : 'Gi'}`}
+                        {!normalizeTypes(classInfo.types).includes('womens') && !normalizeTypes(classInfo.types).includes('muay-thai') && ` • ${classInfo.isNoGi ? 'No Gi' : 'Gi'}`}
                       </div>
                     </div>
                   ))}

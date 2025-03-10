@@ -6,7 +6,7 @@ interface ClassInfo {
   name: string;
   startTime: string;
   duration: number;
-  types: string[];
+  types: string[] | string; 
   isNoGi?: boolean;
   note?: string;
 }
@@ -66,7 +66,7 @@ export const metadata: Metadata = {
   description: 'View our class schedule and find the perfect time to start your BJJ journey.',
 };
 
-export const revalidate = 0; // Revalidate this page on every request
+export const revalidate = 0; 
 
 // Define an interface for the class item from Sanity
 interface SanityClassItem {
@@ -74,10 +74,18 @@ interface SanityClassItem {
   dayOfWeek: string;
   startTime: string;
   duration: number;
-  type: string[];
+  type: string[] | string; 
   isNoGi?: boolean;
   note?: string;
 }
+
+// Helper function to normalize types to array
+const normalizeTypes = (types: string[] | string | undefined): string[] => {
+  if (Array.isArray(types)) {
+    return types;
+  }
+  return types ? [types] : [];
+};
 
 async function getScheduleData(): Promise<ScheduleData> {
   try {
@@ -120,7 +128,7 @@ async function getScheduleData(): Promise<ScheduleData> {
         name: classItem.name,
         startTime: classItem.startTime,
         duration: classItem.duration,
-        types: classItem.type || [],
+        types: normalizeTypes(classItem.type),
         isNoGi: classItem.isNoGi || false,
         note: classItem.note || '',
       };
