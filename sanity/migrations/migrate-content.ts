@@ -216,8 +216,8 @@ const homepageContent: HomepageContent = {
     city: 'Seattle',
     state: 'WA',
     zipCode: '98101',
-    phone: '(206) 555-0123',
-    email: 'info@lovittsbjj.com',
+    phone: '(415) 559-1404',
+    email: 'Markangelolovitt@lovittsjiujitsu.com',
     googleMapsUrl: 'https://goo.gl/maps/your-gym-location'
   }
 };

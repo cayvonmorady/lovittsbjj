@@ -36,8 +36,6 @@ Join our supportive community focused on fitness and self-defense!`
     response: `We offer flexible membership options:
 • Monthly and annual plans available
 • Family discounts
-• Military/First Responder discounts
-• Student rates
 
 Visit our pricing page for current rates!`
   },
@@ -93,8 +91,8 @@ Come meet him at the academy!`
   {
     keywords: ['contact', 'location', 'phone', 'email', 'address'],
     response: `Get in touch:
-• Phone: (555) 123-4567
-• Email: info@lovittsbjj.com
+• Phone: <a href="tel:4155591404">(415) 559-1404</a>
+• Email: Markangelolovitt@lovittsjiujitsu.com
 • Social: @lovittsbjj
 
 We'd love to hear from you!`

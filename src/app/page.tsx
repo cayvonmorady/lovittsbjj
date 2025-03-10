@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Map from '@/components/Map';
 import { client } from "../../sanity/lib/client";
 import ScrollIndicator from '@/components/ScrollIndicator';
@@ -68,19 +67,19 @@ export default async function Home() {
         <div className="max-w-7xl mx-auto space-y-16">
           {/* Hero Section */}
           <div className="text-center space-y-6">
-            <Image
-              src="/assets/images/logo.svg"
-              alt="Lovitt&apos;s BJJ Logo"
-              width={240}
-              height={50}
-              priority
+            {/* Using regular img tag instead of Next.js Image component */}
+            <img
+              src="/assets/images/logo.png"
+              alt="Lovitt's BJJ Logo"
+              width="240"
+              height="240"
               className="mx-auto"
             />
             <h1 className="font-[--font-bebas-neue] text-4xl sm:text-5xl text-white tracking-wide">
               Train with Purpose, Grow with Community
             </h1>
             <p className="max-w-2xl mx-auto text-gray-300 text-lg">
-              At Lovitt&apos;s BJJ, we blend technical excellence with a welcoming atmosphere, 
+              At Lovitt's BJJ, we blend technical excellence with a welcoming atmosphere, 
               creating an environment where both beginners and advanced practitioners can thrive.
             </p>
           </div>
@@ -90,11 +89,10 @@ export default async function Home() {
             {/* Tiny Kids Program */}
             <div className="bg-[#111111] rounded-lg border border-gray-800 overflow-hidden text-center">
               <div className="aspect-w-16 aspect-h-9 relative h-48">
-                <Image
+                <img
                   src="/assets/images/programs/tiny-kids.jpg"
                   alt="Tiny Kids BJJ Program"
-                  fill
-                  className="object-cover"
+                  className="object-cover h-full w-full"
                 />
               </div>
               <div className="p-6">
@@ -109,11 +107,10 @@ export default async function Home() {
             {/* Kids Program */}
             <div className="bg-[#111111] rounded-lg border border-gray-800 overflow-hidden text-center">
               <div className="aspect-w-16 aspect-h-9 relative h-48">
-                <Image
+                <img
                   src="/assets/images/programs/kids.jpg"
                   alt="Kids BJJ Program"
-                  fill
-                  className="object-cover"
+                  className="object-cover h-full w-full"
                 />
               </div>
               <div className="p-6">
@@ -129,11 +126,10 @@ export default async function Home() {
             {/* Adult Program */}
             <div className="bg-[#111111] rounded-lg border border-gray-800 overflow-hidden text-center">
               <div className="aspect-w-16 aspect-h-9 relative h-48">
-                <Image
+                <img
                   src="/assets/images/programs/adults.jpg"
                   alt="Adult BJJ Program"
-                  fill
-                  className="object-cover"
+                  className="object-cover h-full w-full"
                 />
               </div>
               <div className="p-6">
@@ -146,22 +142,21 @@ export default async function Home() {
               </div>
             </div>
 
-            {/* Women's Program */}
+            {/* Muay Thai */}
             <div className="bg-[#111111] rounded-lg border border-gray-800 overflow-hidden text-center">
               <div className="aspect-w-16 aspect-h-9 relative h-48">
-                <Image
+                <img
                   src="/assets/images/programs/women.jpg"
-                  alt="Women&apos;s BJJ Program"
-                  fill
-                  className="object-cover"
+                  alt="Muay Thai"
+                  className="object-cover h-full w-full"
                 />
               </div>
               <div className="p-6">
-                <h3 className="text-2xl font-[--font-bebas-neue] text-white mb-2 tracking-wide">Women&apos;s Self Defense</h3>
+                <h3 className="text-2xl font-[--font-bebas-neue] text-white mb-2 tracking-wide">Muay Thai</h3>
                 <p className="text-gray-400 text-sm leading-relaxed">
-                  Train in our women-only self-defense program, combining BJJ techniques with real-world scenarios.
-                  Build confidence, strength, and practical skills in a supportive environment. Our classes empower you
-                  with the tools and mindset for personal security.
+                  Experience the "Art of Eight Limbs" in our dynamic Muay Thai program. Classes focus on striking techniques, 
+                  clinch work, and conditioning. Join us Monday evenings at 7:30pm and Saturday mornings at 8:30am. 
+                  Wear comfortable athletic clothing, hand wraps, and a mouthguard.
                 </p>
               </div>
             </div>
@@ -198,7 +193,11 @@ export default async function Home() {
                     </div>
                     <div>
                       <h3 className="font-[--font-bebas-neue] text-xl text-white mb-1 tracking-wide">Call Us</h3>
-                      <p className="text-gray-400">(555) 123-4567</p>
+                      <p className="text-gray-400">
+                        <a href="tel:4155591404" className="hover:text-blue-400 transition-colors">
+                          (415) 559-1404
+                        </a>
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -213,7 +212,11 @@ export default async function Home() {
                     </div>
                     <div>
                       <h3 className="font-[--font-bebas-neue] text-xl text-white mb-1 tracking-wide">Email</h3>
-                      <p className="text-gray-400">info@lovittsbjj.com</p>
+                      <p className="text-gray-400">
+                        <a href="mailto:Markangelolovitt@lovittsjiujitsu.com" className="hover:text-green-400 transition-colors">
+                          Markangelolovitt@lovittsjiujitsu.com
+                        </a>
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -252,7 +255,7 @@ export default async function Home() {
                 <a href="#" className="text-gray-400 hover:text-purple-500 transition-colors">
                   <span className="sr-only">YouTube</span>
                   <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                    <path fillRule="evenodd" d="M19.812 5.418c.861.23 1.538.907 1.768 1.768C21.998 8.746 22 12 22 12s0 3.255-.418 4.814a2.504 2.504 0 0 1-1.768 1.768c-1.56.419-7.814.419-7.814.419s-6.255 0-7.814-.419a2.505 2.505 0 0 1-1.768-1.768C2 15.255 2 12 2 12s0-3.255.417-4.814a2.507 2.507 0 0 1 1.768-1.768C5.744 5 11.998 5 11.998 5s6.255 0 7.814.418ZM15.194 12 10 15V9l5.194 3Z" clipRule="evenodd" />
+                    <path fillRule="evenodd" d="M19.812 5.418c.861.23 1.538.907 1.768 1.768C21.998 8.746 22 12 22 12s0 3.255-.418 4.814a2.504 2.504 0 0 1-1.772 1.768c-1.56.419-7.814.419-7.814.419s-6.255 0-7.814-.419a2.505 2.505 0 0 1-1.768-1.768C2 15.255 2 12 2 12s0-3.255.417-4.814a2.507 2.507 0 0 1 1.768-1.768C5.744 5 11.998 5 11.998 5s6.255 0 7.814.418ZM15.194 12 10 15V9l5.194 3Z" clipRule="evenodd" />
                   </svg>
                 </a>
               </div>
