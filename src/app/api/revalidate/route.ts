@@ -32,6 +32,8 @@ export async function POST(request: NextRequest) {
       paths.push('/pricing');
     } else if (body._type === 'schedule') {
       paths.push('/schedule');
+    } else if (body._type === 'class') {
+      paths.push('/schedule');
     } else if (body._type === 'instructor') {
       paths.push('/instructor');
     } else if (body._type === 'gallery') {
