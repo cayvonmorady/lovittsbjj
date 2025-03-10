@@ -44,7 +44,8 @@ export default {
     {
       name: 'type',
       title: 'Class Type',
-      type: 'string',
+      type: 'array',
+      of: [{ type: 'string' }],
       options: {
         list: [
           { title: 'Tiny Kids', value: 'tiny-kids' },
@@ -54,7 +55,7 @@ export default {
           { title: 'Muay Thai', value: 'muay-thai' }, 
         ],
       },
-      validation: (Rule: any) => Rule.required(),
+      validation: (Rule: any) => Rule.required().min(1),
     },
     {
       name: 'isNoGi',
@@ -78,9 +79,10 @@ export default {
     },
     prepare(selection: any) {
       const { title, day, time, type } = selection;
+      const typeDisplay = Array.isArray(type) ? type.join(', ') : type;
       return {
         title: title,
-        subtitle: `${day} at ${time} - ${type}`,
+        subtitle: `${day} at ${time} - ${typeDisplay}`,
       };
     },
   },
