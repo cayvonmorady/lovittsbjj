@@ -7,7 +7,7 @@ interface ClassInfo {
   name: string;
   startTime: string;
   duration: number;
-  type: string;
+  types: string[];
   isNoGi?: boolean;
   note?: string;
 }
@@ -63,22 +63,35 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
     return day === 'Wednesday' || day === 'Thursday';
   };
 
-  const getClassColor = (type: string) => {
-    if (type === 'womens') return 'border-red-500 bg-red-500/20';
-    if (type === 'muay-thai') return 'border-orange-500 bg-orange-500/20';
-    switch (type) {
-      case 'tiny-kids':
-        return 'border-blue-500 bg-blue-500/20';
-      case 'kids':
-        return 'border-green-500 bg-green-500/20';
-      case 'adults':
-        return 'border-purple-500 bg-purple-500/20';
-      default:
-        return 'border-gray-800 bg-[#1c1c23]';
-    }
+  const getClassColor = (types: string[]) => {
+    if (types.includes('womens')) return 'border-red-500 bg-red-500/20';
+    if (types.includes('muay-thai')) return 'border-orange-500 bg-orange-500/20';
+    if (types.includes('tiny-kids')) return 'border-blue-500 bg-blue-500/20';
+    if (types.includes('kids')) return 'border-green-500 bg-green-500/20';
+    if (types.includes('adults')) return 'border-purple-500 bg-purple-500/20';
+    return 'border-gray-800 bg-[#1c1c23]';
   };
 
   const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
+  // Function to check if a class should be displayed based on selected filters
+  const shouldDisplayClass = (classInfo: ClassInfo) => {
+    // Check if any of the class types match the selected types
+    const hasSelectedType = classInfo.types.some(type => selectedTypes.has(type));
+    
+    // Check uniform type (gi/nogi)
+    const matchesUniformFilter = 
+      (classInfo.types.includes('womens') || classInfo.types.includes('muay-thai')) || 
+      (showGi && !classInfo.isNoGi) || 
+      (showNoGi && classInfo.isNoGi);
+    
+    return hasSelectedType && matchesUniformFilter;
+  };
+
+  // Function to determine the font size based on class types
+  const getFontSize = (types: string[]) => {
+    return types.includes('tiny-kids') || types.includes('kids') ? 'text-sm' : 'text-lg';
+  };
 
   return (
     <main className="min-h-[calc(100vh-64px)] py-12 px-4 sm:px-6 lg:px-8">
@@ -195,15 +208,11 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
                   className={`p-2 relative min-h-[4rem] ${timeSlot === 'gap' ? 'bg-gray-900/30' : ''}`}
                 >
                   {timeSlot !== 'gap' && Object.values(initialSchedule[day] || {})
-                    .filter(c => c.startTime === timeSlot)
-                    .map((classInfo, index, array) => 
-                    (selectedTypes.has(classInfo.type) && 
-                      ((classInfo.type === 'womens') || 
-                        (showGi && !classInfo.isNoGi) || 
-                        (showNoGi && classInfo.isNoGi))) && (
+                    .filter(c => c.startTime === timeSlot && shouldDisplayClass(c))
+                    .map((classInfo, index, array) => (
                       <div 
-                        key={`${day}-${timeSlot}-${classInfo.type}`}
-                        className={`absolute rounded-lg border-2 ${getClassColor(classInfo.type)} p-2`}
+                        key={`${day}-${timeSlot}-${classInfo.types.join('-')}`}
+                        className={`absolute rounded-lg border-2 ${getClassColor(classInfo.types)} p-2`}
                         style={{ 
                           left: array.length > 1 ? `${index * 50}%` : '0.5rem',
                           right: array.length > 1 ? 'auto' : '0.5rem',
@@ -214,7 +223,7 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
                           zIndex: index + 1
                         }}
                       >
-                        <div className={`font-[--font-bebas-neue] tracking-wide ${classInfo.type === 'tiny-kids' || classInfo.type === 'kids' ? 'text-sm' : 'text-lg'}`}>
+                        <div className={`font-[--font-bebas-neue] tracking-wide ${getFontSize(classInfo.types)}`}>
                           {classInfo.name}
                           {classInfo.note && (
                             <div className="text-sm font-normal opacity-75">
@@ -224,7 +233,7 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
                         </div>
                         <div className="text-sm opacity-90">
                           {formatTime(classInfo.startTime)} • {formatDuration(classInfo.duration)}
-                          {classInfo.type !== 'womens' && classInfo.type !== 'muay-thai' && ` • ${classInfo.isNoGi ? 'No Gi' : 'Gi'}`}
+                          {!classInfo.types.includes('womens') && !classInfo.types.includes('muay-thai') && ` • ${classInfo.isNoGi ? 'No Gi' : 'Gi'}`}
                         </div>
                       </div>
                     )
@@ -239,15 +248,11 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
         <div className="md:hidden space-y-6">
           {days.map((day) => {
             const dayClasses = Object.values(initialSchedule[day] || {})
-              .filter(classInfo => 
-                selectedTypes.has(classInfo.type) && 
-                ((classInfo.type === 'womens') || 
-                  (showGi && !classInfo.isNoGi) || 
-                  (showNoGi && classInfo.isNoGi)))
+              .filter(classInfo => shouldDisplayClass(classInfo))
               .sort((a, b) => {
                 const timeCompare = a.startTime.localeCompare(b.startTime);
                 if (timeCompare !== 0) return timeCompare;
-                return a.type.localeCompare(b.type);
+                return a.types[0]?.localeCompare(b.types[0] || '') || 0;
               });
             if (dayClasses.length === 0) return null;
 
@@ -262,9 +267,9 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
                   {dayClasses.map((classInfo, index) => (
                     <div 
                       key={`${day}-${classInfo.startTime}-${index}`}
-                      className={`p-3 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 border-2 rounded-lg ${getClassColor(classInfo.type)}`}
+                      className={`p-3 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 border-2 rounded-lg ${getClassColor(classInfo.types)}`}
                     >
-                      <div className={`font-[--font-bebas-neue] tracking-wide ${classInfo.type === 'tiny-kids' || classInfo.type === 'kids' ? 'text-sm' : 'text-lg'}`}>
+                      <div className={`font-[--font-bebas-neue] tracking-wide ${getFontSize(classInfo.types)}`}>
                         {classInfo.name}
                         {classInfo.note && (
                           <div className="text-sm font-normal opacity-75">
@@ -274,7 +279,7 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
                       </div>
                       <div className="text-sm opacity-90 sm:text-right">
                         {formatTime(classInfo.startTime)} • {formatDuration(classInfo.duration)}
-                        {classInfo.type !== 'womens' && classInfo.type !== 'muay-thai' && ` • ${classInfo.isNoGi ? 'No Gi' : 'Gi'}`}
+                        {!classInfo.types.includes('womens') && !classInfo.types.includes('muay-thai') && ` • ${classInfo.isNoGi ? 'No Gi' : 'Gi'}`}
                       </div>
                     </div>
                   ))}
