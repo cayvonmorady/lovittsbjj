@@ -50,6 +50,7 @@ export default {
           { title: 'Kids', value: 'kids' },
           { title: 'Adults', value: 'adults' },
           { title: "Women's", value: 'womens' },
+          { title: 'Muay Thai', value: 'muay-thai' }, 
         ],
       },
       validation: (Rule: any) => Rule.required(),

@@ -45,7 +45,7 @@ const devPricingData: PricingCategory[] = [
       },
       {
         name: 'Drop-In Class',
-        price: '25',
+        price: '30',
         perMonth: false,
         features: [
           'Single Class Access',
