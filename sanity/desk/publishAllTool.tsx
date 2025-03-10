@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Button, Card, Flex, Stack, Text, useToast } from '@sanity/ui'
 import { useClient } from 'sanity'
-import { ToolIcon } from '@sanity/icons'
+import { PublishIcon } from '@sanity/icons'
 
 export const PublishAllTool = () => {
   const [isPublishing, setIsPublishing] = useState(false)
@@ -75,7 +75,7 @@ export const PublishAllTool = () => {
     <Card padding={4} margin={4}>
       <Stack space={4}>
         <Flex align="center">
-          <ToolIcon style={{ marginRight: '0.5em' }} />
+          <PublishIcon style={{ marginRight: '0.5em' }} />
           <Text size={2} weight="semibold">
             Publish All Drafts
           </Text>
@@ -109,6 +109,6 @@ export const PublishAllTool = () => {
 export default {
   name: 'publish-all',
   title: 'Publish All',
-  icon: ToolIcon,
+  icon: PublishIcon,
   component: PublishAllTool
 }
