@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Button, Card, Flex, Stack, Text, useToast } from '@sanity/ui'
 import { useClient } from 'sanity'
 import { PublishIcon } from '@sanity/icons'
+import { definePlugin } from 'sanity'
 
 export const PublishAllTool = () => {
   const [isPublishing, setIsPublishing] = useState(false)
@@ -106,9 +107,15 @@ export const PublishAllTool = () => {
   )
 }
 
-export default {
+// Export the tool as a Sanity plugin using definePlugin
+export default definePlugin({
   name: 'publish-all',
-  title: 'Publish All',
-  icon: PublishIcon,
-  component: PublishAllTool
-}
+  tools: [
+    {
+      name: 'publish-all',
+      title: 'Publish All',
+      icon: PublishIcon,
+      component: PublishAllTool
+    }
+  ]
+})
