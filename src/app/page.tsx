@@ -25,6 +25,8 @@ async function getHomepageData(): Promise<HomepageData> {
   `);
 }
 
+export const revalidate = 0; // revalidate this page on every request
+
 export default async function Home() {
   const { alert } = await getHomepageData();
 
