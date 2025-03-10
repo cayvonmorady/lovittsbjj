@@ -68,6 +68,17 @@ export const metadata: Metadata = {
 
 export const revalidate = 0; // Revalidate this page on every request
 
+// Define an interface for the class item from Sanity
+interface SanityClassItem {
+  name: string;
+  dayOfWeek: string;
+  startTime: string;
+  duration: number;
+  type: string;
+  isNoGi?: boolean;
+  note?: string;
+}
+
 async function getScheduleData(): Promise<ScheduleData> {
   try {
     // Fetch all classes from Sanity
@@ -100,7 +111,7 @@ async function getScheduleData(): Promise<ScheduleData> {
     };
 
     // Add each class to the appropriate day and time slot
-    classes.forEach((classItem: any) => {
+    classes.forEach((classItem: SanityClassItem) => {
       if (!schedule[classItem.dayOfWeek]) {
         schedule[classItem.dayOfWeek] = {};
       }
