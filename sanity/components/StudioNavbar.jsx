@@ -21,40 +21,61 @@ export default function StudioNavbar(props) {
       const query = '*[_id in path("drafts.**")]'
       const drafts = await client.fetch(query)
       
-      let publishedCount = 0
-      let failedCount = 0
+      if (drafts.length === 0) {
+        toast.push({
+          status: 'info',
+          title: 'No drafts to publish',
+          description: 'There are no draft documents to publish.'
+        })
+        setIsPublishing(false)
+        return
+      }
       
-      // Process each draft document
+      // Create a single transaction for all documents
+      const transaction = client.transaction()
+      
+      // Add all documents to the transaction
       for (const draft of drafts) {
         const publishId = draft._id.replace('drafts.', '')
         
-        try {
-          // Publish the document (copy the draft to the published version)
-          await client
-            .transaction()
-            .createOrReplace({
-              ...draft,
-              _id: publishId
-            })
-            .commit()
-          
-          publishedCount++
-        } catch (err) {
-          console.error(`Failed to publish ${draft._id}:`, err)
-          failedCount++
-        }
+        // Create or replace the published document
+        transaction.createOrReplace({
+          ...draft,
+          _id: publishId
+        })
+        
+        // Delete the draft
+        transaction.delete(draft._id)
+      }
+      
+      // Commit the transaction
+      await transaction.commit()
+      
+      // Trigger a single build after all documents are published
+      try {
+        // Use the batch revalidation endpoint
+        const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
+        await fetch(`${baseUrl}/api/revalidate?batch=true`, { 
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ type: 'batch-publish' })
+        });
+      } catch (err) {
+        console.error('Error triggering revalidation:', err)
       }
       
       setResults({
-        published: publishedCount,
-        failed: failedCount,
+        published: drafts.length,
+        failed: 0,
         total: drafts.length
       })
       
       toast.push({
-        status: failedCount > 0 ? 'warning' : 'success',
-        title: `Published ${publishedCount} of ${drafts.length} documents`,
-        description: failedCount > 0 ? `${failedCount} documents failed to publish` : undefined
+        status: 'success',
+        title: `Published ${drafts.length} documents`,
+        description: 'All draft documents have been published successfully.'
       })
     } catch (err) {
       console.error('Error in publish operation:', err)
@@ -80,7 +101,7 @@ export default function StudioNavbar(props) {
           </Flex>
           
           <Text size={1}>
-            Publish all draft documents in one click. This will publish all documents that have unpublished changes.
+            Publish all draft documents in one click. This will publish all documents that have unpublished changes and trigger a single build.
           </Text>
           
           <Button
