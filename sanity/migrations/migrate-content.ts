@@ -213,9 +213,9 @@ const homepageContent: HomepageContent = {
   ],
   location: {
     address: '1234 Main Street',
-    city: 'Seattle',
-    state: 'WA',
-    zipCode: '98101',
+    city: 'Concord',
+    state: 'CA',
+    zipCode: '94520',
     phone: '(415) 559-1404',
     email: 'Markangelolovitt@lovittsjiujitsu.com',
     googleMapsUrl: 'https://goo.gl/maps/your-gym-location'

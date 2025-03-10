@@ -1,0 +1,17 @@
+# Allow all crawlers
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://lovittsbjj.com/sitemap.xml
+
+# Disallow admin areas
+Disallow: /studio/
+Disallow: /api/
+
+# Crawl delay for heavy crawlers
+User-agent: AhrefsBot
+Crawl-delay: 10
+
+User-agent: SemrushBot
+Crawl-delay: 10
