@@ -15,6 +15,7 @@ export default {
       type: 'string',
       options: {
         list: [
+          { title: 'Monday', value: 'Monday' },
           { title: 'Tuesday', value: 'Tuesday' },
           { title: 'Wednesday', value: 'Wednesday' },
           { title: 'Thursday', value: 'Thursday' },

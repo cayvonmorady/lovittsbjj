@@ -8,7 +8,8 @@
     "start": "NODE_ENV=production node server.js",
     "lint": "next lint",
     "migrate-content": "ts-node sanity/migrations/migrate-content.ts",
-    "populate-db": "ts-node scripts/populate-db.ts"
+    "populate-db": "ts-node scripts/populate-db.ts",
+    "publish-all": "ts-node scripts/publish-all.ts"
   },
   "dependencies": {
     "@sanity/client": "^6.27.1",
