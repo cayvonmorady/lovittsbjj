@@ -22,16 +22,14 @@ export default function Navbar() {
         <div className="flex justify-between items-center h-20">
           {/* Logo container */}
           <div className="w-[140px] flex-shrink-0">
-            <Link href="/" className="flex items-center py-2 transition-transform duration-300 hover:scale-105">
-              <Image
-                src="/assets/images/ctaLOGO.svg"
-                alt="Lovitts BJJ Logo"
-                width={140}
-                height={70}
-                className="h-auto w-auto"
-                priority
-              />
-            </Link>
+            <Image
+              src="/assets/images/ctaLOGO.svg"
+              alt="Lovitts BJJ Logo"
+              width={140}
+              height={70}
+              className="h-auto w-auto py-2"
+              priority
+            />
           </div>
 
           {/* Desktop menu */}
