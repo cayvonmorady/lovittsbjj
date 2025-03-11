@@ -1,8 +1,75 @@
 import React from 'react';
 
+interface LocalBusinessData {
+  name: string;
+  description: string;
+  url: string;
+  telephone: string;
+  address: {
+    streetAddress: string;
+    addressLocality: string;
+    addressRegion: string;
+    postalCode: string;
+    addressCountry: string;
+  };
+  geo: {
+    latitude: number;
+    longitude: number;
+  };
+  openingHours: Array<{
+    '@type': string;
+    dayOfWeek: string | string[];
+    opens: string;
+    closes: string;
+  }>;
+  image: string | string[];
+  priceRange: string;
+  socialLinks: string[];
+}
+
+interface OrganizationData {
+  name: string;
+  url: string;
+  logo: string;
+  socialLinks: string[];
+}
+
+interface EventData {
+  name: string;
+  startDate: string;
+  endDate: string;
+  location: {
+    name: string;
+    address: {
+      streetAddress: string;
+      addressLocality: string;
+      addressRegion: string;
+      postalCode: string;
+      addressCountry: string;
+    };
+  };
+  image: string | string[];
+  description: string;
+  offers: {
+    price: string | number;
+    priceCurrency: string;
+    availability: string;
+    url: string;
+  };
+  performer: {
+    name: string;
+  };
+}
+
+type StructuredDataType = {
+  LocalBusiness: LocalBusinessData;
+  Organization: OrganizationData;
+  Event: EventData;
+};
+
 interface StructuredDataProps {
-  type: 'LocalBusiness' | 'Organization' | 'Event';
-  data: any;
+  type: keyof StructuredDataType;
+  data: StructuredDataType[keyof StructuredDataType];
 }
 
 export default function StructuredData({ type, data }: StructuredDataProps) {
