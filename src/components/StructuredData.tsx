@@ -13,8 +13,8 @@ interface LocalBusinessData {
     addressCountry: string;
   };
   geo: {
-    latitude: number;
-    longitude: number;
+    latitude: string | number;
+    longitude: string | number;
   };
   openingHours: Array<{
     '@type': string;
@@ -32,10 +32,12 @@ interface OrganizationData {
   url: string;
   logo: string;
   socialLinks: string[];
+  description?: string; 
 }
 
 interface EventData {
   name: string;
+  url: string; 
   startDate: string;
   endDate: string;
   location: {
@@ -61,92 +63,93 @@ interface EventData {
   };
 }
 
-type StructuredDataType = {
-  LocalBusiness: LocalBusinessData;
-  Organization: OrganizationData;
-  Event: EventData;
-};
-
 interface StructuredDataProps {
-  type: keyof StructuredDataType;
-  data: StructuredDataType[keyof StructuredDataType];
+  type: 'LocalBusiness' | 'Organization' | 'Event';
+  data: LocalBusinessData | OrganizationData | EventData;
 }
 
 export default function StructuredData({ type, data }: StructuredDataProps) {
   let structuredData;
 
   switch (type) {
-    case 'LocalBusiness':
+    case 'LocalBusiness': {
+      const businessData = data as LocalBusinessData;
       structuredData = {
         '@context': 'https://schema.org',
         '@type': 'MartialArtsSchool',
-        name: data.name,
-        description: data.description,
-        url: data.url,
-        telephone: data.telephone,
+        name: businessData.name,
+        description: businessData.description,
+        url: businessData.url,
+        telephone: businessData.telephone,
         address: {
           '@type': 'PostalAddress',
-          streetAddress: data.address.streetAddress,
-          addressLocality: data.address.addressLocality,
-          addressRegion: data.address.addressRegion,
-          postalCode: data.address.postalCode,
-          addressCountry: data.address.addressCountry,
+          streetAddress: businessData.address.streetAddress,
+          addressLocality: businessData.address.addressLocality,
+          addressRegion: businessData.address.addressRegion,
+          postalCode: businessData.address.postalCode,
+          addressCountry: businessData.address.addressCountry,
         },
         geo: {
           '@type': 'GeoCoordinates',
-          latitude: data.geo.latitude,
-          longitude: data.geo.longitude,
+          latitude: businessData.geo.latitude,
+          longitude: businessData.geo.longitude,
         },
-        openingHoursSpecification: data.openingHours,
-        image: data.image,
-        priceRange: data.priceRange,
-        sameAs: data.socialLinks,
+        openingHoursSpecification: businessData.openingHours,
+        image: businessData.image,
+        priceRange: businessData.priceRange,
+        sameAs: businessData.socialLinks,
       };
       break;
-    case 'Organization':
+    }
+    case 'Organization': {
+      const orgData = data as OrganizationData;
       structuredData = {
         '@context': 'https://schema.org',
         '@type': 'Organization',
-        name: data.name,
-        url: data.url,
-        logo: data.logo,
-        sameAs: data.socialLinks,
+        name: orgData.name,
+        url: orgData.url,
+        logo: orgData.logo,
+        sameAs: orgData.socialLinks,
       };
       break;
-    case 'Event':
+    }
+    case 'Event': {
+      const eventData = data as EventData;
       structuredData = {
         '@context': 'https://schema.org',
         '@type': 'Event',
-        name: data.name,
-        startDate: data.startDate,
-        endDate: data.endDate,
+        name: eventData.name,
+        url: eventData.url,
+        startDate: eventData.startDate,
+        endDate: eventData.endDate,
         location: {
           '@type': 'Place',
-          name: data.location.name,
+          name: eventData.location.name,
           address: {
             '@type': 'PostalAddress',
-            streetAddress: data.location.address.streetAddress,
-            addressLocality: data.location.address.addressLocality,
-            addressRegion: data.location.address.addressRegion,
-            postalCode: data.location.address.postalCode,
-            addressCountry: data.location.address.addressCountry,
+            streetAddress: eventData.location.address.streetAddress,
+            addressLocality: eventData.location.address.addressLocality,
+            addressRegion: eventData.location.address.addressRegion,
+            postalCode: eventData.location.address.postalCode,
+            addressCountry: eventData.location.address.addressCountry,
           },
         },
-        image: data.image,
-        description: data.description,
+        image: eventData.image,
+        description: eventData.description,
         offers: {
           '@type': 'Offer',
-          price: data.offers.price,
-          priceCurrency: data.offers.priceCurrency,
-          availability: data.offers.availability,
-          url: data.offers.url,
+          price: eventData.offers.price,
+          priceCurrency: eventData.offers.priceCurrency,
+          availability: eventData.offers.availability,
+          url: eventData.offers.url,
         },
         performer: {
           '@type': 'Person',
-          name: data.performer.name,
+          name: eventData.performer.name,
         },
       };
       break;
+    }
     default:
       structuredData = {};
   }

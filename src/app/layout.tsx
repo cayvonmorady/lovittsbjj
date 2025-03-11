@@ -11,6 +11,7 @@ const bebasNeue = Bebas_Neue({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://www.lovittsbjj.com'),
   title: "Lovitts BJJ | Brazilian Jiu-Jitsu Training in Concord",
   description: "Join Lovitt's BJJ for expert Brazilian Jiu-Jitsu training in a welcoming environment. Classes for all ages and skill levels including Kids BJJ, Adult BJJ, and Muay Thai.",
   keywords: "BJJ, Brazilian Jiu-Jitsu, Martial Arts, Muay Thai, Kids BJJ, Concord BJJ, Lovitts BJJ",
