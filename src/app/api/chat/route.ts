@@ -42,6 +42,12 @@ export async function POST(req: Request) {
 
     // Try to use MistralAI first
     try {
+      // Check if Mistral API key is configured
+      if (!process.env.MISTRAL_API_KEY) {
+        console.warn('MISTRAL_API_KEY is not set in environment variables. Falling back to static responses.');
+        throw new Error('MISTRAL_API_KEY is not configured');
+      }
+
       // Use the MistralAI integration with conversation history
       const mistralResponse = await generateMistralResponse(query, history);
       
@@ -52,8 +58,16 @@ export async function POST(req: Request) {
       const formattedResponse = convertMarkdownLinksToHtml(conciseResponse);
       
       return NextResponse.json({ response: formattedResponse });
-    } catch (mistralError) {
-      console.error('Error with MistralAI:', mistralError);
+    } catch (error: any) {
+      console.error('Error with MistralAI:', error);
+      
+      // Log detailed error information
+      console.error('MistralAI error details:', {
+        query,
+        history,
+        error: error.message || 'Unknown error',
+        stack: error.stack || 'No stack trace available',
+      });
       
       // Fall back to the static responses if MistralAI fails
       const fallbackResponse = findResponse(query);

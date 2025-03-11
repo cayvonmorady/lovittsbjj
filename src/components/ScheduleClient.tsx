@@ -8,7 +8,7 @@ interface ClassInfo {
   startTime: string;
   duration: number;
   types: string[] | string; 
-  isNoGi?: boolean;
+  uniform: string[]; 
   note?: string;
 }
 
@@ -26,8 +26,7 @@ interface ScheduleClientProps {
 
 export default function ScheduleClient({ initialSchedule }: ScheduleClientProps) {
   const [selectedTypes, setSelectedTypes] = useState<Set<string>>(new Set(['tiny-kids', 'kids', 'adults', 'womens', 'muay-thai']));
-  const [showNoGi, setShowNoGi] = useState(true);
-  const [showGi, setShowGi] = useState(true);
+  const [selectedUniforms, setSelectedUniforms] = useState<Set<string>>(new Set(['Gi', 'No Gi', 'No Uniform']));
 
   const filterSections = {
     age: [
@@ -38,8 +37,9 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
       { id: 'muay-thai', label: "Muay Thai", color: 'orange' },
     ],
     uniform: [
-      { id: 'gi', label: 'Gi', color: 'cyan' },
-      { id: 'nogi', label: 'No Gi', color: 'yellow' },
+      { id: 'Gi', label: 'Gi', color: 'cyan' },
+      { id: 'No Gi', label: 'No Gi', color: 'yellow' },
+      { id: 'No Uniform', label: 'No Uniform', color: 'gray' },
     ],
   };
 
@@ -59,15 +59,18 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
     return `${minutes} min`;
   };
 
-  const isNoGiDay = (day: string) => {
-    return day === 'Wednesday' || day === 'Thursday';
-  };
-
   const normalizeTypes = (types: string[] | string): string[] => {
     if (Array.isArray(types)) {
       return types;
     }
     return types ? [types] : [];
+  };
+
+  const normalizeUniforms = (uniforms: string[]): string[] => {
+    if (Array.isArray(uniforms) && uniforms.length > 0) {
+      return uniforms;
+    }
+    return ['Gi']; 
   };
 
   const getClassColor = (types: string[] | string) => {
@@ -85,15 +88,12 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
 
   const shouldDisplayClass = (classInfo: ClassInfo) => {
     const typeArray = normalizeTypes(classInfo.types);
+    const uniformArray = normalizeUniforms(classInfo.uniform);
     
     const hasSelectedType = typeArray.some(type => selectedTypes.has(type));
+    const hasSelectedUniform = uniformArray.some(uniform => selectedUniforms.has(uniform));
     
-    const matchesUniformFilter = 
-      (typeArray.includes('womens') || typeArray.includes('muay-thai')) || 
-      (showGi && !classInfo.isNoGi) || 
-      (showNoGi && classInfo.isNoGi);
-    
-    return hasSelectedType && matchesUniformFilter;
+    return hasSelectedType && hasSelectedUniform;
   };
 
   const getFontSize = (types: string[] | string) => {
@@ -145,27 +145,28 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
 
             <div>
               <h3 className="text-white font-[--font-bebas-neue] text-xl mb-3">Uniform</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                <button
-                  onClick={() => setShowGi(!showGi)}
-                  className={`w-full px-4 py-3 rounded-lg border transition-all duration-200 text-center
-                    ${showGi
-                      ? 'border-cyan-500 bg-cyan-500/20 text-white'
-                      : 'border-gray-600 bg-gray-800/50 text-gray-400'
-                    }`}
-                >
-                  Gi
-                </button>
-                <button
-                  onClick={() => setShowNoGi(!showNoGi)}
-                  className={`w-full px-4 py-3 rounded-lg border transition-all duration-200 text-center
-                    ${showNoGi
-                      ? 'border-yellow-500 bg-yellow-500/20 text-white'
-                      : 'border-gray-600 bg-gray-800/50 text-gray-400'
-                    }`}
-                >
-                  No Gi
-                </button>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                {filterSections.uniform.map((uniform) => (
+                  <button
+                    key={uniform.id}
+                    onClick={() => setSelectedUniforms(prev => {
+                      const newSelected = new Set(prev);
+                      if (prev.has(uniform.id)) {
+                        newSelected.delete(uniform.id);
+                      } else {
+                        newSelected.add(uniform.id);
+                      }
+                      return newSelected;
+                    })}
+                    className={`w-full px-4 py-3 rounded-lg border transition-all duration-200 text-center
+                      ${selectedUniforms.has(uniform.id)
+                        ? `border-${uniform.color}-500 bg-${uniform.color}-500/20 text-white`
+                        : 'border-gray-600 bg-gray-800/50 text-gray-400'
+                      }`}
+                  >
+                    {uniform.label}
+                  </button>
+                ))}
               </div>
             </div>
           </div>
@@ -193,9 +194,7 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
             {days.map((day) => (
               <div 
                 key={day} 
-                className={`p-4 font-[--font-bebas-neue] text-lg ${
-                  isNoGiDay(day) ? 'text-gray-400' : 'text-gray-400'
-                }`}
+                className="p-4 font-[--font-bebas-neue] text-lg text-gray-400"
               >
                 {day}
               </div>
@@ -238,7 +237,10 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
                         </div>
                         <div className="text-sm opacity-90">
                           {formatTime(classInfo.startTime)} • {formatDuration(classInfo.duration)}
-                          {!normalizeTypes(classInfo.types).includes('womens') && !normalizeTypes(classInfo.types).includes('muay-thai') && ` • ${classInfo.isNoGi ? 'No Gi' : 'Gi'}`}
+                          {normalizeUniforms(classInfo.uniform).length > 0 && 
+                           !normalizeTypes(classInfo.types).includes('womens') && 
+                           !normalizeTypes(classInfo.types).includes('muay-thai') && 
+                           ` • ${normalizeUniforms(classInfo.uniform).join('/')}`}
                         </div>
                       </div>
                     )
@@ -286,7 +288,10 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
                       </div>
                       <div className="text-sm opacity-90 sm:text-right">
                         {formatTime(classInfo.startTime)} • {formatDuration(classInfo.duration)}
-                        {!normalizeTypes(classInfo.types).includes('womens') && !normalizeTypes(classInfo.types).includes('muay-thai') && ` • ${classInfo.isNoGi ? 'No Gi' : 'Gi'}`}
+                        {normalizeUniforms(classInfo.uniform).length > 0 && 
+                         !normalizeTypes(classInfo.types).includes('womens') && 
+                         !normalizeTypes(classInfo.types).includes('muay-thai') && 
+                         ` • ${normalizeUniforms(classInfo.uniform).join('/')}`}
                       </div>
                     </div>
                   ))}
