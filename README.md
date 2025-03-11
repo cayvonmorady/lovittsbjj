@@ -86,5 +86,3 @@ The website is deployed on Vercel with automatic deployments from the main branc
 - [Sanity CMS Documentation](https://www.sanity.io/docs)
 - [MistralAI Documentation](https://docs.mistral.ai/)
 - [Tailwind CSS Documentation](https://tailwindcss.com/docs)
-
-test
