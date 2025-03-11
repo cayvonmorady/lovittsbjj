@@ -58,26 +58,10 @@ export default {
       validation: (Rule: any) => Rule.required().min(1),
     },
     {
-      name: 'uniform',
-      title: 'Uniform Type',
-      type: 'array',
-      of: [{ type: 'string' }],
-      options: {
-        list: [
-          { title: 'Gi', value: 'gi' },
-          { title: 'No Gi', value: 'nogi' },
-          { title: 'No Uniform', value: 'no-uniform' },
-        ],
-      },
-      description: 'Select the uniform requirement(s) for this class',
-      validation: (Rule: any) => Rule.required().min(1),
-    },
-    {
       name: 'isNoGi',
       title: 'No Gi Class',
       type: 'boolean',
       initialValue: false,
-      description: 'Legacy field - please use the Uniform Type field instead. This field is kept for backward compatibility.',
     },
     {
       name: 'note',
@@ -92,15 +76,13 @@ export default {
       day: 'dayOfWeek',
       time: 'startTime',
       type: 'type',
-      uniform: 'uniform',
     },
     prepare(selection: any) {
-      const { title, day, time, type, uniform } = selection;
+      const { title, day, time, type } = selection;
       const typeDisplay = Array.isArray(type) ? type.join(', ') : type;
-      const uniformDisplay = Array.isArray(uniform) ? uniform.join(', ') : uniform || 'No uniform specified';
       return {
         title: title,
-        subtitle: `${day} at ${time} - ${typeDisplay} (${uniformDisplay})`,
+        subtitle: `${day} at ${time} - ${typeDisplay}`,
       };
     },
   },

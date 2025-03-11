@@ -8,8 +8,7 @@ interface ClassInfo {
   startTime: string;
   duration: number;
   types: string[] | string; 
-  uniform?: string[] | string;
-  isNoGi?: boolean; // Keep for backward compatibility
+  isNoGi?: boolean;
   note?: string;
 }
 
@@ -27,7 +26,8 @@ interface ScheduleClientProps {
 
 export default function ScheduleClient({ initialSchedule }: ScheduleClientProps) {
   const [selectedTypes, setSelectedTypes] = useState<Set<string>>(new Set(['tiny-kids', 'kids', 'adults', 'womens', 'muay-thai']));
-  const [selectedUniforms, setSelectedUniforms] = useState<Set<string>>(new Set(['gi', 'nogi', 'no-uniform']));
+  const [showNoGi, setShowNoGi] = useState(true);
+  const [showGi, setShowGi] = useState(true);
 
   const filterSections = {
     age: [
@@ -40,7 +40,6 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
     uniform: [
       { id: 'gi', label: 'Gi', color: 'cyan' },
       { id: 'nogi', label: 'No Gi', color: 'yellow' },
-      { id: 'no-uniform', label: 'No Uniform', color: 'gray' },
     ],
   };
 
@@ -71,24 +70,6 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
     return types ? [types] : [];
   };
 
-  const normalizeUniforms = (uniforms: string[] | string | undefined, isNoGi?: boolean): string[] => {
-    // If the new uniform field is present, use it
-    if (uniforms) {
-      if (Array.isArray(uniforms)) {
-        return uniforms;
-      }
-      return uniforms ? [uniforms] : [];
-    }
-    
-    // Fall back to legacy isNoGi field
-    if (isNoGi) {
-      return ['nogi'];
-    }
-    
-    // Default to gi for BJJ classes if no uniform is specified
-    return ['gi'];
-  };
-
   const getClassColor = (types: string[] | string) => {
     const typeArray = normalizeTypes(types);
     
@@ -104,17 +85,15 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
 
   const shouldDisplayClass = (classInfo: ClassInfo) => {
     const typeArray = normalizeTypes(classInfo.types);
-    const uniformArray = normalizeUniforms(classInfo.uniform, classInfo.isNoGi);
     
     const hasSelectedType = typeArray.some(type => selectedTypes.has(type));
-    const hasSelectedUniform = uniformArray.some(uniform => selectedUniforms.has(uniform));
     
-    // Special case for Muay Thai classes which don't have a uniform requirement
-    if (typeArray.includes('muay-thai') && selectedUniforms.has('no-uniform')) {
-      return hasSelectedType;
-    }
+    const matchesUniformFilter = 
+      (typeArray.includes('womens') || typeArray.includes('muay-thai')) || 
+      (showGi && !classInfo.isNoGi) || 
+      (showNoGi && classInfo.isNoGi);
     
-    return hasSelectedType && hasSelectedUniform;
+    return hasSelectedType && matchesUniformFilter;
   };
 
   const getFontSize = (types: string[] | string) => {
@@ -122,46 +101,36 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
     return typeArray.includes('tiny-kids') || typeArray.includes('kids') ? 'text-sm' : 'text-lg';
   };
 
-  const toggleType = (typeId: string) => {
-    const newSelectedTypes = new Set(selectedTypes);
-    if (newSelectedTypes.has(typeId)) {
-      newSelectedTypes.delete(typeId);
-    } else {
-      newSelectedTypes.add(typeId);
-    }
-    setSelectedTypes(newSelectedTypes);
-  };
-
-  const toggleUniform = (uniformId: string) => {
-    const newSelectedUniforms = new Set(selectedUniforms);
-    if (newSelectedUniforms.has(uniformId)) {
-      newSelectedUniforms.delete(uniformId);
-    } else {
-      newSelectedUniforms.add(uniformId);
-    }
-    setSelectedUniforms(newSelectedUniforms);
+  const getClassKey = (day: string, timeSlot: string, classInfo: ClassInfo) => {
+    const typeArray = normalizeTypes(classInfo.types);
+    return `${day}-${timeSlot}-${typeArray.join('-')}`;
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-12">
-      <h1 className="text-4xl md:text-5xl font-[--font-bebas-neue] text-white mb-8 tracking-wider">
-        Class Schedule
-      </h1>
-      
-      <div className="mb-8">
-        <ScrollIndicator />
-      </div>
-      
-      <div className="grid md:grid-cols-3 gap-6 mb-8">
-        <div className="md:col-span-1 space-y-6">
-          <div className="bg-[#111111] border border-gray-800 rounded-lg p-6 space-y-6">
+    <main className="min-h-[calc(100vh-64px)] py-12 px-4 sm:px-6 lg:px-8">
+      <ScrollIndicator />
+      <div className="max-w-[1400px] mx-auto">
+        <h1 className="text-4xl font-[--font-bebas-neue] text-white mb-8 tracking-wider">
+          Class Schedule
+        </h1>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div className="mb-8 space-y-6">
             <div>
-              <h3 className="text-white font-[--font-bebas-neue] text-xl mb-3">Class Type</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <h3 className="text-white font-[--font-bebas-neue] text-xl mb-3">Age</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                 {filterSections.age.map((type) => (
                   <button
                     key={type.id}
-                    onClick={() => toggleType(type.id)}
+                    onClick={() => setSelectedTypes(prev => {
+                      const newSelected = new Set(prev);
+                      if (prev.has(type.id)) {
+                        newSelected.delete(type.id);
+                      } else {
+                        newSelected.add(type.id);
+                      }
+                      return newSelected;
+                    })}
                     className={`w-full px-4 py-3 rounded-lg border transition-all duration-200 text-center
                       ${selectedTypes.has(type.id)
                         ? `border-${type.color}-500 bg-${type.color}-500/20 text-white`
@@ -177,19 +146,26 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
             <div>
               <h3 className="text-white font-[--font-bebas-neue] text-xl mb-3">Uniform</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                {filterSections.uniform.map((uniform) => (
-                  <button
-                    key={uniform.id}
-                    onClick={() => toggleUniform(uniform.id)}
-                    className={`w-full px-4 py-3 rounded-lg border transition-all duration-200 text-center
-                      ${selectedUniforms.has(uniform.id)
-                        ? `border-${uniform.color}-500 bg-${uniform.color}-500/20 text-white`
-                        : 'border-gray-600 bg-gray-800/50 text-gray-400'
-                      }`}
-                  >
-                    {uniform.label}
-                  </button>
-                ))}
+                <button
+                  onClick={() => setShowGi(!showGi)}
+                  className={`w-full px-4 py-3 rounded-lg border transition-all duration-200 text-center
+                    ${showGi
+                      ? 'border-cyan-500 bg-cyan-500/20 text-white'
+                      : 'border-gray-600 bg-gray-800/50 text-gray-400'
+                    }`}
+                >
+                  Gi
+                </button>
+                <button
+                  onClick={() => setShowNoGi(!showNoGi)}
+                  className={`w-full px-4 py-3 rounded-lg border transition-all duration-200 text-center
+                    ${showNoGi
+                      ? 'border-yellow-500 bg-yellow-500/20 text-white'
+                      : 'border-gray-600 bg-gray-800/50 text-gray-400'
+                    }`}
+                >
+                  No Gi
+                </button>
               </div>
             </div>
           </div>
@@ -225,103 +201,104 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
               </div>
             ))}
           </div>
-          
-          <div className="grid grid-cols-8">
-            {timeSlots.map((time, index) => (
-              <div key={index} className="contents">
-                {time === 'gap' ? (
-                  <div className="col-span-8 py-2 border-b border-gray-800 bg-[#0a0a0a] text-center text-xs text-gray-500">
-                    • • •
-                  </div>
-                ) : (
-                  <>
-                    <div className="p-4 border-b border-r border-gray-800 text-gray-400">
-                      {formatTime(time)}
-                    </div>
-                    
-                    {days.map((day) => {
-                      const classesAtTime = initialSchedule[day]?.[time];
-                      
-                      return (
-                        <div 
-                          key={`${day}-${time}`} 
-                          className="p-2 border-b border-r border-gray-800 relative"
-                        >
-                          {classesAtTime && shouldDisplayClass(classesAtTime) && (
-                            <div 
-                              className={`p-2 rounded-lg ${getClassColor(classesAtTime.types)} border`}
-                            >
-                              <div className={`font-medium ${getFontSize(classesAtTime.types)} text-white`}>
-                                {classesAtTime.name}
-                              </div>
-                              <div className="text-xs text-gray-400 mt-1">
-                                {formatDuration(classesAtTime.duration)}
-                              </div>
-                              {classesAtTime.note && (
-                                <div className="text-xs text-yellow-400 mt-1 italic">
-                                  {classesAtTime.note}
-                                </div>
-                              )}
+
+          {timeSlots.map((timeSlot) => (
+            <div key={timeSlot} className="grid grid-cols-8 border-b border-gray-800">
+              <div className={`p-4 font-[--font-bebas-neue] text-lg ${timeSlot === 'gap' ? 'text-gray-600 italic' : 'text-gray-400'}`}>
+                {timeSlot === 'gap' ? '...' : formatTime(timeSlot)}
+              </div>
+              {days.map((day) => (
+                <div 
+                  key={`${day}-${timeSlot}`} 
+                  className={`p-2 relative min-h-[4rem] ${timeSlot === 'gap' ? 'bg-gray-900/30' : ''}`}
+                >
+                  {timeSlot !== 'gap' && Object.values(initialSchedule[day] || {})
+                    .filter(c => c.startTime === timeSlot && shouldDisplayClass(c))
+                    .map((classInfo, index, array) => (
+                      <div 
+                        key={getClassKey(day, timeSlot, classInfo)}
+                        className={`absolute rounded-lg border-2 ${getClassColor(classInfo.types)} p-2`}
+                        style={{ 
+                          left: array.length > 1 ? `${index * 50}%` : '0.5rem',
+                          right: array.length > 1 ? 'auto' : '0.5rem',
+                          width: array.length > 1 ? '50%' : 'auto',
+                          top: '0.5rem',
+                          height: `${(classInfo.duration / 30 * 4) - 1}rem`,
+                          minHeight: '5.5rem',
+                          zIndex: index + 1
+                        }}
+                      >
+                        <div className={`font-[--font-bebas-neue] tracking-wide ${getFontSize(classInfo.types)}`}>
+                          {classInfo.name}
+                          {classInfo.note && (
+                            <div className="text-sm font-normal opacity-75">
+                              {classInfo.note}
                             </div>
                           )}
                         </div>
-                      );
-                    })}
-                  </>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-        
-        {/* Mobile schedule view */}
-        <div className="md:hidden space-y-6">
-          {days.map((day) => (
-            <div key={day} className="bg-[#111111] border border-gray-800 rounded-lg overflow-hidden">
-              <div className="p-4 font-[--font-bebas-neue] text-xl text-white border-b border-gray-800 bg-[#0a0a0a]">
-                {day}
-              </div>
-              
-              <div className="p-4 space-y-4">
-                {Object.entries(initialSchedule[day] || {}).map(([time, classInfo]) => {
-                  if (!shouldDisplayClass(classInfo)) return null;
-                  
-                  return (
-                    <div 
-                      key={`${day}-${time}`}
-                      className={`p-3 rounded-lg ${getClassColor(classInfo.types)} border`}
-                    >
-                      <div className="flex justify-between items-start">
-                        <div>
-                          <div className={`font-medium ${getFontSize(classInfo.types)} text-white`}>
-                            {classInfo.name}
-                          </div>
-                          <div className="text-xs text-gray-300 mt-1">
-                            {formatTime(time)} • {formatDuration(classInfo.duration)}
-                          </div>
+                        <div className="text-sm opacity-90">
+                          {formatTime(classInfo.startTime)} • {formatDuration(classInfo.duration)}
+                          {!normalizeTypes(classInfo.types).includes('womens') && !normalizeTypes(classInfo.types).includes('muay-thai') && ` • ${classInfo.isNoGi ? 'No Gi' : 'Gi'}`}
                         </div>
                       </div>
-                      {classInfo.note && (
-                        <div className="text-xs text-yellow-400 mt-2 italic">
-                          {classInfo.note}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-                
-                {Object.keys(initialSchedule[day] || {}).filter(time => 
-                  shouldDisplayClass(initialSchedule[day][time])
-                ).length === 0 && (
-                  <div className="text-gray-500 text-center py-4">
-                    No classes scheduled
-                  </div>
-                )}
-              </div>
+                    )
+                  )}
+                </div>
+              ))}
             </div>
           ))}
         </div>
+
+        <div className="md:hidden space-y-6">
+          {days.map((day) => {
+            const dayClasses = Object.values(initialSchedule[day] || {})
+              .filter(classInfo => shouldDisplayClass(classInfo))
+              .sort((a, b) => {
+                const timeCompare = a.startTime.localeCompare(b.startTime);
+                if (timeCompare !== 0) return timeCompare;
+                
+                const aTypes = normalizeTypes(a.types);
+                const bTypes = normalizeTypes(b.types);
+                return (aTypes[0] || '').localeCompare(bTypes[0] || '');
+              });
+            if (dayClasses.length === 0) return null;
+
+            return (
+              <div key={day} className="bg-[#111111] border border-gray-800 rounded-lg overflow-hidden">
+                <div className="bg-gray-800 p-4">
+                  <h3 className="font-[--font-bebas-neue] text-xl text-white tracking-wide">
+                    {day}
+                  </h3>
+                </div>
+                <div className="divide-y divide-gray-800">
+                  {dayClasses.map((classInfo, index) => (
+                    <div 
+                      key={`${day}-${classInfo.startTime}-${index}`}
+                      className={`p-3 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 border-2 rounded-lg ${getClassColor(classInfo.types)}`}
+                    >
+                      <div className={`font-[--font-bebas-neue] tracking-wide ${getFontSize(classInfo.types)}`}>
+                        {classInfo.name}
+                        {classInfo.note && (
+                          <div className="text-sm font-normal opacity-75">
+                            {classInfo.note}
+                          </div>
+                        )}
+                      </div>
+                      <div className="text-sm opacity-90 sm:text-right">
+                        {formatTime(classInfo.startTime)} • {formatDuration(classInfo.duration)}
+                        {!normalizeTypes(classInfo.types).includes('womens') && !normalizeTypes(classInfo.types).includes('muay-thai') && ` • ${classInfo.isNoGi ? 'No Gi' : 'Gi'}`}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        <p className="text-gray-300 text-center mb-8 mt-10">
+          Can&apos;t make it to class? Contact us to schedule a private lesson.
+        </p>
       </div>
-    </div>
+    </main>
   );
 }
