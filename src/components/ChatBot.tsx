@@ -17,6 +17,13 @@ export default function ChatBot() {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  // Add initial welcome message when chat is opened
+  useEffect(() => {
+    if (isOpen && messages.length === 0) {
+      setMessages([{ role: 'assistant', content: 'How can I help you today?' }]);
+    }
+  }, [isOpen, messages.length]);
+
   useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
