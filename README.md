@@ -1,6 +1,6 @@
 # Lovitt's BJJ Website
 
-This is the official website for Lovitt's BJJ, a Brazilian Jiu-Jitsu school in Concord, CA.
+This is the official website for Lovitt's BJJ, a Brazilian Jiu-Jitsu school in Concord, CA. Built by Cayvon Morady.
 
 ## Technical Stack
 
