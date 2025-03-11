@@ -40,12 +40,21 @@ export default function ChatBot() {
     setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
 
     try {
+      // Convert the messages to the format expected by the API
+      const conversationHistory = messages.map(msg => ({
+        role: msg.role,
+        content: msg.content
+      }));
+
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ query: userMessage }),
+        body: JSON.stringify({ 
+          query: userMessage,
+          history: conversationHistory
+        }),
       });
 
       if (!response.ok) {
@@ -67,8 +76,28 @@ export default function ChatBot() {
     }
   };
 
+  // Function to safely render HTML content
+  const renderMessageContent = (content: string) => {
+    return { __html: content };
+  };
+
+  // CSS for styling links in the chat
+  const chatLinkStyles = `
+    .assistant-message a {
+      color: #3b82f6; /* blue-500 */
+      text-decoration: underline;
+      font-weight: 500;
+    }
+    .assistant-message a:hover {
+      color: #2563eb; /* blue-600 */
+    }
+  `;
+
   return (
     <div className="fixed bottom-4 right-4 z-50">
+      {/* Add the styles for links */}
+      <style>{chatLinkStyles}</style>
+      
       {isOpen && (
         <div className="bg-[#111111] border border-gray-800 rounded-lg shadow-xl w-96 mb-4">
           <div className="p-4 border-b border-gray-800">
@@ -86,10 +115,14 @@ export default function ChatBot() {
                   className={`inline-block p-3 rounded-lg ${
                     message.role === 'user'
                       ? 'bg-blue-600 text-white'
-                      : 'bg-gray-800 text-gray-300'
+                      : 'bg-gray-800 text-gray-300 assistant-message'
                   }`}
                 >
-                  {message.content}
+                  {message.role === 'assistant' ? (
+                    <div dangerouslySetInnerHTML={renderMessageContent(message.content)} />
+                  ) : (
+                    message.content
+                  )}
                 </div>
               </div>
             ))}
