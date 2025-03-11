@@ -50,3 +50,4 @@ venv/
 /scripts/test-pricing-query.js
 /scripts/test-chatbot-responses.js
 /scripts/test-mistral.ts
+/scripts/test-conversation-memory.js

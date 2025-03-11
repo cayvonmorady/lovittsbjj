@@ -1,6 +1,6 @@
-const { Mistral } = require('@mistralai/mistralai');
-const fs = require('fs');
-const path = require('path');
+import { Mistral } from '@mistralai/mistralai';
+import fs from 'fs';
+import path from 'path';
 
 // Function to read the crawled content
 function readCrawledContent() {
@@ -161,7 +161,7 @@ SPECIFIC MUAY THAI INFORMATION:
   }
 }
 
-module.exports = {
+export {
   generateMistralResponse,
   readCrawledContent,
   isGeneralQuery,
