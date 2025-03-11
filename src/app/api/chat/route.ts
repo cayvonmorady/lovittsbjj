@@ -2,6 +2,12 @@ import { NextResponse } from 'next/server';
 import { generateMistralResponse, isGeneralQuery, getSpecificProgram } from '@/lib/mistral';
 import { findResponse } from '@/lib/chatResponses';
 
+// Define the message interface
+interface Message {
+  role: 'user' | 'assistant' | 'system';
+  content: string;
+}
+
 // Function to convert markdown links to HTML links
 function convertMarkdownLinksToHtml(text: string): string {
   // Regex to match markdown links: [text](url)
@@ -12,8 +18,8 @@ function convertMarkdownLinksToHtml(text: string): string {
 }
 
 // Function to ensure concise responses for general queries
-function ensureConciseResponse(query: string, response: string, conversationHistory: any[]): string {
-  // If this is a first-time general query without a specific program
+function ensureConciseResponse(query: string, response: string, conversationHistory: Message[]): string {
+  // Check if this is a general query without a specific program
   if (isGeneralQuery(query) && !getSpecificProgram(query) && conversationHistory.length <= 1) {
     // Always return this exact response for general queries, regardless of what the model generated
     return "Which program are you interested in - Adult BJJ, Kids BJJ, Muay Thai, or Women's Fitness?";
