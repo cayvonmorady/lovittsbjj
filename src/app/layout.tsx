@@ -3,6 +3,7 @@ import { Bebas_Neue } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import ChatBot from "@/components/ChatBot";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
 
 const bebasNeue = Bebas_Neue({
   weight: "400",
@@ -83,6 +84,7 @@ export default function RootLayout({
         <meta name="google-site-verification" content="verification_token" />
       </head>
       <body className={`${bebasNeue.variable} bg-black text-white text-stroke`}>
+        <GoogleAnalytics />
         <Navbar />
         {children}
         <ChatBot />
