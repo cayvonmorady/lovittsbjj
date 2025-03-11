@@ -51,3 +51,6 @@ venv/
 /scripts/test-chatbot-responses.js
 /scripts/test-mistral.ts
 /scripts/test-conversation-memory.js
+
+#readme
+/README.mdssss
