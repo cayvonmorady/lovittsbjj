@@ -9,15 +9,21 @@
     "lint": "next lint",
     "migrate-content": "ts-node sanity/migrations/migrate-content.ts",
     "populate-db": "ts-node scripts/populate-db.ts",
-    "publish-all": "ts-node scripts/publish-all.ts"
+    "publish-all": "ts-node scripts/publish-all.ts",
+    "crawl-website": "node scripts/crawl-website.js",
+    "prebuild": "npm run crawl-website"
   },
   "dependencies": {
+    "@mistralai/mistralai": "^1.5.1",
     "@sanity/client": "^6.28.3",
     "@sanity/image-url": "^1.1.0",
     "@sanity/vision": "^3.71.2",
+    "cheerio": "^1.0.0",
     "dotenv": "^16.4.7",
+    "langchain": "^0.3.19",
     "next": "15.1.6",
     "next-sanity": "^9.8.43",
+    "node-html-parser": "^7.0.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-is": "^18.2.0",

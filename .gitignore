@@ -42,3 +42,11 @@ next-env.d.ts
 
 # Python virtual environment
 venv/
+
+# test scripts
+/scripts/simple-test.js
+/scripts/test-mistral.js
+/scripts/test-single-query.js
+/scripts/test-pricing-query.js
+/scripts/test-chatbot-responses.js
+/scripts/test-mistral.ts
