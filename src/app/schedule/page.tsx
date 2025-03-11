@@ -19,7 +19,7 @@ interface ClassInfo {
   startTime: string;
   duration: number;
   types: string[] | string; 
-  isNoGi?: boolean;
+  uniform: string[]; // Uniform options: 'Gi', 'No Gi', 'No Uniform'
   note?: string;
 }
 
@@ -34,42 +34,42 @@ interface ScheduleData {
 // Development fallback data
 const devSchedule: ScheduleData = {
   'Monday': {
-    '19:30': { name: 'Muay Thai', startTime: '19:30', duration: 60, types: ['muay-thai'], note: 'Wear comfortable athletic clothing, hand wraps, and a mouthguard.' },
+    '19:30': { name: 'Muay Thai', startTime: '19:30', duration: 60, types: ['muay-thai'], uniform: ['No Uniform'], note: 'Wear comfortable athletic clothing, hand wraps, and a mouthguard.' },
   },
   'Tuesday': {
-    '09:00': { name: "Women's Fitness", startTime: '09:00', duration: 60, types: ['womens'] },
-    '12:00': { name: 'Adults BJJ', startTime: '12:00', duration: 60, types: ['adults'] },
-    '17:30': { name: 'Tiny Kids BJJ', startTime: '17:30', duration: 30, types: ['tiny-kids'] },
-    '18:30': { name: 'Kids BJJ', startTime: '18:30', duration: 60, types: ['kids'] },
-    '19:30': { name: 'Adults BJJ', startTime: '19:30', duration: 120, types: ['adults'] },
+    '09:00': { name: "Women's Fitness", startTime: '09:00', duration: 60, types: ['womens'], uniform: ['No Uniform'] },
+    '12:00': { name: 'Adults BJJ', startTime: '12:00', duration: 60, types: ['adults'], uniform: ['Gi'] },
+    '17:30': { name: 'Tiny Kids BJJ', startTime: '17:30', duration: 30, types: ['tiny-kids'], uniform: ['Gi'] },
+    '18:30': { name: 'Kids BJJ', startTime: '18:30', duration: 60, types: ['kids'], uniform: ['Gi'] },
+    '19:30': { name: 'Adults BJJ', startTime: '19:30', duration: 120, types: ['adults'], uniform: ['Gi'] },
   },
   'Wednesday': {
-    '09:00': { name: "Women's Fitness", startTime: '09:00', duration: 60, types: ['womens'] },
-    '12:00': { name: 'Adults BJJ', startTime: '12:00', duration: 60, types: ['adults'], isNoGi: true },
-    '17:30': { name: 'Tiny Kids BJJ', startTime: '17:30', duration: 30, types: ['tiny-kids'], isNoGi: true },
-    '18:30': { name: 'Kids BJJ', startTime: '18:30', duration: 60, types: ['kids'], isNoGi: true },
-    '19:30': { name: 'Adults BJJ', startTime: '19:30', duration: 120, types: ['adults'], isNoGi: true },
+    '09:00': { name: "Women's Fitness", startTime: '09:00', duration: 60, types: ['womens'], uniform: ['No Uniform'] },
+    '12:00': { name: 'Adults BJJ', startTime: '12:00', duration: 60, types: ['adults'], uniform: ['No Gi'] },
+    '17:30': { name: 'Tiny Kids BJJ', startTime: '17:30', duration: 30, types: ['tiny-kids'], uniform: ['No Gi'] },
+    '18:30': { name: 'Kids BJJ', startTime: '18:30', duration: 60, types: ['kids'], uniform: ['No Gi'] },
+    '19:30': { name: 'Adults BJJ', startTime: '19:30', duration: 120, types: ['adults'], uniform: ['No Gi'] },
   },
   'Thursday': {
-    '09:00': { name: "Women's Fitness", startTime: '09:00', duration: 60, types: ['womens'] },
-    '12:00': { name: 'Adults BJJ', startTime: '12:00', duration: 60, types: ['adults'] },
-    '17:30': { name: 'Tiny Kids BJJ', startTime: '17:30', duration: 30, types: ['tiny-kids'] },
-    '18:30': { name: 'Kids BJJ', startTime: '18:30', duration: 60, types: ['kids'] },
-    '19:30': { name: 'Adults BJJ', startTime: '19:30', duration: 120, types: ['adults'] },
+    '09:00': { name: "Women's Fitness", startTime: '09:00', duration: 60, types: ['womens'], uniform: ['No Uniform'] },
+    '12:00': { name: 'Adults BJJ', startTime: '12:00', duration: 60, types: ['adults'], uniform: ['Gi'] },
+    '17:30': { name: 'Tiny Kids BJJ', startTime: '17:30', duration: 30, types: ['tiny-kids'], uniform: ['Gi'] },
+    '18:30': { name: 'Kids BJJ', startTime: '18:30', duration: 60, types: ['kids'], uniform: ['Gi'] },
+    '19:30': { name: 'Adults BJJ', startTime: '19:30', duration: 120, types: ['adults'], uniform: ['Gi'] },
   },
   'Friday': {
-    '09:00': { name: "Women's Fitness", startTime: '09:00', duration: 60, types: ['womens'] },
-    '12:00': { name: 'Adults BJJ', startTime: '12:00', duration: 60, types: ['adults'], isNoGi: true },
-    '17:30': { name: 'Tiny Kids BJJ', startTime: '17:30', duration: 30, types: ['tiny-kids'], isNoGi: true },
-    '18:30': { name: 'Kids BJJ', startTime: '18:30', duration: 60, types: ['kids'], isNoGi: true },
-    '19:30': { name: 'Adults BJJ', startTime: '19:30', duration: 120, types: ['adults'], isNoGi: true },
+    '09:00': { name: "Women's Fitness", startTime: '09:00', duration: 60, types: ['womens'], uniform: ['No Uniform'] },
+    '12:00': { name: 'Adults BJJ', startTime: '12:00', duration: 60, types: ['adults'], uniform: ['No Gi'] },
+    '17:30': { name: 'Tiny Kids BJJ', startTime: '17:30', duration: 30, types: ['tiny-kids'], uniform: ['No Gi'] },
+    '18:30': { name: 'Kids BJJ', startTime: '18:30', duration: 60, types: ['kids'], uniform: ['No Gi'] },
+    '19:30': { name: 'Adults BJJ', startTime: '19:30', duration: 120, types: ['adults'], uniform: ['No Gi'] },
   },
   'Saturday': {
-    '08:30': { name: 'Muay Thai', startTime: '08:30', duration: 60, types: ['muay-thai'], note: 'Wear comfortable athletic clothing, hand wraps, and a mouthguard.' },
-    '10:00': { name: 'Adults BJJ', startTime: '10:00', duration: 90, types: ['adults'] },
+    '08:30': { name: 'Muay Thai', startTime: '08:30', duration: 60, types: ['muay-thai'], uniform: ['No Uniform'], note: 'Wear comfortable athletic clothing, hand wraps, and a mouthguard.' },
+    '10:00': { name: 'Adults BJJ', startTime: '10:00', duration: 90, types: ['adults'], uniform: ['Gi'] },
   },
   'Sunday': {
-    '12:00': { name: 'Open Mat', startTime: '12:00', duration: 120, types: ['adults'] },
+    '12:00': { name: 'Open Mat', startTime: '12:00', duration: 120, types: ['adults'], uniform: ['Gi', 'No Gi'] },
   },
 };
 
@@ -82,7 +82,7 @@ interface SanityClassItem {
   startTime: string;
   duration: number;
   type: string[] | string; 
-  isNoGi?: boolean;
+  uniform: string[]; // Uniform options
   note?: string;
 }
 
@@ -103,7 +103,7 @@ async function getScheduleData(): Promise<ScheduleData> {
       startTime,
       duration,
       type,
-      isNoGi,
+      uniform,
       note
     }`
     
@@ -136,7 +136,7 @@ async function getScheduleData(): Promise<ScheduleData> {
         startTime: classItem.startTime,
         duration: classItem.duration,
         types: normalizeTypes(classItem.type),
-        isNoGi: classItem.isNoGi || false,
+        uniform: classItem.uniform || ['Gi'], // Default to Gi if uniform is not specified
         note: classItem.note || '',
       };
     });
