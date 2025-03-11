@@ -8,6 +8,12 @@ interface Message {
   content: string;
 }
 
+// Define error interface for better type safety
+interface ApiError extends Error {
+  message: string;
+  stack?: string;
+}
+
 // Function to convert markdown links to HTML links
 function convertMarkdownLinksToHtml(text: string): string {
   // Regex to match markdown links: [text](url)
@@ -58,15 +64,18 @@ export async function POST(req: Request) {
       const formattedResponse = convertMarkdownLinksToHtml(conciseResponse);
       
       return NextResponse.json({ response: formattedResponse });
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error with MistralAI:', error);
+      
+      // Cast error to our ApiError type with type checking
+      const apiError = error as ApiError;
       
       // Log detailed error information
       console.error('MistralAI error details:', {
         query,
         history,
-        error: error.message || 'Unknown error',
-        stack: error.stack || 'No stack trace available',
+        error: apiError.message || 'Unknown error',
+        stack: apiError.stack || 'No stack trace available',
       });
       
       // Fall back to the static responses if MistralAI fails
