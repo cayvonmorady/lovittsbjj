@@ -14,6 +14,19 @@ export default {
       type: 'string'
     },
     {
+      name: 'secondaryTitle',
+      title: 'Secondary Title',
+      type: 'string',
+      description: 'Additional title or qualification to display below the main title'
+    },
+    {
+      name: 'order',
+      title: 'Display Order',
+      type: 'number',
+      description: 'Controls the order in which instructors are displayed (lower numbers appear first)',
+      validation: (Rule: any) => Rule.integer().positive()
+    },
+    {
       name: 'image',
       title: 'Profile Image',
       type: 'image',
