@@ -168,8 +168,8 @@ export default async function Home() {
             <Image
               src="/assets/images/logo.png"
               alt="Lovitt&apos;s BJJ Logo"
-              width={240}
-              height={240}
+              width={340}
+              height={340}
               className="mx-auto"
             />
             <h1 className="font-[--font-bebas-neue] text-4xl sm:text-5xl text-white tracking-wide">
@@ -348,7 +348,7 @@ export default async function Home() {
                   <div className="flex items-center">
                     <div className="w-12 h-12 bg-[#2196F3]/10 rounded-full flex items-center justify-center mr-4">
                       <svg className="w-6 h-6 text-[#2196F3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.693l2.694 3l2.694-3v-2a2 2 0 012-2v-1a2 2 0 012-2V11a2 2 0 00-2-2h-2a2 2 0 00-2 2v2a2 2 0 106 0v-2a2 2 0 00-2-2h-2a2 2 0 00-2 2v1a2 2 0 012 2 2 2 0 012 2 2 2 0 012 2V13a2 2 0 00-2-2h-2a2 2 0 00-2 2V11z" />
                       </svg>
                     </div>
                     <div className="flex-1">
@@ -418,7 +418,7 @@ export default async function Home() {
             <a href="https://www.facebook.com/people/Lovitt-s-Jiujitsu-of-Concord/100063572163018/" className="text-gray-400 hover:text-purple-500 transition-colors">
               <span className="sr-only">Facebook</span>
               <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                <path fillRule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clipRule="evenodd" />
+                <path fillRule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987H7v-2.333C7 8.522 5.668 7.5 4 7.5S1 8.522 1 10v2.333h2.333V22h2.667V16h2.333v6.607C15.197 20.612 18.307 19.027 20 15v-2.333H22V12z" clipRule="evenodd" />
               </svg>
             </a>
             <a href="https://www.youtube.com/channel/UCcJRSWbZ_6nxpKwfWH2a8UA" className="text-gray-400 hover:text-red-500 transition-colors">
