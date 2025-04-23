@@ -200,7 +200,7 @@ export default function PricingClient({ pricingData }: PricingClientProps) {
         {womensPlans.length > 0 && (
           <div className="mb-16">
             <h2 className="text-3xl font-[--font-bebas-neue] text-white mb-6 tracking-wider text-center">
-              Women's Self Defense
+              Women&apos;s Self Defense
             </h2>
             {renderPricingPlans(womensPlans)}
           </div>
