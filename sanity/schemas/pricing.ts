@@ -10,7 +10,10 @@ export default {
       options: {
         list: [
           { title: 'Adult Programs', value: 'adult' },
-          { title: 'Kids Programs', value: 'kids' }
+          { title: 'Kids Programs', value: 'kids' },
+          { title: 'Women\'s Self Defense', value: 'womens' },
+          { title: 'Muay Thai', value: 'muaythai' },
+          { title: 'Personal Training', value: 'personal' }
         ]
       },
       validation: (Rule: any) => Rule.required()
