@@ -43,30 +43,39 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
     ],
   };
 
-  // Generate all possible time slots in 15-minute increments
-  const generateTimeSlots = () => {
-    const slots = [];
-    // Morning slots (8:00 AM to 1:45 PM)
-    for (let hour = 8; hour < 14; hour++) {
-      for (let minute = 0; minute < 60; minute += 15) {
-        slots.push(`${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`);
-      }
-    }
-    
-    // Add a gap
-    slots.push('gap');
-    
-    // Evening slots (5:30 PM to 9:00 PM)
-    for (let hour = 17; hour < 22; hour++) {
-      for (let minute = 0; minute < 60; minute += 15) {
-        slots.push(`${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`);
-      }
-    }
-    
-    return slots;
-  };
+  // Visual time slots (what's displayed in the UI)
+  const timeSlots = [
+    '08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30',
+    'gap',
+    '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30', '21:00',
+  ];
   
-  const timeSlots = generateTimeSlots();
+  // Function to find the nearest display time slot for a class
+  const findNearestDisplayTimeSlot = (time: string): string => {
+    const [hours, minutes] = time.split(':').map(Number);
+    const timeInMinutes = hours * 60 + minutes;
+    
+    // Find the nearest display time slot
+    const displaySlots = timeSlots.filter(slot => slot !== 'gap');
+    let nearestSlot = displaySlots[0];
+    let minDifference = Infinity;
+    
+    for (const slot of displaySlots) {
+      const [slotHours, slotMinutes] = slot.split(':').map(Number);
+      const slotInMinutes = slotHours * 60 + slotMinutes;
+      const difference = Math.abs(timeInMinutes - slotInMinutes);
+      
+      // Prefer earlier slots for classes that fall between two slots
+      // This helps prevent overlapping with classes in the next slot
+      if (difference < minDifference || 
+          (difference === minDifference && slotInMinutes < timeInMinutes)) {
+        minDifference = difference;
+        nearestSlot = slot;
+      }
+    }
+    
+    return nearestSlot;
+  };
 
   const formatTime = (time: string) => {
     const [hours, minutes] = time.split(':');
@@ -86,9 +95,11 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
   };
 
   const normalizeUniforms = (uniforms: string[]): string[] => {
+    // Make sure uniforms is always a valid array
     if (Array.isArray(uniforms) && uniforms.length > 0) {
       return uniforms;
     }
+    // Default to Gi if no uniform is specified
     return ['Gi']; 
   };
 
@@ -122,7 +133,9 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
 
   const getClassKey = (day: string, timeSlot: string, classInfo: ClassInfo) => {
     const typeArray = normalizeTypes(classInfo.types);
-    return `${day}-${timeSlot}-${typeArray.join('-')}`;
+    // Include uniform in the key to ensure unique identification
+    const uniformArray = normalizeUniforms(classInfo.uniform);
+    return `${day}-${timeSlot}-${typeArray.join('-')}-${uniformArray.join('-')}`;
   };
 
   return (
@@ -231,7 +244,7 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
                   className={`p-2 relative min-h-[4rem] ${timeSlot === 'gap' ? 'bg-gray-900/30' : ''}`}
                 >
                   {timeSlot !== 'gap' && Object.values(initialSchedule[day] || {})
-                    .filter(c => c.startTime === timeSlot && shouldDisplayClass(c))
+                    .filter(c => findNearestDisplayTimeSlot(c.startTime) === timeSlot && shouldDisplayClass(c))
                     .map((classInfo, index, array) => (
                       <div 
                         key={getClassKey(day, timeSlot, classInfo)}
@@ -240,10 +253,12 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
                           left: array.length > 1 ? `${index * 50}%` : '0.5rem',
                           right: array.length > 1 ? 'auto' : '0.5rem',
                           width: array.length > 1 ? '50%' : 'auto',
-                          top: '0.5rem',
-                          height: `${(classInfo.duration / 30 * 4) - 1.5}rem`,
+                          top: '0.375rem',
+                          // Adjust height to extend closer to end times
+                          // Use a smaller subtraction to make boxes extend further
+                          height: `${(classInfo.duration / 30 * 4) - 0.75}rem`,
                           minHeight: '3.5rem',
-                          maxHeight: `${(classInfo.duration / 30 * 4) - 1.5}rem`,
+                          maxHeight: `${(classInfo.duration / 30 * 4) - 0.75}rem`,
                           zIndex: index + 1,
                           overflow: 'hidden'
                         }}
@@ -259,6 +274,7 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
                         <div className="text-sm opacity-90">
                           {formatTime(classInfo.startTime)} • {formatDuration(classInfo.duration)}
                           {normalizeUniforms(classInfo.uniform).length > 0 && 
+                           // Show uniform for all classes except Women's and Muay Thai
                            !normalizeTypes(classInfo.types).includes('womens') && 
                            !normalizeTypes(classInfo.types).includes('muay-thai') && 
                            ` • ${normalizeUniforms(classInfo.uniform).join('/')}`}
@@ -310,6 +326,7 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
                       <div className="text-sm opacity-90 sm:text-right">
                         {formatTime(classInfo.startTime)} • {formatDuration(classInfo.duration)}
                         {normalizeUniforms(classInfo.uniform).length > 0 && 
+                         // Show uniform for all classes except Women's and Muay Thai
                          !normalizeTypes(classInfo.types).includes('womens') && 
                          !normalizeTypes(classInfo.types).includes('muay-thai') && 
                          ` • ${normalizeUniforms(classInfo.uniform).join('/')}`}
