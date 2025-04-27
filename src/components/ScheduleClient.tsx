@@ -222,9 +222,11 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
                           right: array.length > 1 ? 'auto' : '0.5rem',
                           width: array.length > 1 ? '50%' : 'auto',
                           top: '0.5rem',
-                          height: `${(classInfo.duration / 30 * 4) - 1}rem`,
-                          minHeight: '5.5rem',
-                          zIndex: index + 1
+                          height: `${(classInfo.duration / 30 * 4) - 1.5}rem`,
+                          minHeight: '3.5rem',
+                          maxHeight: `${(classInfo.duration / 30 * 4) - 1.5}rem`,
+                          zIndex: index + 1,
+                          overflow: 'hidden'
                         }}
                       >
                         <div className={`font-[--font-bebas-neue] tracking-wide ${getFontSize(classInfo.types)}`}>
