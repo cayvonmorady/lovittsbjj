@@ -55,3 +55,6 @@ venv/
 #readme
 /README.mdssss
 .vercel
+scripts/seed-new-pricing.js
+scripts/seed-pricing.js
+scripts/seed-pricing.ts
