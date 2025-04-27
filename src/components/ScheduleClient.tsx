@@ -43,11 +43,30 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
     ],
   };
 
-  const timeSlots = [
-    '08:00', '08:30', '09:00', '09:30', '10:00', '11:45', '12:00', '12:30', '13:00', '13:30',
-    'gap',
-    '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30', '21:00',
-  ];
+  // Generate all possible time slots in 15-minute increments
+  const generateTimeSlots = () => {
+    const slots = [];
+    // Morning slots (8:00 AM to 1:45 PM)
+    for (let hour = 8; hour < 14; hour++) {
+      for (let minute = 0; minute < 60; minute += 15) {
+        slots.push(`${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`);
+      }
+    }
+    
+    // Add a gap
+    slots.push('gap');
+    
+    // Evening slots (5:30 PM to 9:00 PM)
+    for (let hour = 17; hour < 22; hour++) {
+      for (let minute = 0; minute < 60; minute += 15) {
+        slots.push(`${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`);
+      }
+    }
+    
+    return slots;
+  };
+  
+  const timeSlots = generateTimeSlots();
 
   const formatTime = (time: string) => {
     const [hours, minutes] = time.split(':');
