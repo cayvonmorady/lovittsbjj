@@ -2,7 +2,7 @@ import Map from '@/components/Map';
 import { client } from "../../sanity/lib/client";
 import { urlForImage } from "../../sanity/lib/image";
 import { SanityImageSource } from '@sanity/image-url/lib/types/types';
-import ScrollIndicator from '@/components/ScrollIndicator';
+
 import Image from 'next/image';
 import { Metadata } from 'next';
 import StructuredData from '@/components/StructuredData';
@@ -160,7 +160,6 @@ export default async function Home() {
       )}
 
       <div className="min-h-[calc(100vh-64px)] py-6 px-4 sm:px-6 lg:px-8">
-        <ScrollIndicator />
         <div className="max-w-7xl mx-auto space-y-16">
           {/* Hero Section */}
           <div className="text-center space-y-6">
@@ -195,7 +194,7 @@ export default async function Home() {
                   />
                 </div>
                 <div className="p-6">
-                  <h3 className="text-2xl font-[--font-bebas-neue] text-white mb-2 tracking-wide">{program.title || `Program ${index + 1}`}</h3>
+                  <h3 className="text-lg font-[--font-bebas-neue] text-white mb-2 tracking-wide">{program.title || `Program ${index + 1}`}</h3>
                   <p className="text-gray-400 text-sm leading-relaxed">
                     {program.description || "Program description not available."}
                   </p>
@@ -218,7 +217,7 @@ export default async function Home() {
                     />
                   </div>
                   <div className="p-6">
-                    <h3 className="text-2xl font-[--font-bebas-neue] text-white mb-2 tracking-wide">Tiny Kids BJJ<br />(Ages 4-5)</h3>
+                    <h3 className="text-lg font-[--font-bebas-neue] text-white mb-2 tracking-wide">Tiny Kids BJJ<br />(Ages 4-5)</h3>
                     <p className="text-gray-400 text-sm leading-relaxed">
                       Children develop essential life skills and physical coordination in a nurturing environment.
                       Through fun, engaging exercises, they build confidence while learning fundamental movements and social skills.
@@ -238,7 +237,7 @@ export default async function Home() {
                     />
                   </div>
                   <div className="p-6">
-                    <h3 className="text-2xl font-[--font-bebas-neue] text-white mb-2 tracking-wide">Kids BJJ <br /> (Ages 6-12)</h3>
+                    <h3 className="text-lg font-[--font-bebas-neue] text-white mb-2 tracking-wide">Kids BJJ <br /> (Ages 6-12)</h3>
                     <p className="text-gray-400 text-sm leading-relaxed">
                       Our Kids BJJ program builds physical skills and character. Students learn self-defense while developing
                       strength, focus, and confidence through structured training. We emphasize respect, discipline, and
@@ -259,7 +258,7 @@ export default async function Home() {
                     />
                   </div>
                   <div className="p-6">
-                    <h3 className="text-2xl font-[--font-bebas-neue] text-white mb-2 tracking-wide">Adults BJJ</h3>
+                    <h3 className="text-lg font-[--font-bebas-neue] text-white mb-2 tracking-wide">Adults BJJ</h3>
                     <p className="text-gray-400 text-sm leading-relaxed">
                       Join our welcoming adult BJJ program, suitable for all skill levels. Learn effective self-defense while
                       improving technique, strength, and mental resilience. Our structured classes and supportive community
@@ -280,7 +279,7 @@ export default async function Home() {
                     />
                   </div>
                   <div className="p-6">
-                    <h3 className="text-2xl font-[--font-bebas-neue] text-white mb-2 tracking-wide">Muay Thai</h3>
+                    <h3 className="text-lg font-[--font-bebas-neue] text-white mb-2 tracking-wide">Muay Thai</h3>
                     <p className="text-gray-400 text-sm leading-relaxed">
                       Experience the &quot;Art of Eight Limbs&quot; in our dynamic Muay Thai program. Classes focus on striking techniques, 
                       clinch work, and conditioning. Join us Monday evenings at 7:30pm and Saturday mornings at 8:30am. 
@@ -304,15 +303,10 @@ export default async function Home() {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Hours of Operation */}
             <div className="w-full bg-[#111111] p-4 sm:p-6 rounded-lg border border-gray-800 h-full">
               <div className="flex items-start">
-                <div className="w-12 h-12 bg-[#FF9800]/10 rounded-full flex items-center justify-center mr-4 mt-1">
-                  <svg className="w-6 h-6 text-[#FF9800]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </div>
                 <div className="flex-1">
                   <h3 className="font-[--font-bebas-neue] text-xl sm:text-2xl text-white mb-2 tracking-wide">Hours of Operation</h3>
                   <div className="text-gray-400 text-base sm:text-lg">
@@ -348,7 +342,7 @@ export default async function Home() {
                   <div className="flex items-center">
                     <div className="w-12 h-12 bg-[#2196F3]/10 rounded-full flex items-center justify-center mr-4">
                       <svg className="w-6 h-6 text-[#2196F3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.693l2.694 3l2.694-3v-2a2 2 0 012-2v-1a2 2 0 012-2V11a2 2 0 00-2-2h-2a2 2 0 00-2 2v2a2 2 0 106 0v-2a2 2 0 00-2-2h-2a2 2 0 00-2 2v1a2 2 0 012 2 2 2 0 012 2 2 2 0 012 2V13a2 2 0 00-2-2h-2a2 2 0 00-2 2V11z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                       </svg>
                     </div>
                     <div className="flex-1">
