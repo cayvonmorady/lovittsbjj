@@ -1,7 +1,6 @@
 import { Metadata } from 'next'
 import { client } from '../../../sanity/lib/client'
 import Image from 'next/image'
-import ScrollIndicator from '@/components/ScrollIndicator'
 import imageUrlBuilder from '@sanity/image-url'
 import { SanityImageSource } from '@sanity/image-url/lib/types/types'
 
@@ -113,7 +112,6 @@ export default async function InstructorPage() {
 
   return (
     <main className="min-h-[calc(100vh-64px)] py-12 px-4 sm:px-6 lg:px-8">
-      <ScrollIndicator />
       <div className="max-w-[1400px] mx-auto">
         <h1 className="text-5xl font-[--font-bebas-neue] text-white mb-8 tracking-wider text-center">
           Our Instructors
