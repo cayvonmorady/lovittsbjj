@@ -166,7 +166,7 @@ export default function PricingClient({ pricingData }: PricingClientProps) {
 
         <div className="mb-16">
           <h2 className="text-3xl font-[--font-bebas-neue] text-text mb-6 tracking-wider text-center">
-            Kids BJJ Programs
+            All Kids
           </h2>
           {renderPricingPlans(kidsPlans)}
         </div>

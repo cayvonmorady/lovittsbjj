@@ -59,6 +59,13 @@ export const structure = (S) =>
                     .filter('_type == "class" && "kids" in type')
                 ),
               S.listItem()
+                .title('Kids BJJ 13+')
+                .child(
+                  S.documentList()
+                    .title('Kids BJJ 13+')
+                    .filter('_type == "class" && "kids-13" in type')
+                ),
+              S.listItem()
                 .title('Tiny Kids BJJ')
                 .child(
                   S.documentList()

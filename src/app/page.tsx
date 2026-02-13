@@ -105,10 +105,16 @@ export default async function Home() {
       alt: "Tiny Kids BJJ Program",
     },
     {
-      title: "Kids BJJ\n(Ages 6-12)",
+      title: "Kids BJJ\n(Ages 7-12)",
       description: "Our Kids BJJ program builds physical skills and character. Students learn self-defense while developing strength, focus, and confidence through structured training. We emphasize respect, discipline, and perseverance both on and off the mats.",
       image: "/assets/images/programs/kids.jpg",
       alt: "Kids BJJ Program",
+    },
+    {
+      title: "Kids BJJ 13+",
+      description: "Our Kids BJJ 13+ classes are designed for older youth ready for more advanced technique development, positional awareness, and structured sparring in a supportive, disciplined environment.",
+      image: "/assets/images/programs/kids.jpg",
+      alt: "Kids BJJ 13+ Program",
     },
     {
       title: "Adults BJJ",

@@ -71,6 +71,7 @@ export default {
         list: [
           { title: 'Tiny Kids', value: 'tiny-kids' },
           { title: 'Kids', value: 'kids' },
+          { title: 'Kids 13+', value: 'kids-13' },
           { title: 'Adults', value: 'adults' },
           { title: "Women's", value: 'womens' },
           { title: 'Muay Thai', value: 'muay-thai' },

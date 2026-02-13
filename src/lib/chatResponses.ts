@@ -6,7 +6,7 @@ interface ChatResponse {
 const responses: ChatResponse[] = [
   {
     keywords: ['muay', 'thai', 'striking', 'kickboxing'],
-    response: 'Our Muay Thai program is $120/month for unlimited classes, or $30 for a drop-in. Classes are held Monday at 7:30pm and Saturday at 8:30am (1 hour each). Wear comfortable athletic clothing, hand wraps, and a mouthguard — no gi required.'
+    response: 'Our Muay Thai program is $120/month for unlimited classes, or $30 for a drop-in. Classes are held Monday at 7:30pm and Saturday at 8:30am (1 hour each). Wear comfortable athletic clothing, hand wraps, and a mouthguard - no gi required.'
   },
   {
     keywords: ['personal training', 'private', 'one on one', '1 on 1'],
@@ -18,11 +18,11 @@ const responses: ChatResponse[] = [
   },
   {
     keywords: ['kids', 'children', 'youth', 'junior', 'tiny', 'child'],
-    response: 'Kids & Tiny Kids BJJ is $190/month (month-to-month) or $150/month with a 12-month commitment. Drop-in classes are $30. Tiny Kids (ages 4-5) focuses on coordination and life skills, while Kids BJJ (ages 6-12) builds discipline, confidence, and self-defense skills.'
+    response: 'All Kids programs are $190/month (month-to-month) or $150/month with a 12-month commitment. Drop-in classes are $30. Tiny Kids (ages 4-5) focuses on coordination and life skills, Kids BJJ (ages 7-12) builds discipline and self-defense skills, and Kids BJJ 13+ emphasizes advanced fundamentals and controlled live training.'
   },
   {
     keywords: ['price', 'cost', 'pricing', 'membership', 'fee', 'how much', 'rates', 'payment', 'pay', 'afford', 'money'],
-    response: "Here's our pricing:\n• Adult BJJ: $215/mo (or $175/mo with 12-month commitment), $30 drop-in\n• Kids/Tiny Kids BJJ: $190/mo (or $150/mo with 12-month commitment), $30 drop-in\n• Muay Thai: $120/mo, $30 drop-in\n• Women's Self Defense: $120/mo, $30 drop-in\n• Personal Training: $300/mo or $75/session\n\nVisit our Pricing page for full details."
+    response: "Here's our pricing:\n- Adult BJJ: $215/mo (or $175/mo with 12-month commitment), $30 drop-in\n- All Kids: $190/mo (or $150/mo with 12-month commitment), $30 drop-in\n- Muay Thai: $120/mo, $30 drop-in\n- Women's Self Defense: $120/mo, $30 drop-in\n- Personal Training: $300/mo or $75/session\n\nVisit our Pricing page for full details."
   },
   {
     keywords: ['schedule', 'class', 'time', 'classes', 'when', 'hour', 'hours'],
@@ -30,7 +30,7 @@ const responses: ChatResponse[] = [
   },
   {
     keywords: ['beginner', 'new', 'start', 'starting', 'first', 'never'],
-    response: 'We welcome beginners! Our classes are designed for all skill levels, including complete beginners. No experience is necessary — just show up ready to learn. For your first BJJ class, comfortable workout clothes are fine.'
+    response: 'We welcome beginners! Our classes are designed for all skill levels, including complete beginners. No experience is necessary - just show up ready to learn. For your first BJJ class, comfortable workout clothes are fine.'
   },
   {
     keywords: ['adult', 'adults'],

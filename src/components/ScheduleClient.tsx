@@ -27,6 +27,7 @@ interface ScheduleClientProps {
 const typeActiveClasses: Record<string, string> = {
   'tiny-kids': 'border-blue-500 bg-blue-500/20 text-white',
   'kids': 'border-green-500 bg-green-500/20 text-white',
+  'kids-13': 'border-emerald-500 bg-emerald-500/20 text-white',
   'adults': 'border-purple-500 bg-purple-500/20 text-white',
   'womens': 'border-red-500 bg-red-500/20 text-white',
   'muay-thai': 'border-orange-500 bg-orange-500/20 text-white',
@@ -47,6 +48,7 @@ const classColorClasses = {
   muayThai: { border: 'border-orange-500', bg: 'bg-orange-500/20', mobileBorderLeftColor: '#f97316' },
   tinyKids: { border: 'border-blue-500', bg: 'bg-blue-500/20', mobileBorderLeftColor: '#3b82f6' },
   kids: { border: 'border-green-500', bg: 'bg-green-500/20', mobileBorderLeftColor: '#22c55e' },
+  kids13: { border: 'border-emerald-500', bg: 'bg-emerald-500/20', mobileBorderLeftColor: '#10b981' },
   adults: { border: 'border-purple-500', bg: 'bg-purple-500/20', mobileBorderLeftColor: '#a855f7' },
   default: { border: 'border-border', bg: 'bg-surface2', mobileBorderLeftColor: 'var(--border)' },
 } as const;
@@ -60,6 +62,7 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
     age: [
       { id: 'tiny-kids', label: 'Tiny Kids' },
       { id: 'kids', label: 'Kids' },
+      { id: 'kids-13', label: 'Kids 13+' },
       { id: 'adults', label: 'Adults' },
       { id: 'womens', label: "Women's" },
       { id: 'muay-thai', label: 'Muay Thai' },
@@ -75,7 +78,7 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
   const timeSlots = [
     '08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30',
     'gap',
-    '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30', '21:00',
+    '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30', '21:00',
   ];
 
   const findNearestDisplayTimeSlot = (time: string): string => {
@@ -120,6 +123,7 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
     if (typeArray.includes('muay-thai')) return `${classColorClasses.muayThai.border} ${classColorClasses.muayThai.bg}`;
     if (typeArray.includes('tiny-kids')) return `${classColorClasses.tinyKids.border} ${classColorClasses.tinyKids.bg}`;
     if (typeArray.includes('kids')) return `${classColorClasses.kids.border} ${classColorClasses.kids.bg}`;
+    if (typeArray.includes('kids-13')) return `${classColorClasses.kids13.border} ${classColorClasses.kids13.bg}`;
     if (typeArray.includes('adults')) return `${classColorClasses.adults.border} ${classColorClasses.adults.bg}`;
     return `${classColorClasses.default.border} ${classColorClasses.default.bg}`;
   };
@@ -130,6 +134,7 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
     if (typeArray.includes('muay-thai')) return classColorClasses.muayThai.mobileBorderLeftColor;
     if (typeArray.includes('tiny-kids')) return classColorClasses.tinyKids.mobileBorderLeftColor;
     if (typeArray.includes('kids')) return classColorClasses.kids.mobileBorderLeftColor;
+    if (typeArray.includes('kids-13')) return classColorClasses.kids13.mobileBorderLeftColor;
     if (typeArray.includes('adults')) return classColorClasses.adults.mobileBorderLeftColor;
     return classColorClasses.default.mobileBorderLeftColor;
   };
@@ -150,7 +155,9 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
 
   const getFontSize = (types: string[] | string) => {
     const typeArray = normalizeTypes(types);
-    return typeArray.includes('tiny-kids') || typeArray.includes('kids') ? 'text-sm' : 'text-lg';
+    return typeArray.includes('tiny-kids') || typeArray.includes('kids') || typeArray.includes('kids-13')
+      ? 'text-sm'
+      : 'text-lg';
   };
 
   const getVisualDuration = (actualDuration: number): number => {
