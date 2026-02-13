@@ -42,9 +42,19 @@ const inactiveClass = 'border-border bg-surface2 text-muted';
 const defaultTypes: string[] = [];
 const defaultUniforms: string[] = [];
 
+const classColorClasses = {
+  womens: { border: 'border-red-500', bg: 'bg-red-500/20', mobileBorderLeftColor: '#ef4444' },
+  muayThai: { border: 'border-orange-500', bg: 'bg-orange-500/20', mobileBorderLeftColor: '#f97316' },
+  tinyKids: { border: 'border-blue-500', bg: 'bg-blue-500/20', mobileBorderLeftColor: '#3b82f6' },
+  kids: { border: 'border-green-500', bg: 'bg-green-500/20', mobileBorderLeftColor: '#22c55e' },
+  adults: { border: 'border-purple-500', bg: 'bg-purple-500/20', mobileBorderLeftColor: '#a855f7' },
+  default: { border: 'border-border', bg: 'bg-surface2', mobileBorderLeftColor: 'var(--border)' },
+} as const;
+
 export default function ScheduleClient({ initialSchedule }: ScheduleClientProps) {
   const [selectedTypes, setSelectedTypes] = useState<Set<string>>(new Set(defaultTypes));
   const [selectedUniforms, setSelectedUniforms] = useState<Set<string>>(new Set(defaultUniforms));
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
   const filterSections = {
     age: [
@@ -106,12 +116,22 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
 
   const getClassColor = (types: string[] | string) => {
     const typeArray = normalizeTypes(types);
-    if (typeArray.includes('womens')) return 'border-red-500 bg-red-500/20';
-    if (typeArray.includes('muay-thai')) return 'border-orange-500 bg-orange-500/20';
-    if (typeArray.includes('tiny-kids')) return 'border-blue-500 bg-blue-500/20';
-    if (typeArray.includes('kids')) return 'border-green-500 bg-green-500/20';
-    if (typeArray.includes('adults')) return 'border-purple-500 bg-purple-500/20';
-    return 'border-border bg-surface2';
+    if (typeArray.includes('womens')) return `${classColorClasses.womens.border} ${classColorClasses.womens.bg}`;
+    if (typeArray.includes('muay-thai')) return `${classColorClasses.muayThai.border} ${classColorClasses.muayThai.bg}`;
+    if (typeArray.includes('tiny-kids')) return `${classColorClasses.tinyKids.border} ${classColorClasses.tinyKids.bg}`;
+    if (typeArray.includes('kids')) return `${classColorClasses.kids.border} ${classColorClasses.kids.bg}`;
+    if (typeArray.includes('adults')) return `${classColorClasses.adults.border} ${classColorClasses.adults.bg}`;
+    return `${classColorClasses.default.border} ${classColorClasses.default.bg}`;
+  };
+
+  const getMobileClassBorderColor = (types: string[] | string) => {
+    const typeArray = normalizeTypes(types);
+    if (typeArray.includes('womens')) return classColorClasses.womens.mobileBorderLeftColor;
+    if (typeArray.includes('muay-thai')) return classColorClasses.muayThai.mobileBorderLeftColor;
+    if (typeArray.includes('tiny-kids')) return classColorClasses.tinyKids.mobileBorderLeftColor;
+    if (typeArray.includes('kids')) return classColorClasses.kids.mobileBorderLeftColor;
+    if (typeArray.includes('adults')) return classColorClasses.adults.mobileBorderLeftColor;
+    return classColorClasses.default.mobileBorderLeftColor;
   };
 
   const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
@@ -181,67 +201,144 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
 
         {/* Filters */}
         <div className="mb-8 space-y-4 card p-5">
-            <div className="text-center">
-              <h2 className="text-2xl font-[--font-bebas-neue] text-text tracking-wider">Filters</h2>
-            </div>
+          <div className="flex items-center justify-between lg:justify-center">
+            <h2 className="text-2xl font-[--font-bebas-neue] text-text tracking-wider">Filters</h2>
+            <button
+              type="button"
+              className="lg:hidden px-3 py-2 text-xs rounded-lg border border-border text-text2 hover:border-text2"
+              aria-expanded={mobileFiltersOpen}
+              aria-controls="mobile-filters-panel"
+              onClick={() => setMobileFiltersOpen((prev) => !prev)}
+            >
+              {mobileFiltersOpen ? 'Hide Filters' : 'Show Filters'}
+            </button>
+          </div>
 
-            <div className="flex items-center justify-center gap-2 overflow-x-auto pb-1 whitespace-nowrap">
-              <h3 className="text-text font-[--font-bebas-neue] text-lg mr-1">Program</h3>
-              {filterSections.age.map((type) => (
+          {/* Mobile stacked filters */}
+          {mobileFiltersOpen && (
+            <div id="mobile-filters-panel" className="lg:hidden space-y-4">
+              <div className="space-y-2">
+                <h3 className="text-text font-[--font-bebas-neue] text-lg">Program</h3>
+                <div className="flex flex-wrap gap-2">
+                  {filterSections.age.map((type) => (
+                    <button
+                      key={type.id}
+                      onClick={() => setSelectedTypes(prev => {
+                        const next = new Set(prev);
+                        if (next.has(type.id)) {
+                          next.delete(type.id);
+                        } else {
+                          next.add(type.id);
+                        }
+                        return next;
+                      })}
+                      aria-pressed={selectedTypes.has(type.id)}
+                      className={`px-4 py-2 rounded-lg border transition-all duration-200 text-center font-medium text-sm min-h-[2.5rem] ${
+                        selectedTypes.has(type.id) ? typeActiveClasses[type.id] : inactiveClass
+                      }`}
+                    >
+                      {type.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <h3 className="text-text font-[--font-bebas-neue] text-lg">Uniform</h3>
+                <div className="flex flex-wrap gap-2">
+                  {filterSections.uniform.map((uniform) => (
+                    <button
+                      key={uniform.id}
+                      onClick={() => setSelectedUniforms(prev => {
+                        const next = new Set(prev);
+                        if (next.has(uniform.id)) {
+                          next.delete(uniform.id);
+                        } else {
+                          next.add(uniform.id);
+                        }
+                        return next;
+                      })}
+                      aria-pressed={selectedUniforms.has(uniform.id)}
+                      className={`px-4 py-2 rounded-lg border transition-all duration-200 text-center font-medium text-sm min-h-[2.5rem] ${
+                        selectedUniforms.has(uniform.id) ? uniformActiveClasses[uniform.id] : inactiveClass
+                      }`}
+                    >
+                      {uniform.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="flex items-center justify-center gap-3 pt-1">
                 <button
-                  key={type.id}
-                  onClick={() => setSelectedTypes(prev => {
-                    const next = new Set(prev);
-                    if (next.has(type.id)) {
-                      next.delete(type.id);
-                    } else {
-                      next.add(type.id);
-                    }
-                    return next;
-                  })}
-                  aria-pressed={selectedTypes.has(type.id)}
-                  className={`shrink-0 px-4 py-2 rounded-lg border transition-all duration-200 text-center font-medium text-sm ${
-                    selectedTypes.has(type.id) ? typeActiveClasses[type.id] : inactiveClass
-                  }`}
+                  onClick={clearAllFilters}
+                  className="px-3 py-2 text-xs rounded-lg border border-border text-text2 hover:border-text2"
                 >
-                  {type.label}
+                  Clear All
                 </button>
-              ))}
-
-              <span className="text-muted mx-2">|</span>
-
-              <h3 className="text-text font-[--font-bebas-neue] text-lg mr-1">Uniform</h3>
-              {filterSections.uniform.map((uniform) => (
-                <button
-                  key={uniform.id}
-                  onClick={() => setSelectedUniforms(prev => {
-                    const next = new Set(prev);
-                    if (next.has(uniform.id)) {
-                      next.delete(uniform.id);
-                    } else {
-                      next.add(uniform.id);
-                    }
-                    return next;
-                  })}
-                  aria-pressed={selectedUniforms.has(uniform.id)}
-                  className={`shrink-0 px-4 py-2 rounded-lg border transition-all duration-200 text-center font-medium text-sm ${
-                    selectedUniforms.has(uniform.id) ? uniformActiveClasses[uniform.id] : inactiveClass
-                  }`}
-                >
-                  {uniform.label}
-                </button>
-              ))}
+                <span className="text-xs text-muted">Showing {classCount} class{classCount === 1 ? '' : 'es'}</span>
+              </div>
             </div>
+          )}
 
-            <div className="flex items-center justify-center gap-3 pt-1">
+          {/* Desktop inline filters */}
+          <div className="hidden lg:flex lg:items-center lg:justify-center lg:gap-2 lg:overflow-x-auto lg:pb-1 lg:whitespace-nowrap">
+            <h3 className="text-text font-[--font-bebas-neue] text-lg mr-1">Program</h3>
+            {filterSections.age.map((type) => (
               <button
-                onClick={clearAllFilters}
-                className="px-3 py-2 text-xs rounded-lg border border-border text-text2 hover:border-text2"
+                key={type.id}
+                onClick={() => setSelectedTypes(prev => {
+                  const next = new Set(prev);
+                  if (next.has(type.id)) {
+                    next.delete(type.id);
+                  } else {
+                    next.add(type.id);
+                  }
+                  return next;
+                })}
+                aria-pressed={selectedTypes.has(type.id)}
+                className={`shrink-0 px-4 py-2 rounded-lg border transition-all duration-200 text-center font-medium text-sm ${
+                  selectedTypes.has(type.id) ? typeActiveClasses[type.id] : inactiveClass
+                }`}
               >
-                Clear All
+                {type.label}
               </button>
-              <span className="text-xs text-muted">Showing {classCount} class{classCount === 1 ? '' : 'es'}</span>
-            </div>
+            ))}
+
+            <span className="text-muted mx-2">|</span>
+
+            <h3 className="text-text font-[--font-bebas-neue] text-lg mr-1">Uniform</h3>
+            {filterSections.uniform.map((uniform) => (
+              <button
+                key={uniform.id}
+                onClick={() => setSelectedUniforms(prev => {
+                  const next = new Set(prev);
+                  if (next.has(uniform.id)) {
+                    next.delete(uniform.id);
+                  } else {
+                    next.add(uniform.id);
+                  }
+                  return next;
+                })}
+                aria-pressed={selectedUniforms.has(uniform.id)}
+                className={`shrink-0 px-4 py-2 rounded-lg border transition-all duration-200 text-center font-medium text-sm ${
+                  selectedUniforms.has(uniform.id) ? uniformActiveClasses[uniform.id] : inactiveClass
+                }`}
+              >
+                {uniform.label}
+              </button>
+            ))}
+          </div>
+
+          <div className="hidden lg:flex items-center justify-center gap-3 pt-1">
+            <button
+              onClick={clearAllFilters}
+              className="px-3 py-2 text-xs rounded-lg border border-border text-text2 hover:border-text2"
+            >
+              Clear All
+            </button>
+            <span className="text-xs text-muted">Showing {classCount} class{classCount === 1 ? '' : 'es'}</span>
+          </div>
         </div>
 
         {!hasMatches && (
@@ -257,7 +354,7 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
         )}
 
         {/* Desktop Grid Schedule */}
-        <div className="hidden md:block card overflow-hidden">
+        <div className="hidden lg:block card overflow-hidden">
           <div className="grid grid-cols-8 border-b border-border bg-surface2">
             <div className="p-4 font-[--font-bebas-neue] text-lg text-muted">Time</div>
             {days.map((day) => (
@@ -321,7 +418,7 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
         </div>
 
         {/* Mobile List Schedule */}
-        <div className="md:hidden space-y-6">
+        <div className="lg:hidden space-y-6">
           {days.map((day) => {
             const dayClasses = Object.values(initialSchedule[day] || {})
               .filter(classInfo => shouldDisplayClass(classInfo))
@@ -342,6 +439,7 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
                     <div
                       key={`${day}-${classInfo.startTime}-${index}`}
                       className={`p-3 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 border-l-4 ${getClassColor(classInfo.types)}`}
+                      style={{ borderLeftColor: getMobileClassBorderColor(classInfo.types) }}
                     >
                       <div className={`font-[--font-bebas-neue] tracking-wide ${getFontSize(classInfo.types)}`}>
                         {classInfo.name}
