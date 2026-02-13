@@ -25,6 +25,7 @@ interface LocalBusinessData {
   image: string | string[];
   priceRange: string;
   socialLinks: string[];
+  areaServed?: string[];
 }
 
 interface OrganizationData {
@@ -98,6 +99,10 @@ export default function StructuredData({ type, data }: StructuredDataProps) {
         image: businessData.image,
         priceRange: businessData.priceRange,
         sameAs: businessData.socialLinks,
+        areaServed: businessData.areaServed?.map((city) => ({
+          '@type': 'City',
+          name: city,
+        })),
       };
       break;
     }
@@ -109,6 +114,7 @@ export default function StructuredData({ type, data }: StructuredDataProps) {
         name: orgData.name,
         url: orgData.url,
         logo: orgData.logo,
+        description: orgData.description,
         sameAs: orgData.socialLinks,
       };
       break;

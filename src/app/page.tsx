@@ -9,11 +9,14 @@ import StructuredData from '@/components/StructuredData';
 
 export const metadata: Metadata = {
   title: "Lovitts BJJ | Brazilian Jiu-Jitsu Training in Concord",
-  description: "Train with purpose and grow with community at Lovitt's BJJ in Concord. We offer BJJ classes for all ages including Tiny Kids, Kids, Adults, and Muay Thai.",
-  keywords: "BJJ Concord, Brazilian Jiu-Jitsu, Kids martial arts, Muay Thai, BJJ academy, Lovitts BJJ",
+  description: "Train Brazilian Jiu-Jitsu in Concord with classes for Tiny Kids, Kids, Adults, and Muay Thai. Convenient for families in Concord, Pleasant Hill, and Walnut Creek.",
+  keywords: "BJJ Concord, Brazilian Jiu-Jitsu, Kids martial arts Concord, Muay Thai Concord, Pleasant Hill BJJ, Walnut Creek BJJ, Lovitts BJJ",
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     title: "Lovitts BJJ | Brazilian Jiu-Jitsu Training in Concord",
-    description: "Train with purpose and grow with community at Lovitt's BJJ in Concord. We offer BJJ classes for all ages and skill levels.",
+    description: "Train with purpose and grow with community at Lovitt's BJJ in Concord. Classes for all ages and skill levels in the East Bay.",
     url: "https://lovittsbjj.com",
     type: "website",
   },
@@ -96,7 +99,7 @@ export default async function Home() {
 
   const businessData = {
     name: "Lovitt's BJJ",
-    description: "At Lovitt's BJJ, we blend technical excellence with a welcoming atmosphere, creating an environment where both beginners and advanced practitioners can thrive.",
+    description: "At Lovitt's BJJ, we blend technical excellence with a welcoming atmosphere in Concord, creating an environment where beginners and advanced practitioners can thrive.",
     url: "https://lovittsbjj.com",
     telephone: "+14155591404",
     address: {
@@ -113,6 +116,7 @@ export default async function Home() {
     ],
     image: "https://lovittsbjj.com/assets/images/logo.png",
     priceRange: "$$",
+    areaServed: ["Concord", "Pleasant Hill", "Walnut Creek", "Martinez", "Pacheco"],
     socialLinks: [
       "https://www.facebook.com/people/Lovitt-s-Jiujitsu-of-Concord/100063572163018/",
       "https://www.instagram.com/lovittsbjj/",
@@ -182,8 +186,7 @@ export default async function Home() {
             Train with Purpose, Grow with Community
           </h1>
           <p className="max-w-2xl mx-auto text-text2 text-lg leading-relaxed">
-            At Lovitt&apos;s BJJ, we blend technical excellence with a welcoming atmosphere,
-            creating an environment where both beginners and advanced practitioners can thrive.
+            At Lovitt&apos;s BJJ in Concord, we blend technical excellence with a welcoming atmosphere for students from Concord, Pleasant Hill, Walnut Creek, and nearby communities.
           </p>
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">

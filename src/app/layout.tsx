@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ChatBot from "@/components/ChatBot";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
+import StructuredData from "@/components/StructuredData";
 import { THEME_STORAGE_KEY } from "@/lib/theme";
 
 const bebasNeue = Bebas_Neue({
@@ -14,16 +15,19 @@ const bebasNeue = Bebas_Neue({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.lovittsbjj.com"),
+  metadataBase: new URL("https://lovittsbjj.com"),
   title: "Lovitts BJJ | Brazilian Jiu-Jitsu Training in Concord",
   description:
-    "Join Lovitt's BJJ for expert Brazilian Jiu-Jitsu training in a welcoming environment. Classes for all ages and skill levels including Kids BJJ, Adult BJJ, and Muay Thai.",
+    "Join Lovitt's BJJ in Concord, CA for Brazilian Jiu-Jitsu training. Classes for kids and adults from Concord, Pleasant Hill, Walnut Creek, and nearby communities.",
   keywords:
-    "BJJ, Brazilian Jiu-Jitsu, Martial Arts, Muay Thai, Kids BJJ, Concord BJJ, Lovitts BJJ",
+    "BJJ, Brazilian Jiu-Jitsu, Martial Arts, Muay Thai, Kids BJJ, Concord BJJ, Pleasant Hill BJJ, Walnut Creek BJJ, Lovitts BJJ",
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     title: "Lovitts BJJ | Brazilian Jiu-Jitsu Training in Concord",
     description:
-      "Join Lovitt's BJJ for expert Brazilian Jiu-Jitsu training in a welcoming environment. Classes for all ages and skill levels.",
+      "Train Brazilian Jiu-Jitsu in Concord with classes for all ages. Serving Concord, Pleasant Hill, Walnut Creek, and nearby East Bay communities.",
     url: "https://lovittsbjj.com",
     siteName: "Lovitts BJJ",
     images: [
@@ -41,19 +45,8 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Lovitts BJJ | Brazilian Jiu-Jitsu Training in Concord",
     description:
-      "Join Lovitt's BJJ for expert Brazilian Jiu-Jitsu training in a welcoming environment. Classes for all ages and skill levels.",
+      "Train Brazilian Jiu-Jitsu in Concord with classes for all ages and skill levels.",
     images: ["/assets/images/logo.png"],
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
   },
 };
 
@@ -62,6 +55,18 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const organizationData = {
+    name: "Lovitt's BJJ",
+    url: "https://lovittsbjj.com",
+    logo: "https://lovittsbjj.com/assets/images/logo.png",
+    description:
+      "Brazilian Jiu-Jitsu academy in Concord, California serving students across Concord and nearby East Bay communities.",
+    socialLinks: [
+      "https://www.facebook.com/people/Lovitt-s-Jiujitsu-of-Concord/100063572163018/",
+      "https://www.instagram.com/lovittsbjj/",
+    ],
+  };
+
   const themeInitScript = `
     (function() {
       try {
@@ -81,6 +86,7 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
       <body className={`${bebasNeue.variable} app-shell`}>
+        <StructuredData type="Organization" data={organizationData} />
         <GoogleAnalytics />
         <Navbar />
         <main className="app-content">{children}</main>

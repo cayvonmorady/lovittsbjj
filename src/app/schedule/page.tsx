@@ -4,11 +4,14 @@ import ScheduleClient from '@/components/ScheduleClient';
 
 export const metadata: Metadata = {
   title: "Class Schedule | Lovitts BJJ",
-  description: "View our complete schedule of BJJ, Muay Thai, and fitness classes for all ages and skill levels at Lovitts BJJ in Concord.",
-  keywords: "BJJ schedule, Muay Thai classes, Kids BJJ classes, Concord martial arts schedule, Lovitts BJJ timetable",
+  description: "View BJJ and Muay Thai class times at Lovitt's BJJ in Concord. Plan your first visit from Concord, Pleasant Hill, Walnut Creek, and nearby East Bay cities.",
+  keywords: "BJJ schedule Concord, Muay Thai schedule Concord, Kids BJJ classes, Concord martial arts schedule, Pleasant Hill BJJ schedule, Lovitts BJJ timetable",
+  alternates: {
+    canonical: "/schedule",
+  },
   openGraph: {
     title: "Class Schedule | Lovitts BJJ",
-    description: "View our complete schedule of BJJ, Muay Thai, and fitness classes for all ages and skill levels.",
+    description: "View our complete class schedule and plan your visit to Lovitt's BJJ in Concord.",
     url: "https://lovittsbjj.com/schedule",
     type: "website",
   },

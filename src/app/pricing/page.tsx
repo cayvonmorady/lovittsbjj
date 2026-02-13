@@ -98,7 +98,17 @@ const devPricingData: PricingCategory[] = [
 
 export const metadata: Metadata = {
   title: 'Pricing | Lovitt\'s BJJ',
-  description: 'View our membership plans and pricing options for both adults and kids BJJ programs.',
+  description: 'View Lovitt\'s BJJ membership pricing for adults and kids in Concord. Compare plans before your first visit from Concord, Pleasant Hill, Walnut Creek, and nearby cities.',
+  keywords: 'BJJ pricing Concord, martial arts membership Concord, kids BJJ prices, adult BJJ membership, Pleasant Hill BJJ, Walnut Creek BJJ',
+  alternates: {
+    canonical: '/pricing',
+  },
+  openGraph: {
+    title: "Pricing | Lovitt's BJJ",
+    description: "Compare adult and kids membership plans for Lovitt's BJJ in Concord.",
+    url: 'https://lovittsbjj.com/pricing',
+    type: 'website',
+  },
 };
 
 export const revalidate = 60; // Revalidate this page every 60 seconds

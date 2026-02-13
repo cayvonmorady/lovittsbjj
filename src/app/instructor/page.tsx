@@ -6,11 +6,14 @@ import { SanityImageSource } from '@sanity/image-url/lib/types/types'
 
 export const metadata: Metadata = {
   title: "Our Instructors | Lovitts BJJ",
-  description: "Meet our expert Brazilian Jiu-Jitsu instructors at Lovitts BJJ in Concord. Learn from experienced professionals in a supportive environment.",
-  keywords: "BJJ instructors, Brazilian Jiu-Jitsu coaches, Concord BJJ instructors, martial arts teachers, Lovitts BJJ coaches",
+  description: "Meet the Brazilian Jiu-Jitsu instructors at Lovitt's BJJ in Concord. Train with experienced coaches serving students from Concord and nearby East Bay cities.",
+  keywords: "BJJ instructors, Brazilian Jiu-Jitsu coaches, Concord BJJ instructors, Pleasant Hill martial arts, Walnut Creek BJJ coaches, Lovitts BJJ coaches",
+  alternates: {
+    canonical: "/instructor",
+  },
   openGraph: {
     title: "Our Instructors | Lovitts BJJ",
-    description: "Meet our expert Brazilian Jiu-Jitsu instructors at Lovitts BJJ in Concord.",
+    description: "Meet the BJJ instructors coaching students in Concord and nearby East Bay communities.",
     url: "https://lovittsbjj.com/instructor",
     type: "profile",
   },

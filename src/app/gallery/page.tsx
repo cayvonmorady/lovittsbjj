@@ -1,3 +1,14 @@
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Gallery | Lovitts BJJ",
+  description: "Gallery page is temporarily unavailable while content is being refreshed.",
+  robots: {
+    index: false,
+    follow: true,
+  },
+};
+
 // Gallery page temporarily hidden
 // Will be implemented in the future
 
