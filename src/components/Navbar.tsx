@@ -14,7 +14,9 @@ import {
 } from '@/lib/theme';
 
 export default function Navbar() {
+  const SCROLL_THRESHOLD = 2;
   const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const [theme, setTheme] = useState<ThemeMode>('light');
   const [hasStoredPreference, setHasStoredPreference] = useState(false);
   const pathname = usePathname();
@@ -52,6 +54,16 @@ export default function Navbar() {
     return () => mediaQuery.removeListener(handleChange);
   }, [hasStoredPreference]);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > SCROLL_THRESHOLD);
+    };
+
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const handleThemeToggle = () => {
     const nextTheme = toggleTheme(theme);
     applyTheme(nextTheme);
@@ -63,7 +75,13 @@ export default function Navbar() {
   const themeToggleLabel = theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-border bg-surface/95 backdrop-blur-md">
+    <nav
+      className={`sticky top-0 z-50 border-b transition-colors duration-300 ${
+        isScrolled
+          ? 'border-border bg-surface/95 backdrop-blur-md'
+          : 'border-transparent bg-bg'
+      }`}
+    >
       <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
         <div className="flex justify-between items-center h-20">
           {/* Logo container */}
