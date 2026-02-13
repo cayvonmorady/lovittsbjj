@@ -27,93 +27,67 @@ export default function PricingClient({ pricingData }: PricingClientProps) {
 
   // Helper function to render pricing plans with consistent layout
   const renderPricingPlans = (plans: PricingPlan[]) => {
+    const renderPlanCard = (plan: PricingPlan) => (
+      <div
+        key={plan.name}
+        className={`relative flex flex-col rounded-lg overflow-hidden h-full transition-transform duration-200 ${
+          plan.highlighted
+            ? "bg-[#1a1a2e] border-2 border-[#AA4A44] shadow-lg shadow-[#AA4A44]/10 scale-[1.02]"
+            : "bg-[#111111] border border-gray-800"
+        }`}
+      >
+        {plan.highlighted && (
+          <div className="bg-[#AA4A44] text-black text-center py-1.5 font-[--font-bebas-neue] text-base tracking-wider">
+            Best Value
+          </div>
+        )}
+        <div className="px-6 py-8 flex flex-col flex-1">
+          <h3 className="text-2xl font-[--font-bebas-neue] text-white tracking-wider text-center mb-4">
+            {plan.name}
+          </h3>
+          <div className="text-center mb-6">
+            <span className={`text-5xl font-bold ${plan.highlighted ? "text-[#AA4A44]" : "text-white"}`}>
+              ${plan.price}
+            </span>
+            {plan.perMonth && (
+              <span className="text-gray-400 text-lg">/mo</span>
+            )}
+          </div>
+          <ul className="space-y-3 flex-1">
+            {plan.features.map((feature, index) => (
+              <li key={index} className="flex items-start gap-2">
+                <svg
+                  className={`h-5 w-5 mt-0.5 flex-shrink-0 ${plan.highlighted ? "text-[#AA4A44]" : "text-blue-500"}`}
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path d="M5 13l4 4L19 7"></path>
+                </svg>
+                <span className="text-gray-400">{feature}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    );
+
     // For 2 plans, use 50% width layout
     if (plans.length === 2) {
       return (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-          {plans.map((plan) => (
-            <div
-              key={plan.name}
-              className={`bg-[#111111] border border-gray-800 rounded-lg overflow-hidden h-full ${
-                plan.highlighted ? "ring-2 ring-blue-500" : ""
-              }`}
-            >
-              <div className="px-6 py-8">
-                <h3 className="text-2xl font-[--font-bebas-neue] text-white tracking-wider text-center mb-4">
-                  {plan.name}
-                </h3>
-                <div className="text-center mb-6">
-                  <span className="text-4xl font-bold text-white">${plan.price}</span>
-                  {plan.perMonth && (
-                    <span className="text-gray-400">/month</span>
-                  )}
-                </div>
-                <ul className="space-y-4">
-                  {plan.features.map((feature, index) => (
-                    <li key={index} className="flex items-center">
-                      <svg
-                        className="h-5 w-5 text-blue-500 mr-2"
-                        fill="none"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path d="M5 13l4 4L19 7"></path>
-                      </svg>
-                      <span className="text-gray-400">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          ))}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto items-start">
+          {plans.map(renderPlanCard)}
         </div>
       );
     }
-    
+
     // For 3 or more plans, use the standard grid
     return (
-      <div className="grid md:grid-cols-3 gap-8">
-        {plans.map((plan) => (
-          <div
-            key={plan.name}
-            className={`bg-[#111111] border border-gray-800 rounded-lg overflow-hidden ${
-              plan.highlighted ? "ring-2 ring-blue-500" : ""
-            }`}
-          >
-            <div className="px-6 py-8">
-              <h3 className="text-2xl font-[--font-bebas-neue] text-white tracking-wider text-center mb-4">
-                {plan.name}
-              </h3>
-              <div className="text-center mb-6">
-                <span className="text-4xl font-bold text-white">${plan.price}</span>
-                {plan.perMonth && (
-                  <span className="text-gray-400">/month</span>
-                )}
-              </div>
-              <ul className="space-y-4">
-                {plan.features.map((feature, index) => (
-                  <li key={index} className="flex items-center">
-                    <svg
-                      className="h-5 w-5 text-blue-500 mr-2"
-                      fill="none"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path d="M5 13l4 4L19 7"></path>
-                    </svg>
-                    <span className="text-gray-400">{feature}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        ))}
+      <div className="grid md:grid-cols-3 gap-8 items-start">
+        {plans.map(renderPlanCard)}
       </div>
     );
   };

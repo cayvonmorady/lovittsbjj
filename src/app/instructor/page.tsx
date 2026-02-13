@@ -163,10 +163,13 @@ export default async function InstructorPage() {
                       {/* Achievements */}
                       {instructor.achievements && instructor.achievements.length > 0 && (
                         <div className="mb-8">
-                          <h4 className="text-2xl font-[--font-bebas-neue] text-white mb-4 tracking-wider">Achievements</h4>
-                          <ul className="list-disc list-inside text-gray-300 space-y-2">
+                          <h4 className="text-2xl font-[--font-bebas-neue] text-white mb-4 tracking-wider text-center">Achievements</h4>
+                          <ul className="space-y-2 text-left">
                             {instructor.achievements.map((achievement, index) => (
-                              <li key={index}>{achievement}</li>
+                              <li key={index} className="flex items-start gap-2 text-gray-300">
+                                <span className="text-[#AA4A44] mt-1 flex-shrink-0">•</span>
+                                <span>{achievement}</span>
+                              </li>
                             ))}
                           </ul>
                         </div>
@@ -175,10 +178,13 @@ export default async function InstructorPage() {
                       {/* Certifications */}
                       {instructor.certifications && instructor.certifications.length > 0 && (
                         <div className="mb-8">
-                          <h4 className="text-2xl font-[--font-bebas-neue] text-white mb-4 tracking-wider">Certifications</h4>
-                          <ul className="list-disc list-inside text-gray-300 space-y-2">
+                          <h4 className="text-2xl font-[--font-bebas-neue] text-white mb-4 tracking-wider text-center">Certifications</h4>
+                          <ul className="space-y-2 text-left">
                             {instructor.certifications.map((cert, index) => (
-                              <li key={index}>{cert}</li>
+                              <li key={index} className="flex items-start gap-2 text-gray-300">
+                                <span className="text-[#AA4A44] mt-1 flex-shrink-0">•</span>
+                                <span>{cert}</span>
+                              </li>
                             ))}
                           </ul>
                         </div>
@@ -187,30 +193,42 @@ export default async function InstructorPage() {
                       {/* Social Media */}
                       {instructor.socialMedia && Object.values(instructor.socialMedia).some(Boolean) && (
                         <div className="mb-8">
-                          <h4 className="text-2xl font-[--font-bebas-neue] text-white mb-4 tracking-wider">Social Media</h4>
-                          <ul className="list-none list-inside text-gray-300 space-y-2">
+                          <h4 className="text-2xl font-[--font-bebas-neue] text-white mb-4 tracking-wider text-center">Social Media</h4>
+                          <div className="flex flex-wrap gap-3 justify-center">
                             {instructor.socialMedia.instagram && (
-                              <li key="instagram">
-                                <a href={instructor.socialMedia.instagram} target="_blank" rel="noopener noreferrer">
-                                  Instagram
-                                </a>
-                              </li>
+                              <a
+                                key="instagram"
+                                href={instructor.socialMedia.instagram}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white rounded-lg text-sm transition-colors"
+                              >
+                                Instagram
+                              </a>
                             )}
                             {instructor.socialMedia.facebook && (
-                              <li key="facebook">
-                                <a href={instructor.socialMedia.facebook} target="_blank" rel="noopener noreferrer">
-                                  Facebook
-                                </a>
-                              </li>
+                              <a
+                                key="facebook"
+                                href={instructor.socialMedia.facebook}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white rounded-lg text-sm transition-colors"
+                              >
+                                Facebook
+                              </a>
                             )}
                             {instructor.socialMedia.youtube && (
-                              <li key="youtube">
-                                <a href={instructor.socialMedia.youtube} target="_blank" rel="noopener noreferrer">
-                                  YouTube
-                                </a>
-                              </li>
+                              <a
+                                key="youtube"
+                                href={instructor.socialMedia.youtube}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white rounded-lg text-sm transition-colors"
+                              >
+                                YouTube
+                              </a>
                             )}
-                          </ul>
+                          </div>
                         </div>
                       )}
                     </div>

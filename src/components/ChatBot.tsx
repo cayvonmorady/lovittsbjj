@@ -106,7 +106,7 @@ export default function ChatBot() {
       <style>{chatLinkStyles}</style>
       
       {isOpen && (
-        <div className="bg-[#111111] border border-gray-800 rounded-lg shadow-xl w-96 mb-4">
+        <div className="bg-[#111111] border border-gray-800 rounded-lg shadow-xl w-[calc(100vw-2rem)] sm:w-96 mb-4">
           <div className="p-4 border-b border-gray-800">
             <h3 className="text-lg font-[--font-bebas-neue] text-white tracking-wide">Lovitt&apos;s BJJ Assistant</h3>
           </div>
