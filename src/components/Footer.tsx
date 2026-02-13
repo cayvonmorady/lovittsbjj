@@ -6,9 +6,9 @@ export default function Footer() {
   return (
     <footer className="mt-16 border-t border-border bg-surface">
       <div className="max-w-[1400px] mx-auto px-4 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-[1.25fr_auto_auto_auto_1.25fr] gap-10 items-start">
           {/* Brand */}
-          <div>
+          <div className="md:col-start-2 md:justify-self-start">
             <h3 className="font-[--font-bebas-neue] text-2xl text-text tracking-wide mb-3">
               Lovitt&apos;s BJJ
             </h3>
@@ -21,7 +21,7 @@ export default function Footer() {
                 href="https://www.instagram.com/lovittsbjj/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-muted hover:text-text transition-colors"
+                className="h-10 w-10 inline-flex items-center justify-center rounded-lg text-muted hover:text-text hover:bg-surface2 transition-colors"
                 aria-label="Instagram"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -32,7 +32,7 @@ export default function Footer() {
                 href="https://www.facebook.com/people/Lovitt-s-Jiujitsu-of-Concord/100063572163018/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-muted hover:text-text transition-colors"
+                className="h-10 w-10 inline-flex items-center justify-center rounded-lg text-muted hover:text-text hover:bg-surface2 transition-colors"
                 aria-label="Facebook"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -43,7 +43,7 @@ export default function Footer() {
           </div>
 
           {/* Quick Links */}
-          <div>
+          <div className="md:col-start-3 md:justify-self-center">
             <h3 className="font-[--font-bebas-neue] text-xl text-text tracking-wide mb-3">
               Quick Links
             </h3>
@@ -67,7 +67,7 @@ export default function Footer() {
           </div>
 
           {/* Contact */}
-          <div>
+          <div className="md:col-start-4 md:justify-self-end md:text-right">
             <h3 className="font-[--font-bebas-neue] text-xl text-text tracking-wide mb-3">
               Contact
             </h3>
