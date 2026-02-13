@@ -83,7 +83,7 @@ export default function RootLayout({
       <body className={`${bebasNeue.variable} app-shell`}>
         <GoogleAnalytics />
         <Navbar />
-        {children}
+        <main className="app-content">{children}</main>
         <Footer />
         <ChatBot />
       </body>

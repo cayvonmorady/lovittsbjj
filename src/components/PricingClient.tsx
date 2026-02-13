@@ -93,7 +93,7 @@ export default function PricingClient({ pricingData }: PricingClientProps) {
   };
 
   return (
-    <main className="min-h-[calc(100vh-64px)] py-12 px-4 sm:px-6 lg:px-8">
+    <main className="py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-[1400px] mx-auto">
         <h1 className="text-4xl font-[--font-bebas-neue] text-text mb-8 tracking-wider text-center">
           Membership Plans
