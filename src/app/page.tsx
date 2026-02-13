@@ -65,6 +65,28 @@ export const revalidate = 0;
 
 export default async function Home() {
   const { alert, programs } = await getHomepageData();
+  const featuredProgramOrder: Record<string, number> = {
+    "tiny kids bjj": 0,
+    "kids bjj": 1,
+    "kids bjj 13+": 2,
+  };
+
+  const normalizeProgramTitle = (title: string) => title.replace(/\s+/g, " ").trim();
+  const formatProgramTitle = (title: string) => {
+    const normalized = normalizeProgramTitle(title);
+    const lower = normalized.toLowerCase();
+    if (lower.includes("kids bjj") && lower.includes("13+")) {
+      return "Kids BJJ (Ages 13+)";
+    }
+    return normalized;
+  };
+  const getProgramSortOrder = (title: string) => {
+    const normalized = normalizeProgramTitle(title).toLowerCase();
+    if (normalized.includes("tiny kids")) return featuredProgramOrder["tiny kids bjj"];
+    if (normalized.includes("13+")) return featuredProgramOrder["kids bjj 13+"];
+    if (normalized.includes("kids")) return featuredProgramOrder["kids bjj"];
+    return Number.MAX_SAFE_INTEGER;
+  };
 
   const alertStyles = {
     success: { bg: 'bg-green-900/20', border: 'border-green-900/20', text: 'text-green-200' },
@@ -105,13 +127,13 @@ export default async function Home() {
       alt: "Tiny Kids BJJ Program",
     },
     {
-      title: "Kids BJJ\n(Ages 7-12)",
+      title: "Kids BJJ (Ages 7-12)",
       description: "Our Kids BJJ program builds physical skills and character. Students learn self-defense while developing strength, focus, and confidence through structured training. We emphasize respect, discipline, and perseverance both on and off the mats.",
       image: "/assets/images/programs/kids.jpg",
       alt: "Kids BJJ Program",
     },
     {
-      title: "Kids BJJ 13+",
+      title: "Kids BJJ (Ages 13+)",
       description: "Our Kids BJJ 13+ classes are designed for older youth ready for more advanced technique development, positional awareness, and structured sparring in a supportive, disciplined environment.",
       image: "/assets/images/programs/kids.jpg",
       alt: "Kids BJJ 13+ Program",
@@ -189,11 +211,19 @@ export default async function Home() {
           </h2>
           <ProgramsAccordion
             programs={(programs && programs.length > 0
-              ? programs.map((program, index) => ({
+              ? programs
+                .map((program, index) => ({
                   title: program.title || `Program ${index + 1}`,
                   description: program.description || "Program description not available.",
                 }))
-              : defaultPrograms.map((p) => ({ title: p.title, description: p.description }))
+                .sort((a, b) => getProgramSortOrder(a.title) - getProgramSortOrder(b.title))
+                .map((program) => ({
+                  ...program,
+                  title: formatProgramTitle(program.title),
+                }))
+              : defaultPrograms
+                .map((p) => ({ title: formatProgramTitle(p.title), description: p.description }))
+                .sort((a, b) => getProgramSortOrder(a.title) - getProgramSortOrder(b.title))
             )}
           />
         </div>

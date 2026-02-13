@@ -31,7 +31,7 @@ export default function ProgramsAccordion({ programs }: ProgramsAccordionProps) 
               onClick={() => toggle(index)}
               className="w-full flex items-center justify-between px-6 py-5 text-left cursor-pointer focus:outline-none"
             >
-              <h3 className="font-[--font-bebas-neue] text-xl text-text tracking-wide whitespace-pre-line">
+              <h3 className="font-[--font-bebas-neue] text-xl text-text tracking-wide whitespace-normal">
                 {program.title}
               </h3>
               <svg
