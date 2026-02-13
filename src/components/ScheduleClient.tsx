@@ -130,6 +130,33 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
     return typeArray.includes('tiny-kids') || typeArray.includes('kids') ? 'text-sm' : 'text-lg';
   };
 
+  // Function to calculate visual duration for display (compress awkward 15-minute overages)
+  const getVisualDuration = (actualDuration: number): number => {
+    // Only compress sessions that are 15 minutes longer than standard 30-minute increments
+    // 45 min -> 30 min, 75 min -> 60 min, 105 min -> 90 min, etc.
+    if (actualDuration % 30 === 15) {
+      return actualDuration - 15;
+    }
+    return actualDuration;
+  };
+
+  // Function to calculate visual start time for display
+  const getVisualStartTime = (startTime: string, actualDuration: number): string => {
+    // Only adjust start time for 75+ minute sessions that get compressed
+    if (actualDuration >= 75 && actualDuration % 30 === 15) {
+      const [hours, minutes] = startTime.split(':').map(Number);
+      const startInMinutes = hours * 60 + minutes;
+      
+      // Shift back by 15 minutes to center better in the visual grid
+      const visualStartInMinutes = Math.max(0, startInMinutes - 15);
+      const visualHours = Math.floor(visualStartInMinutes / 60);
+      const visualMinutes = visualStartInMinutes % 60;
+      
+      return `${visualHours.toString().padStart(2, '0')}:${visualMinutes.toString().padStart(2, '0')}`;
+    }
+    return startTime;
+  };
+
   const getClassKey = (day: string, timeSlot: string, classInfo: ClassInfo) => {
     const typeArray = normalizeTypes(classInfo.types);
     // Include uniform in the key to ensure unique identification
@@ -242,44 +269,49 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
                   className={`p-2 relative min-h-[4rem] ${timeSlot === 'gap' ? 'bg-gray-900/30' : ''}`}
                 >
                   {timeSlot !== 'gap' && Object.values(initialSchedule[day] || {})
-                    .filter(c => findNearestDisplayTimeSlot(c.startTime) === timeSlot && shouldDisplayClass(c))
-                    .map((classInfo, index, array) => (
-                      <div 
-                        key={getClassKey(day, timeSlot, classInfo)}
-                        className={`absolute rounded-lg border-2 ${getClassColor(classInfo.types)} p-2`}
-                        style={{ 
-                          left: array.length > 1 ? `${index * 50}%` : '0.5rem',
-                          right: array.length > 1 ? 'auto' : '0.5rem',
-                          width: array.length > 1 ? '50%' : 'auto',
-                          top: '0.375rem',
-                          // Adjust height to extend closer to end times
-                          // Use a smaller subtraction to make boxes extend further
-                          height: `${(classInfo.duration / 30 * 4) - 0.75}rem`,
-                          minHeight: '3.5rem',
-                          maxHeight: `${(classInfo.duration / 30 * 4) - 0.75}rem`,
-                          zIndex: index + 1,
-                          overflow: 'hidden'
-                        }}
-                      >
-                        <div className={`font-[--font-bebas-neue] tracking-wide ${getFontSize(classInfo.types)}`}>
-                          {classInfo.name}
-                          {classInfo.note && (
-                            <div className="text-sm font-normal opacity-75">
-                              {classInfo.note}
-                            </div>
-                          )}
+                    .filter(c => {
+                      // Use visual start time for time slot matching
+                      const visualStartTime = getVisualStartTime(c.startTime, c.duration);
+                      return findNearestDisplayTimeSlot(visualStartTime) === timeSlot && shouldDisplayClass(c);
+                    })
+                    .map((classInfo, index, array) => {
+                      const visualDuration = getVisualDuration(classInfo.duration);
+                      return (
+                        <div 
+                          key={getClassKey(day, timeSlot, classInfo)}
+                          className={`absolute rounded-lg border-2 ${getClassColor(classInfo.types)} p-2`}
+                          style={{ 
+                            left: array.length > 1 ? `${index * 50}%` : '0.5rem',
+                            right: array.length > 1 ? 'auto' : '0.5rem',
+                            width: array.length > 1 ? '50%' : 'auto',
+                            top: '0.375rem',
+                            // Use visual duration instead of actual duration for height calculation
+                            height: `${(visualDuration / 30 * 4) - 0.75}rem`,
+                            minHeight: '3.5rem',
+                            maxHeight: `${(visualDuration / 30 * 4) - 0.75}rem`,
+                            zIndex: index + 1,
+                            overflow: 'hidden'
+                          }}
+                        >
+                          <div className={`font-[--font-bebas-neue] tracking-wide ${getFontSize(classInfo.types)}`}>
+                            {classInfo.name}
+                            {classInfo.note && (
+                              <div className="text-sm font-normal opacity-75">
+                                {classInfo.note}
+                              </div>
+                            )}
+                          </div>
+                          <div className="text-sm opacity-90">
+                            {formatTime(classInfo.startTime)} • {formatDuration(classInfo.duration)}
+                            {normalizeUniforms(classInfo.uniform).length > 0 && 
+                             // Show uniform for all classes except Women's and Muay Thai
+                             !normalizeTypes(classInfo.types).includes('womens') && 
+                             !normalizeTypes(classInfo.types).includes('muay-thai') && 
+                             ` • ${normalizeUniforms(classInfo.uniform).join('/')}`}
+                          </div>
                         </div>
-                        <div className="text-sm opacity-90">
-                          {formatTime(classInfo.startTime)} • {formatDuration(classInfo.duration)}
-                          {normalizeUniforms(classInfo.uniform).length > 0 && 
-                           // Show uniform for all classes except Women's and Muay Thai
-                           !normalizeTypes(classInfo.types).includes('womens') && 
-                           !normalizeTypes(classInfo.types).includes('muay-thai') && 
-                           ` • ${normalizeUniforms(classInfo.uniform).join('/')}`}
-                        </div>
-                      </div>
-                    )
-                  )}
+                      );
+                    })}
                 </div>
               ))}
             </div>
