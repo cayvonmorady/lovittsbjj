@@ -4,15 +4,15 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-[#0a0a0a] border-t border-gray-800 mt-16">
+    <footer className="mt-16 border-t border-border bg-surface">
       <div className="max-w-[1400px] mx-auto px-4 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           {/* Brand */}
           <div>
-            <h3 className="font-[--font-bebas-neue] text-2xl text-white tracking-wide mb-3">
+            <h3 className="font-[--font-bebas-neue] text-2xl text-text tracking-wide mb-3">
               Lovitt&apos;s BJJ
             </h3>
-            <p className="text-gray-400 text-sm leading-relaxed mb-4">
+            <p className="text-muted text-sm leading-relaxed mb-4">
               Train with purpose, grow with community. Brazilian Jiu-Jitsu for
               all ages in Concord, CA.
             </p>
@@ -21,7 +21,7 @@ export default function Footer() {
                 href="https://www.instagram.com/lovittsbjj/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-400 hover:text-white transition-colors"
+                className="text-muted hover:text-text transition-colors"
                 aria-label="Instagram"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -32,7 +32,7 @@ export default function Footer() {
                 href="https://www.facebook.com/people/Lovitt-s-Jiujitsu-of-Concord/100063572163018/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-400 hover:text-white transition-colors"
+                className="text-muted hover:text-text transition-colors"
                 aria-label="Facebook"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -44,7 +44,7 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="font-[--font-bebas-neue] text-xl text-white tracking-wide mb-3">
+            <h3 className="font-[--font-bebas-neue] text-xl text-text tracking-wide mb-3">
               Quick Links
             </h3>
             <ul className="space-y-2">
@@ -57,7 +57,7 @@ export default function Footer() {
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-gray-400 hover:text-[#AA4A44] transition-colors text-sm"
+                    className="text-muted hover:text-brand transition-colors text-sm"
                   >
                     {link.name}
                   </Link>
@@ -68,14 +68,14 @@ export default function Footer() {
 
           {/* Contact */}
           <div>
-            <h3 className="font-[--font-bebas-neue] text-xl text-white tracking-wide mb-3">
+            <h3 className="font-[--font-bebas-neue] text-xl text-text tracking-wide mb-3">
               Contact
             </h3>
-            <ul className="space-y-2 text-sm text-gray-400">
+            <ul className="space-y-2 text-sm text-muted">
               <li>
                 <a
                   href="tel:4155591404"
-                  className="hover:text-white transition-colors"
+                  className="hover:text-text transition-colors"
                 >
                   (415) 559-1404
                 </a>
@@ -83,7 +83,7 @@ export default function Footer() {
               <li>
                 <a
                   href="mailto:Markangelolovitt@lovittsjiujitsu.com"
-                  className="hover:text-white transition-colors break-all"
+                  className="hover:text-text transition-colors break-all"
                 >
                   Markangelolovitt@lovittsjiujitsu.com
                 </a>
@@ -97,7 +97,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-10 pt-6 border-t border-gray-800 text-center text-gray-600 text-sm">
+        <div className="mt-10 pt-6 border-t border-border text-center text-muted text-sm">
           <p>&copy; {currentYear} Lovitt&apos;s BJJ. All rights reserved.</p>
         </div>
       </div>

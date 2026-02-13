@@ -3,12 +3,76 @@
 @tailwind utilities;
 
 :root {
-  --background: #000000;
-  --foreground: #ffffff;
+  --bg: #f7f8fa;
+  --surface: #ffffff;
+  --surface-2: #eef1f4;
+  --text: #111111;
+  --text-2: #444a50;
+  --muted: #6b737b;
+  --border: #d9dee3;
+  --brand: #e10600;
+  --brand-hover: #a00000;
+  --accent: #b8a27a;
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+.dark {
+  --bg: #0b0b0d;
+  --surface: #14161a;
+  --surface-2: #1b1f24;
+  --text: #f2f2f2;
+  --text-2: #c9ced3;
+  --muted: #8a9096;
+  --border: #2b2f33;
+  --brand: #e10600;
+  --brand-hover: #a00000;
+  --accent: #b8a27a;
+}
+
+@layer base {
+  html,
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  * {
+    border-color: var(--border);
+  }
+}
+
+@layer components {
+  .app-shell {
+    @apply bg-bg text-text;
+  }
+
+  .card {
+    @apply rounded-lg border border-border bg-surface;
+  }
+
+  .card-muted {
+    @apply rounded-lg border border-border bg-surface2;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-lg bg-brand px-6 py-3 font-[--font-bebas-neue] text-xl tracking-wide text-white transition-colors duration-200 hover:bg-brandHover focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 focus:ring-offset-bg;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center rounded-lg border border-border bg-transparent px-6 py-3 font-[--font-bebas-neue] text-xl tracking-wide text-text transition-colors duration-200 hover:bg-surface2 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 focus:ring-offset-bg;
+  }
+
+  .nav-link {
+    @apply relative py-2 px-5 font-[--font-bebas-neue] text-xl uppercase tracking-wide text-muted transition-all duration-300 hover:text-text after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-brand after:scale-x-0 after:origin-center after:transition-transform after:duration-300 hover:after:scale-x-100;
+  }
+
+  .nav-link-active {
+    @apply text-brand after:scale-x-100;
+  }
+
+  .badge-accent {
+    @apply inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-accent;
+    border-color: color-mix(in srgb, var(--accent) 50%, transparent);
+    background-color: color-mix(in srgb, var(--accent) 15%, transparent);
+  }
 }

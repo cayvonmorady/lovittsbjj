@@ -96,7 +96,7 @@ export default async function InstructorPage() {
     return (
       <main className="min-h-[calc(100vh-64px)] py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-[1400px] mx-auto">
-          <h1 className="text-4xl font-[--font-bebas-neue] text-white mb-2 tracking-wider">
+          <h1 className="text-4xl font-[--font-bebas-neue] text-text mb-2 tracking-wider">
             No instructor data available
           </h1>
         </div>
@@ -113,7 +113,7 @@ export default async function InstructorPage() {
   return (
     <main className="min-h-[calc(100vh-64px)] py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-[1400px] mx-auto">
-        <h1 className="text-5xl font-[--font-bebas-neue] text-white mb-8 tracking-wider text-center">
+        <h1 className="text-5xl font-[--font-bebas-neue] text-text mb-8 tracking-wider text-center">
           Our Instructors
         </h1>
         
@@ -138,12 +138,12 @@ export default async function InstructorPage() {
 
                   {/* Instructor Info - Below image, centered with margins */}
                   <div className="w-full flex flex-col items-center text-center">
-                    <h2 className="text-3xl font-[--font-bebas-neue] text-white mb-2 tracking-wider">
+                    <h2 className="text-3xl font-[--font-bebas-neue] text-text mb-2 tracking-wider">
                       {instructor.name}
                     </h2>
-                    <h3 className="text-xl text-blue-500 mb-2">{instructor.title}</h3>
+                    <h3 className="text-xl text-brand mb-2">{instructor.title}</h3>
                     {instructor.secondaryTitle && (
-                      <h4 className="text-lg text-gray-400 mb-6">{instructor.secondaryTitle}</h4>
+                      <h4 className="text-lg text-muted mb-6">{instructor.secondaryTitle}</h4>
                     )}
                     {!instructor.secondaryTitle && <div className="mb-6"></div>}
 
@@ -153,7 +153,7 @@ export default async function InstructorPage() {
                       {instructor.bio && instructor.bio.length > 0 && (
                         <div className="mb-8">
                           {instructor.bio.map((block, index) => (
-                            <p key={index} className="text-gray-300 mb-4">
+                            <p key={index} className="text-text2 mb-4">
                               {block.children?.map((child: SanityBlockChild) => child.text).join('')}
                             </p>
                           ))}
@@ -163,11 +163,11 @@ export default async function InstructorPage() {
                       {/* Achievements */}
                       {instructor.achievements && instructor.achievements.length > 0 && (
                         <div className="mb-8">
-                          <h4 className="text-2xl font-[--font-bebas-neue] text-white mb-4 tracking-wider text-center">Achievements</h4>
+                          <h4 className="text-2xl font-[--font-bebas-neue] text-text mb-4 tracking-wider text-center">Achievements</h4>
                           <ul className="space-y-2 text-left">
                             {instructor.achievements.map((achievement, index) => (
-                              <li key={index} className="flex items-start gap-2 text-gray-300">
-                                <span className="text-[#AA4A44] mt-1 flex-shrink-0">•</span>
+                              <li key={index} className="flex items-start gap-2 text-text2">
+                                <span className="text-brand mt-1 flex-shrink-0">•</span>
                                 <span>{achievement}</span>
                               </li>
                             ))}
@@ -178,11 +178,11 @@ export default async function InstructorPage() {
                       {/* Certifications */}
                       {instructor.certifications && instructor.certifications.length > 0 && (
                         <div className="mb-8">
-                          <h4 className="text-2xl font-[--font-bebas-neue] text-white mb-4 tracking-wider text-center">Certifications</h4>
+                          <h4 className="text-2xl font-[--font-bebas-neue] text-text mb-4 tracking-wider text-center">Certifications</h4>
                           <ul className="space-y-2 text-left">
                             {instructor.certifications.map((cert, index) => (
-                              <li key={index} className="flex items-start gap-2 text-gray-300">
-                                <span className="text-[#AA4A44] mt-1 flex-shrink-0">•</span>
+                              <li key={index} className="flex items-start gap-2 text-text2">
+                                <span className="text-brand mt-1 flex-shrink-0">•</span>
                                 <span>{cert}</span>
                               </li>
                             ))}
@@ -193,7 +193,7 @@ export default async function InstructorPage() {
                       {/* Social Media */}
                       {instructor.socialMedia && Object.values(instructor.socialMedia).some(Boolean) && (
                         <div className="mb-8">
-                          <h4 className="text-2xl font-[--font-bebas-neue] text-white mb-4 tracking-wider text-center">Social Media</h4>
+                          <h4 className="text-2xl font-[--font-bebas-neue] text-text mb-4 tracking-wider text-center">Social Media</h4>
                           <div className="flex flex-wrap gap-3 justify-center">
                             {instructor.socialMedia.instagram && (
                               <a
@@ -201,7 +201,7 @@ export default async function InstructorPage() {
                                 href={instructor.socialMedia.instagram}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white rounded-lg text-sm transition-colors"
+                                className="btn-outline px-4 py-2 text-sm font-sans tracking-normal"
                               >
                                 Instagram
                               </a>
@@ -212,7 +212,7 @@ export default async function InstructorPage() {
                                 href={instructor.socialMedia.facebook}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white rounded-lg text-sm transition-colors"
+                                className="btn-outline px-4 py-2 text-sm font-sans tracking-normal"
                               >
                                 Facebook
                               </a>
@@ -223,7 +223,7 @@ export default async function InstructorPage() {
                                 href={instructor.socialMedia.youtube}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white rounded-lg text-sm transition-colors"
+                                className="btn-outline px-4 py-2 text-sm font-sans tracking-normal"
                               >
                                 YouTube
                               </a>

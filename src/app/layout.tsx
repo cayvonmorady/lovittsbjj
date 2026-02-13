@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ChatBot from "@/components/ChatBot";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
+import { THEME_STORAGE_KEY } from "@/lib/theme";
 
 const bebasNeue = Bebas_Neue({
   weight: "400",
@@ -61,9 +62,25 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const themeInitScript = `
+    (function() {
+      try {
+        var key = "${THEME_STORAGE_KEY}";
+        var stored = localStorage.getItem(key);
+        var theme = (stored === "light" || stored === "dark")
+          ? stored
+          : (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        document.documentElement.classList.toggle("dark", theme === "dark");
+      } catch (e) {}
+    })();
+  `;
+
   return (
-    <html lang="en">
-      <body className={`${bebasNeue.variable} bg-black text-white`}>
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
+      <body className={`${bebasNeue.variable} app-shell`}>
         <GoogleAnalytics />
         <Navbar />
         {children}

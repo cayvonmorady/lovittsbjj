@@ -91,12 +91,12 @@ export default function ChatBot() {
   // CSS for styling links in the chat
   const chatLinkStyles = `
     .assistant-message a {
-      color: #3b82f6; /* blue-500 */
+      color: var(--brand);
       text-decoration: underline;
       font-weight: 500;
     }
     .assistant-message a:hover {
-      color: #2563eb; /* blue-600 */
+      color: var(--brand-hover);
     }
   `;
 
@@ -106,9 +106,9 @@ export default function ChatBot() {
       <style>{chatLinkStyles}</style>
       
       {isOpen && (
-        <div className="bg-[#111111] border border-gray-800 rounded-lg shadow-xl w-[calc(100vw-2rem)] sm:w-96 mb-4">
-          <div className="p-4 border-b border-gray-800">
-            <h3 className="text-lg font-[--font-bebas-neue] text-white tracking-wide">Lovitt&apos;s BJJ Assistant</h3>
+        <div className="card shadow-xl w-[calc(100vw-2rem)] sm:w-96 mb-4">
+          <div className="p-4 border-b border-border">
+            <h3 className="text-lg font-[--font-bebas-neue] text-text tracking-wide">Lovitt&apos;s BJJ Assistant</h3>
           </div>
           <div className="h-96 overflow-y-auto p-4">
             {messages.map((message, index) => (
@@ -121,8 +121,8 @@ export default function ChatBot() {
                 <div
                   className={`inline-block p-3 rounded-lg ${
                     message.role === 'user'
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-gray-800 text-gray-300 assistant-message'
+                      ? 'bg-brand text-white'
+                      : 'bg-surface2 text-text2 assistant-message'
                   }`}
                 >
                   {message.role === 'assistant' ? (
@@ -135,31 +135,31 @@ export default function ChatBot() {
             ))}
             {isLoading && (
               <div className="text-left mb-4">
-                <div className="inline-block p-3 rounded-lg bg-gray-800 text-gray-300">
+                <div className="inline-block p-3 rounded-lg bg-surface2 text-text2">
                   <div className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></div>
+                    <div className="w-2 h-2 bg-muted rounded-full animate-bounce"></div>
+                    <div className="w-2 h-2 bg-muted rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                    <div className="w-2 h-2 bg-muted rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></div>
                   </div>
                 </div>
               </div>
             )}
             <div ref={messagesEndRef} />
           </div>
-          <form onSubmit={handleSubmit} className="p-4 border-t border-gray-800">
+          <form onSubmit={handleSubmit} className="p-4 border-t border-border">
             <div className="flex space-x-2">
               <input
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Ask a question..."
-                className="flex-1 bg-gray-800 text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="flex-1 bg-surface2 text-text rounded-lg px-4 py-2 border border-border focus:outline-none focus:ring-2 focus:ring-brand/40"
                 disabled={isLoading}
               />
               <button
                 type="submit"
                 disabled={isLoading}
-                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
+                className="bg-brand text-white px-4 py-2 rounded-lg hover:bg-brandHover focus:outline-none focus:ring-2 focus:ring-brand/40 disabled:opacity-50"
               >
                 Send
               </button>
@@ -169,7 +169,7 @@ export default function ChatBot() {
       )}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="bg-blue-600 text-white p-4 rounded-full hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="bg-brand text-white p-4 rounded-full hover:bg-brandHover focus:outline-none focus:ring-2 focus:ring-brand/40"
       >
         <svg
           className="w-6 h-6"

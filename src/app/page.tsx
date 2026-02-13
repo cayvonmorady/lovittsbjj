@@ -150,10 +150,10 @@ export default async function Home() {
             className="mx-auto w-[180px] sm:w-[240px] lg:w-[280px] h-auto"
             priority
           />
-          <h1 className="font-[--font-bebas-neue] text-4xl lg:text-5xl text-white tracking-wide">
+          <h1 className="font-[--font-bebas-neue] text-4xl lg:text-5xl text-text tracking-wide">
             Train with Purpose, Grow with Community
           </h1>
-          <p className="max-w-2xl mx-auto text-gray-300 text-lg leading-relaxed">
+          <p className="max-w-2xl mx-auto text-text2 text-lg leading-relaxed">
             At Lovitt&apos;s BJJ, we blend technical excellence with a welcoming atmosphere,
             creating an environment where both beginners and advanced practitioners can thrive.
           </p>
@@ -161,13 +161,13 @@ export default async function Home() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
             <Link
               href="/schedule"
-              className="w-full sm:w-auto px-8 py-3 bg-[#AA4A44] hover:bg-[#cc0000] text-black font-[--font-bebas-neue] text-xl tracking-wide rounded-lg transition-colors duration-200"
+              className="btn-primary w-full sm:w-auto px-8"
             >
               View Schedule
             </Link>
             <Link
               href="/pricing"
-              className="w-full sm:w-auto px-8 py-3 border border-gray-600 hover:border-gray-400 text-white font-[--font-bebas-neue] text-xl tracking-wide rounded-lg transition-colors duration-200"
+              className="btn-outline w-full sm:w-auto px-8"
             >
               See Pricing
             </Link>
@@ -178,7 +178,7 @@ export default async function Home() {
       {/* Programs FAQ */}
       <section className="py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <h2 className="font-[--font-bebas-neue] text-3xl sm:text-4xl text-white tracking-wide text-center mb-10">
+          <h2 className="font-[--font-bebas-neue] text-3xl sm:text-4xl text-text tracking-wide text-center mb-10">
             Our Programs
           </h2>
           <ProgramsAccordion
@@ -197,43 +197,43 @@ export default async function Home() {
       <section className="py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-10">
-            <h2 className="text-4xl font-[--font-bebas-neue] text-white mb-3 tracking-wide">Hours & Location</h2>
-            <p className="text-gray-400">
+            <h2 className="text-4xl font-[--font-bebas-neue] text-text mb-3 tracking-wide">Hours & Location</h2>
+            <p className="text-muted">
               Ready to start your BJJ journey? Come by anytime to take the first step towards transformation.
             </p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
             {/* Hours of Operation */}
-            <div className="bg-[#111111] p-6 rounded-lg border border-gray-800 flex flex-col">
-              <h3 className="font-[--font-bebas-neue] text-2xl text-white mb-5 tracking-wide text-center">
+            <div className="card p-6 flex flex-col">
+              <h3 className="font-[--font-bebas-neue] text-2xl text-text mb-5 tracking-wide text-center">
                 Hours of Operation
               </h3>
               <div className="flex-1 flex flex-col justify-center">
-                <div className="rounded-lg overflow-hidden border border-gray-800">
-                  <div className="flex items-center justify-between px-5 py-3 bg-[#1a1a1a]">
-                    <span className="text-gray-300 font-medium">Monday – Friday</span>
-                    <span className="text-white">9:00 AM – 9:30 PM</span>
+                <div className="rounded-lg overflow-hidden border border-border">
+                  <div className="flex items-center justify-between px-5 py-3 bg-surface2">
+                    <span className="text-text2 font-medium">Monday – Friday</span>
+                    <span className="text-text">9:00 AM – 9:30 PM</span>
                   </div>
-                  <div className="flex items-center justify-between px-5 py-3 bg-[#111111]">
-                    <span className="text-gray-300 font-medium">Saturday</span>
-                    <span className="text-white">8:30 AM – 12:00 PM</span>
+                  <div className="flex items-center justify-between px-5 py-3 bg-surface">
+                    <span className="text-text2 font-medium">Saturday</span>
+                    <span className="text-text">8:30 AM – 12:00 PM</span>
                   </div>
-                  <div className="flex items-center justify-between px-5 py-3 bg-[#1a1a1a]">
-                    <span className="text-gray-300 font-medium">Sunday</span>
-                    <span className="text-gray-500">Closed</span>
+                  <div className="flex items-center justify-between px-5 py-3 bg-surface2">
+                    <span className="text-text2 font-medium">Sunday</span>
+                    <span className="text-muted">Closed</span>
                   </div>
                 </div>
               </div>
-              <p className="mt-5 text-sm text-center text-gray-400">
-                <span className="text-[#AA4A44] font-medium">Note:</span> Class times vary. See our{' '}
-                <Link href="/schedule" className="text-[#AA4A44] hover:underline">schedule page</Link>{' '}
+              <p className="mt-5 text-sm text-center text-muted">
+                <span className="text-brand font-medium">Note:</span> Class times vary. See our{' '}
+                <Link href="/schedule" className="text-brand hover:underline">schedule page</Link>{' '}
                 for specific class times.
               </p>
             </div>
 
             {/* Map */}
-            <div className="rounded-lg overflow-hidden border border-gray-800 min-h-[300px]">
+            <div className="rounded-lg overflow-hidden border border-border min-h-[300px]">
               <Map />
             </div>
           </div>

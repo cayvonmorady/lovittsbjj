@@ -25,17 +25,17 @@ export default function ProgramsAccordion({ programs }: ProgramsAccordionProps) 
         return (
           <div
             key={index}
-            className="bg-[#111111] rounded-lg border border-gray-800 overflow-hidden"
+            className="card overflow-hidden"
           >
             <button
               onClick={() => toggle(index)}
               className="w-full flex items-center justify-between px-6 py-5 text-left cursor-pointer focus:outline-none"
             >
-              <h3 className="font-[--font-bebas-neue] text-xl text-white tracking-wide whitespace-pre-line">
+              <h3 className="font-[--font-bebas-neue] text-xl text-text tracking-wide whitespace-pre-line">
                 {program.title}
               </h3>
               <svg
-                className={`w-5 h-5 text-[#AA4A44] flex-shrink-0 ml-4 transition-transform duration-300 ${
+                className={`w-5 h-5 text-brand flex-shrink-0 ml-4 transition-transform duration-300 ${
                   isOpen ? "rotate-180" : ""
                 }`}
                 fill="none"
@@ -56,7 +56,7 @@ export default function ProgramsAccordion({ programs }: ProgramsAccordionProps) 
               }`}
             >
               <div className="px-6 pb-5">
-                <p className="text-gray-400 text-md leading-relaxed">
+                <p className="text-muted text-md leading-relaxed">
                   {program.description}
                 </p>
               </div>

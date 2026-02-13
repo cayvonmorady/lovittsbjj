@@ -38,7 +38,7 @@ const uniformActiveClasses: Record<string, string> = {
   'No Uniform': 'border-gray-400 bg-gray-400/20 text-white',
 };
 
-const inactiveClass = 'border-gray-600 bg-gray-800/50 text-gray-400';
+const inactiveClass = 'border-border bg-surface2 text-muted';
 const defaultTypes: string[] = [];
 const defaultUniforms: string[] = [];
 
@@ -111,7 +111,7 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
     if (typeArray.includes('tiny-kids')) return 'border-blue-500 bg-blue-500/20';
     if (typeArray.includes('kids')) return 'border-green-500 bg-green-500/20';
     if (typeArray.includes('adults')) return 'border-purple-500 bg-purple-500/20';
-    return 'border-gray-800 bg-[#1c1c23]';
+    return 'border-border bg-surface2';
   };
 
   const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
@@ -175,18 +175,18 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
   return (
     <main className="min-h-[calc(100vh-64px)] py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-[1400px] mx-auto">
-        <h1 className="text-4xl font-[--font-bebas-neue] text-white mb-8 tracking-wider text-center">
+        <h1 className="text-4xl font-[--font-bebas-neue] text-text mb-8 tracking-wider text-center">
           Class Schedule
         </h1>
 
         {/* Filters */}
-        <div className="mb-8 space-y-4 bg-[#111111] border border-gray-800 rounded-lg p-5">
+        <div className="mb-8 space-y-4 card p-5">
             <div className="text-center">
-              <h2 className="text-2xl font-[--font-bebas-neue] text-white tracking-wider">Filters</h2>
+              <h2 className="text-2xl font-[--font-bebas-neue] text-text tracking-wider">Filters</h2>
             </div>
 
             <div className="flex items-center justify-center gap-2 overflow-x-auto pb-1 whitespace-nowrap">
-              <h3 className="text-white font-[--font-bebas-neue] text-lg mr-1">Program</h3>
+              <h3 className="text-text font-[--font-bebas-neue] text-lg mr-1">Program</h3>
               {filterSections.age.map((type) => (
                 <button
                   key={type.id}
@@ -208,9 +208,9 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
                 </button>
               ))}
 
-              <span className="text-gray-600 mx-2">|</span>
+              <span className="text-muted mx-2">|</span>
 
-              <h3 className="text-white font-[--font-bebas-neue] text-lg mr-1">Uniform</h3>
+              <h3 className="text-text font-[--font-bebas-neue] text-lg mr-1">Uniform</h3>
               {filterSections.uniform.map((uniform) => (
                 <button
                   key={uniform.id}
@@ -236,20 +236,20 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
             <div className="flex items-center justify-center gap-3 pt-1">
               <button
                 onClick={clearAllFilters}
-                className="px-3 py-2 text-xs rounded-lg border border-gray-700 text-gray-200 hover:border-gray-500"
+                className="px-3 py-2 text-xs rounded-lg border border-border text-text2 hover:border-text2"
               >
                 Clear All
               </button>
-              <span className="text-xs text-gray-400">Showing {classCount} class{classCount === 1 ? '' : 'es'}</span>
+              <span className="text-xs text-muted">Showing {classCount} class{classCount === 1 ? '' : 'es'}</span>
             </div>
         </div>
 
         {!hasMatches && (
-          <div className="mb-6 rounded-lg border border-[#AA4A44]/70 bg-[#AA4A44]/10 p-4 text-center">
-            <p className="text-white">No classes match your current filters.</p>
+          <div className="mb-6 rounded-lg border border-brand/70 bg-brand/10 p-4 text-center">
+            <p className="text-text">No classes match your current filters.</p>
             <button
               onClick={resetDefaultFilters}
-              className="mt-3 px-4 py-2 rounded-lg border border-[#AA4A44] text-[#f0c7c2] hover:bg-[#AA4A44]/10 text-sm"
+              className="mt-3 px-4 py-2 rounded-lg border border-brand text-text2 hover:bg-brand/10 text-sm"
             >
               Reset filters
             </button>
@@ -257,23 +257,23 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
         )}
 
         {/* Desktop Grid Schedule */}
-        <div className="hidden md:block bg-[#111111] border border-gray-800 rounded-lg overflow-hidden">
-          <div className="grid grid-cols-8 border-b border-gray-800 bg-[#0a0a0a]">
-            <div className="p-4 font-[--font-bebas-neue] text-lg text-gray-400">Time</div>
+        <div className="hidden md:block card overflow-hidden">
+          <div className="grid grid-cols-8 border-b border-border bg-surface2">
+            <div className="p-4 font-[--font-bebas-neue] text-lg text-muted">Time</div>
             {days.map((day) => (
-              <div key={day} className="p-4 font-[--font-bebas-neue] text-lg text-gray-400">{day}</div>
+              <div key={day} className="p-4 font-[--font-bebas-neue] text-lg text-muted">{day}</div>
             ))}
           </div>
 
           {timeSlots.map((timeSlot) => (
-            <div key={timeSlot} className="grid grid-cols-8 border-b border-gray-800">
-              <div className={`p-4 font-[--font-bebas-neue] text-lg ${timeSlot === 'gap' ? 'text-gray-600 italic' : 'text-gray-400'}`}>
+            <div key={timeSlot} className="grid grid-cols-8 border-b border-border">
+              <div className={`p-4 font-[--font-bebas-neue] text-lg ${timeSlot === 'gap' ? 'text-muted italic' : 'text-muted'}`}>
                 {timeSlot === 'gap' ? '...' : formatTime(timeSlot)}
               </div>
               {days.map((day) => (
                 <div
                   key={`${day}-${timeSlot}`}
-                  className={`p-2 relative min-h-[4rem] ${timeSlot === 'gap' ? 'bg-gray-900/30' : ''}`}
+                  className={`p-2 relative min-h-[4rem] ${timeSlot === 'gap' ? 'bg-surface2/60' : ''}`}
                 >
                   {timeSlot !== 'gap' && Object.values(initialSchedule[day] || {})
                     .filter(c => {
@@ -333,11 +333,11 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
             if (dayClasses.length === 0) return null;
 
             return (
-              <div key={day} className="bg-[#111111] border border-gray-800 rounded-lg overflow-hidden">
-                <div className="bg-gray-800/80 p-4">
-                  <h3 className="font-[--font-bebas-neue] text-xl text-white tracking-wide">{day}</h3>
+              <div key={day} className="card overflow-hidden">
+                <div className="bg-surface2 p-4">
+                  <h3 className="font-[--font-bebas-neue] text-xl text-text tracking-wide">{day}</h3>
                 </div>
-                <div className="divide-y divide-gray-800">
+                <div className="divide-y divide-border">
                   {dayClasses.map((classInfo, index) => (
                     <div
                       key={`${day}-${classInfo.startTime}-${index}`}
@@ -364,11 +364,11 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
           })}
 
           {!hasMatches && (
-            <div className="bg-[#111111] border border-gray-800 rounded-lg p-5 text-center">
-              <p className="text-white">No classes match your filters right now.</p>
+            <div className="card p-5 text-center">
+              <p className="text-text">No classes match your filters right now.</p>
               <button
                 onClick={resetDefaultFilters}
-                className="mt-3 px-4 py-2 rounded-lg border border-[#AA4A44] text-[#f0c7c2] hover:bg-[#AA4A44]/10 text-sm"
+                className="mt-3 px-4 py-2 rounded-lg border border-brand text-text2 hover:bg-brand/10 text-sm"
               >
                 Reset filters
               </button>
@@ -377,22 +377,22 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
         </div>
 
         {/* Class Info */}
-        <div className="mt-8 bg-[#111111] border border-gray-800 rounded-lg p-6">
-          <h2 className="text-2xl font-[--font-bebas-neue] text-white mb-4 tracking-wider">
+        <div className="mt-8 card p-6">
+          <h2 className="text-2xl font-[--font-bebas-neue] text-text mb-4 tracking-wider">
             Class Information
           </h2>
-          <div className="space-y-2 text-gray-300 text-sm leading-relaxed">
+          <div className="space-y-2 text-text2 text-sm leading-relaxed">
             <p>• Arrive 10–15 minutes before class starts.</p>
             <p>• Gi classes require a BJJ Gi; No Gi classes require rash guard + shorts/spats.</p>
             <p>• Muay Thai: athletic clothing, hand wraps, and a mouthguard.</p>
             <p>• Women&apos;s self-defense is held on the first Saturday each month.</p>
-            <p>• Sunday Open Mat is available to everyone — <strong className="text-white">no drop-in fee</strong>.</p>
+            <p>• Sunday Open Mat is available to everyone — <strong className="text-text">no drop-in fee</strong>.</p>
           </div>
         </div>
 
-        <p className="text-gray-400 text-center mb-8 mt-10">
+        <p className="text-muted text-center mb-8 mt-10">
           Can&apos;t make it to class?{' '}
-          <a href="tel:4155591404" className="text-[#AA4A44] hover:underline">
+          <a href="tel:4155591404" className="text-brand hover:underline">
             Contact us
           </a>{' '}
           to schedule a private lesson.
