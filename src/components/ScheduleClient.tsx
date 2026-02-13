@@ -39,10 +39,12 @@ const uniformActiveClasses: Record<string, string> = {
 };
 
 const inactiveClass = 'border-gray-600 bg-gray-800/50 text-gray-400';
+const defaultTypes: string[] = [];
+const defaultUniforms: string[] = [];
 
 export default function ScheduleClient({ initialSchedule }: ScheduleClientProps) {
-  const [selectedTypes, setSelectedTypes] = useState<Set<string>>(new Set(['tiny-kids', 'kids', 'adults', 'womens', 'muay-thai']));
-  const [selectedUniforms, setSelectedUniforms] = useState<Set<string>>(new Set(['Gi', 'No Gi', 'No Uniform']));
+  const [selectedTypes, setSelectedTypes] = useState<Set<string>>(new Set(defaultTypes));
+  const [selectedUniforms, setSelectedUniforms] = useState<Set<string>>(new Set(defaultUniforms));
 
   const filterSections = {
     age: [
@@ -117,7 +119,13 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
   const shouldDisplayClass = (classInfo: ClassInfo) => {
     const typeArray = normalizeTypes(classInfo.types);
     const uniformArray = normalizeUniforms(classInfo.uniform);
-    return typeArray.some(t => selectedTypes.has(t)) && uniformArray.some(u => selectedUniforms.has(u));
+    const isUniformFilteredProgram = !typeArray.includes('womens') && !typeArray.includes('muay-thai');
+    const typeMatches = selectedTypes.size === 0 || typeArray.some((t) => selectedTypes.has(t));
+    const uniformMatches =
+      !isUniformFilteredProgram ||
+      selectedUniforms.size === 0 ||
+      uniformArray.some((u) => selectedUniforms.has(u));
+    return typeMatches && uniformMatches;
   };
 
   const getFontSize = (types: string[] | string) => {
@@ -148,6 +156,22 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
     return `${day}-${timeSlot}-${typeArray.join('-')}-${uniformArray.join('-')}`;
   };
 
+  const classCount = days.reduce((count, day) => {
+    return count + Object.values(initialSchedule[day] || {}).filter((classInfo) => shouldDisplayClass(classInfo)).length;
+  }, 0);
+
+  const hasMatches = classCount > 0;
+
+  const clearAllFilters = () => {
+    setSelectedTypes(new Set());
+    setSelectedUniforms(new Set());
+  };
+
+  const resetDefaultFilters = () => {
+    setSelectedTypes(new Set(defaultTypes));
+    setSelectedUniforms(new Set(defaultUniforms));
+  };
+
   return (
     <main className="min-h-[calc(100vh-64px)] py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-[1400px] mx-auto">
@@ -155,68 +179,82 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
           Class Schedule
         </h1>
 
-        {/* Filters + Info Row */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          {/* Filters */}
-          <div className="space-y-6">
-            <div>
-              <h3 className="text-white font-[--font-bebas-neue] text-xl mb-3">Age Group</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                {filterSections.age.map((type) => (
-                  <button
-                    key={type.id}
-                    onClick={() => setSelectedTypes(prev => {
-                      const next = new Set(prev);
-                      next.has(type.id) ? next.delete(type.id) : next.add(type.id);
-                      return next;
-                    })}
-                    className={`w-full px-4 py-3 rounded-lg border transition-all duration-200 text-center font-medium text-sm ${
-                      selectedTypes.has(type.id) ? typeActiveClasses[type.id] : inactiveClass
-                    }`}
-                  >
-                    {type.label}
-                  </button>
-                ))}
-              </div>
+        {/* Filters */}
+        <div className="mb-8 space-y-4 bg-[#111111] border border-gray-800 rounded-lg p-5">
+            <div className="text-center">
+              <h2 className="text-2xl font-[--font-bebas-neue] text-white tracking-wider">Filters</h2>
             </div>
 
-            <div>
-              <h3 className="text-white font-[--font-bebas-neue] text-xl mb-3">Uniform</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                {filterSections.uniform.map((uniform) => (
-                  <button
-                    key={uniform.id}
-                    onClick={() => setSelectedUniforms(prev => {
-                      const next = new Set(prev);
-                      next.has(uniform.id) ? next.delete(uniform.id) : next.add(uniform.id);
-                      return next;
-                    })}
-                    className={`w-full px-4 py-3 rounded-lg border transition-all duration-200 text-center font-medium text-sm ${
-                      selectedUniforms.has(uniform.id) ? uniformActiveClasses[uniform.id] : inactiveClass
-                    }`}
-                  >
-                    {uniform.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
+            <div className="flex items-center justify-center gap-2 overflow-x-auto pb-1 whitespace-nowrap">
+              <h3 className="text-white font-[--font-bebas-neue] text-lg mr-1">Program</h3>
+              {filterSections.age.map((type) => (
+                <button
+                  key={type.id}
+                  onClick={() => setSelectedTypes(prev => {
+                    const next = new Set(prev);
+                    if (next.has(type.id)) {
+                      next.delete(type.id);
+                    } else {
+                      next.add(type.id);
+                    }
+                    return next;
+                  })}
+                  aria-pressed={selectedTypes.has(type.id)}
+                  className={`shrink-0 px-4 py-2 rounded-lg border transition-all duration-200 text-center font-medium text-sm ${
+                    selectedTypes.has(type.id) ? typeActiveClasses[type.id] : inactiveClass
+                  }`}
+                >
+                  {type.label}
+                </button>
+              ))}
 
-          {/* Class Info */}
-          <div className="md:col-span-2 bg-[#111111] border border-gray-800 rounded-lg p-6">
-            <h2 className="text-2xl font-[--font-bebas-neue] text-white mb-4 tracking-wider">
-              Class Information
-            </h2>
-            <div className="space-y-3 text-gray-300 text-sm leading-relaxed">
-              <p>• All BJJ classes encompass fundamentals and advanced techniques</p>
-              <p>• For No Gi classes, wear rash guards and shorts or spats; For Gi classes, wear a BJJ Gi</p>
-              <p>• For Muay Thai classes, wear comfortable athletic clothing, hand wraps, and a mouthguard</p>
-              <p>• Please arrive 10–15 minutes before class starts</p>
-              <p>• Women&apos;s self-defense classes are on the first Saturday of each month</p>
-              <p>• Sunday Open Mat is available to anyone — <strong className="text-white">NO DROP IN FEE</strong></p>
+              <span className="text-gray-600 mx-2">|</span>
+
+              <h3 className="text-white font-[--font-bebas-neue] text-lg mr-1">Uniform</h3>
+              {filterSections.uniform.map((uniform) => (
+                <button
+                  key={uniform.id}
+                  onClick={() => setSelectedUniforms(prev => {
+                    const next = new Set(prev);
+                    if (next.has(uniform.id)) {
+                      next.delete(uniform.id);
+                    } else {
+                      next.add(uniform.id);
+                    }
+                    return next;
+                  })}
+                  aria-pressed={selectedUniforms.has(uniform.id)}
+                  className={`shrink-0 px-4 py-2 rounded-lg border transition-all duration-200 text-center font-medium text-sm ${
+                    selectedUniforms.has(uniform.id) ? uniformActiveClasses[uniform.id] : inactiveClass
+                  }`}
+                >
+                  {uniform.label}
+                </button>
+              ))}
             </div>
-          </div>
+
+            <div className="flex items-center justify-center gap-3 pt-1">
+              <button
+                onClick={clearAllFilters}
+                className="px-3 py-2 text-xs rounded-lg border border-gray-700 text-gray-200 hover:border-gray-500"
+              >
+                Clear All
+              </button>
+              <span className="text-xs text-gray-400">Showing {classCount} class{classCount === 1 ? '' : 'es'}</span>
+            </div>
         </div>
+
+        {!hasMatches && (
+          <div className="mb-6 rounded-lg border border-[#AA4A44]/70 bg-[#AA4A44]/10 p-4 text-center">
+            <p className="text-white">No classes match your current filters.</p>
+            <button
+              onClick={resetDefaultFilters}
+              className="mt-3 px-4 py-2 rounded-lg border border-[#AA4A44] text-[#f0c7c2] hover:bg-[#AA4A44]/10 text-sm"
+            >
+              Reset filters
+            </button>
+          </div>
+        )}
 
         {/* Desktop Grid Schedule */}
         <div className="hidden md:block bg-[#111111] border border-gray-800 rounded-lg overflow-hidden">
@@ -324,6 +362,32 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
               </div>
             );
           })}
+
+          {!hasMatches && (
+            <div className="bg-[#111111] border border-gray-800 rounded-lg p-5 text-center">
+              <p className="text-white">No classes match your filters right now.</p>
+              <button
+                onClick={resetDefaultFilters}
+                className="mt-3 px-4 py-2 rounded-lg border border-[#AA4A44] text-[#f0c7c2] hover:bg-[#AA4A44]/10 text-sm"
+              >
+                Reset filters
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* Class Info */}
+        <div className="mt-8 bg-[#111111] border border-gray-800 rounded-lg p-6">
+          <h2 className="text-2xl font-[--font-bebas-neue] text-white mb-4 tracking-wider">
+            Class Information
+          </h2>
+          <div className="space-y-2 text-gray-300 text-sm leading-relaxed">
+            <p>• Arrive 10–15 minutes before class starts.</p>
+            <p>• Gi classes require a BJJ Gi; No Gi classes require rash guard + shorts/spats.</p>
+            <p>• Muay Thai: athletic clothing, hand wraps, and a mouthguard.</p>
+            <p>• Women&apos;s self-defense is held on the first Saturday each month.</p>
+            <p>• Sunday Open Mat is available to everyone — <strong className="text-white">no drop-in fee</strong>.</p>
+          </div>
         </div>
 
         <p className="text-gray-400 text-center mb-8 mt-10">
