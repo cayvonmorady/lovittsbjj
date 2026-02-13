@@ -197,33 +197,33 @@ export default async function Home() {
       <section className="py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-10">
-            <h2 className="text-4xl font-[--font-bebas-neue] text-white mb-3 tracking-wide">Get In Touch</h2>
+            <h2 className="text-4xl font-[--font-bebas-neue] text-white mb-3 tracking-wide">Hours & Location</h2>
             <p className="text-gray-400">
-              Ready to start your BJJ journey? Contact us today and take the first step towards transformation.
+              Ready to start your BJJ journey? Come by anytime to take the first step towards transformation.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
             {/* Hours of Operation */}
-            <div className="bg-[#111111] p-6 rounded-lg border border-gray-800">
+            <div className="bg-[#111111] p-6 rounded-lg border border-gray-800 flex flex-col">
               <h3 className="font-[--font-bebas-neue] text-2xl text-white mb-5 tracking-wide text-center">
                 Hours of Operation
               </h3>
-              <div className="grid grid-cols-2 gap-x-6 gap-y-2 text-base max-w-xs mx-auto text-gray-300">
-                <span className="font-medium text-right text-gray-400">Monday:</span>
-                <span>9 AM – 9:30 PM</span>
-                <span className="font-medium text-right text-gray-400">Tuesday:</span>
-                <span>9 AM – 9:30 PM</span>
-                <span className="font-medium text-right text-gray-400">Wednesday:</span>
-                <span>9 AM – 9:30 PM</span>
-                <span className="font-medium text-right text-gray-400">Thursday:</span>
-                <span>9 AM – 9:30 PM</span>
-                <span className="font-medium text-right text-gray-400">Friday:</span>
-                <span>9 AM – 9:30 PM</span>
-                <span className="font-medium text-right text-gray-400">Saturday:</span>
-                <span>8:30 AM – 12 PM</span>
-                <span className="font-medium text-right text-gray-400">Sunday:</span>
-                <span>Closed</span>
+              <div className="flex-1 flex flex-col justify-center">
+                <div className="rounded-lg overflow-hidden border border-gray-800">
+                  <div className="flex items-center justify-between px-5 py-3 bg-[#1a1a1a]">
+                    <span className="text-gray-300 font-medium">Monday – Friday</span>
+                    <span className="text-white">9:00 AM – 9:30 PM</span>
+                  </div>
+                  <div className="flex items-center justify-between px-5 py-3 bg-[#111111]">
+                    <span className="text-gray-300 font-medium">Saturday</span>
+                    <span className="text-white">8:30 AM – 12:00 PM</span>
+                  </div>
+                  <div className="flex items-center justify-between px-5 py-3 bg-[#1a1a1a]">
+                    <span className="text-gray-300 font-medium">Sunday</span>
+                    <span className="text-gray-500">Closed</span>
+                  </div>
+                </div>
               </div>
               <p className="mt-5 text-sm text-center text-gray-400">
                 <span className="text-[#AA4A44] font-medium">Note:</span> Class times vary. See our{' '}
@@ -232,59 +232,10 @@ export default async function Home() {
               </p>
             </div>
 
-            {/* Contact Cards */}
-            <div className="space-y-4">
-              {/* Phone */}
-              <div className="bg-[#111111] p-5 rounded-lg border border-gray-800 flex items-center gap-4">
-                <div className="w-11 h-11 bg-[#2196F3]/10 rounded-full flex items-center justify-center flex-shrink-0">
-                  <svg className="w-5 h-5 text-[#2196F3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                  </svg>
-                </div>
-                <div>
-                  <h4 className="font-[--font-bebas-neue] text-lg text-white tracking-wide">Phone</h4>
-                  <a href="tel:4155591404" className="text-gray-400 hover:text-[#2196F3] transition-colors">
-                    (415) 559-1404
-                  </a>
-                </div>
-              </div>
-
-              {/* Email */}
-              <div className="bg-[#111111] p-5 rounded-lg border border-gray-800 flex items-center gap-4">
-                <div className="w-11 h-11 bg-[#4CAF50]/10 rounded-full flex items-center justify-center flex-shrink-0">
-                  <svg className="w-5 h-5 text-[#4CAF50]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                  </svg>
-                </div>
-                <div className="min-w-0">
-                  <h4 className="font-[--font-bebas-neue] text-lg text-white tracking-wide">Email</h4>
-                  <a href="mailto:Markangelolovitt@lovittsjiujitsu.com" className="text-gray-400 hover:text-[#4CAF50] transition-colors text-sm break-all">
-                    Markangelolovitt@lovittsjiujitsu.com
-                  </a>
-                </div>
-              </div>
-
-              {/* Location */}
-              <div className="bg-[#111111] p-5 rounded-lg border border-gray-800 flex items-center gap-4">
-                <div className="w-11 h-11 bg-[#F44336]/10 rounded-full flex items-center justify-center flex-shrink-0">
-                  <svg className="w-5 h-5 text-[#F44336]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                </div>
-                <div>
-                  <h4 className="font-[--font-bebas-neue] text-lg text-white tracking-wide">Visit Us</h4>
-                  <p className="text-gray-400 text-sm">
-                    2190 Solano Way<br />Concord, CA 94520
-                  </p>
-                </div>
-              </div>
+            {/* Map */}
+            <div className="rounded-lg overflow-hidden border border-gray-800 min-h-[300px]">
+              <Map />
             </div>
-          </div>
-
-          {/* Map */}
-          <div className="mt-10 w-full">
-            <Map />
           </div>
         </div>
       </section>

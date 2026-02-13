@@ -24,19 +24,27 @@ export function isGeneralQuery(query: string): boolean {
 export function getSpecificProgram(query: string): string | null {
   const lowercaseQuery = query.toLowerCase();
   
-  if (lowercaseQuery.includes('muay thai') || lowercaseQuery.includes('muaythai')) {
+  if (lowercaseQuery.includes('muay thai') || lowercaseQuery.includes('muaythai') || lowercaseQuery.includes('kickboxing') || lowercaseQuery.includes('striking')) {
     return 'muay thai';
   }
   
-  if (lowercaseQuery.includes('kid') || lowercaseQuery.includes('child') || lowercaseQuery.includes('children')) {
+  if (lowercaseQuery.includes('tiny') || (lowercaseQuery.includes('kid') && lowercaseQuery.includes('4')) || (lowercaseQuery.includes('kid') && lowercaseQuery.includes('5'))) {
+    return 'tiny kids bjj';
+  }
+  
+  if (lowercaseQuery.includes('kid') || lowercaseQuery.includes('child') || lowercaseQuery.includes('children') || lowercaseQuery.includes('youth') || lowercaseQuery.includes('junior')) {
     return 'kids bjj';
   }
   
-  if (lowercaseQuery.includes('women') || lowercaseQuery.includes('woman') || lowercaseQuery.includes('female') || lowercaseQuery.includes('fitness')) {
-    return 'women\'s fitness';
+  if (lowercaseQuery.includes('women') || lowercaseQuery.includes('woman') || lowercaseQuery.includes('female') || lowercaseQuery.includes('self defense') || lowercaseQuery.includes('self-defense')) {
+    return 'women\'s self defense';
   }
   
-  if (lowercaseQuery.includes('adult') || lowercaseQuery.includes('men')) {
+  if (lowercaseQuery.includes('personal training') || lowercaseQuery.includes('private') || lowercaseQuery.includes('one on one') || lowercaseQuery.includes('1 on 1')) {
+    return 'personal training';
+  }
+  
+  if (lowercaseQuery.includes('adult') || lowercaseQuery.includes('bjj')) {
     return 'adult bjj';
   }
   
@@ -59,47 +67,34 @@ export async function generateMistralResponse(query: string, conversationHistory
     // Get the crawled content
     let websiteContent = readCrawledContent();
     
-    // Add special information about Muay Thai classes
+    // Add comprehensive program, pricing, and schedule information
     websiteContent = addSpecialInformation(websiteContent);
 
     // Check if this is a general query that needs more specific information
     const needsSpecificProgram = isGeneralQuery(query);
     const specificProgram = getSpecificProgram(query);
 
-    // Create a system message with context about the website
-    let systemMessage = `
-You are a helpful, friendly, and conversational assistant for Lovitt's BJJ, a Brazilian Jiu-Jitsu school in Concord, CA.
-Use the following information about the school to answer questions:
+    // Create the system prompt
+    let systemMessage = `You are a helpful assistant for Lovitt's BJJ, a martial arts gym in Concord, CA. Answer questions using ONLY the information provided below. Be concise and accurate.
 
+=== SCHOOL INFORMATION ===
 ${websiteContent}
+=== END SCHOOL INFORMATION ===
 
-IMPORTANT PROGRAM DETAILS:
-1. Adult BJJ: Classes for adults of all experience levels focusing on technique, sparring, and competition preparation. This is our largest offering.
-2. Kids BJJ: Age-appropriate classes for children focusing on discipline, respect, and self-confidence. The font size for Kids BJJ classes in the schedule is set to 'text-sm' for better visual distinction.
-3. Muay Thai: Classes on Monday at 7:30pm and Saturday at 8:30am, each for an hour. Participants should wear comfortable athletic clothing, hand wraps, and a mouthguard (no uniform requirement like BJJ classes).
-4. Women's Fitness: Classes designed specifically for women focusing on fitness, self-defense, and empowerment.
-
-IMPORTANT RESPONSE GUIDELINES:
-1. Be conversational and friendly in your responses. Use a warm, welcoming tone.
-2. Keep responses EXTREMELY CONCISE - no more than 1-2 sentences for simple questions.
-3. If a user asks a general question about times, pricing, schedule, or classes WITHOUT specifying which program they're interested in, ONLY ask which program they're interested in. Your entire response should be something like: "Which program are you interested in - Adult BJJ, Kids BJJ, Muay Thai, or Women's Fitness?"
-4. Always format website URLs as proper markdown links. For example, use [Schedule Page](https://www.lovittsbjj.com/schedule) instead of just mentioning "the schedule page" or "lovittsbjj.com/schedule".
-5. If you don't know the answer to a question, politely suggest contacting the school directly at Markangelolovitt@lovittsjiujitsu.com or (415) 559-1404.
-6. DO NOT include unnecessary information or sign your messages with "Best regards, Lovitt's BJJ Team".
-7. DO NOT add any extra fluff or unnecessary details to your responses.
-8. You do not need to add any pleasantries.
-9. IMPORTANT: Remember context from previous messages in the conversation. If a user previously mentioned interest in a specific program, use that information when answering follow-up questions.
+RULES:
+1. Use ONLY the pricing data from the "ACCURATE PRICING INFORMATION" section above. Never guess or make up prices.
+2. Keep responses to 1-3 sentences for simple questions. Only give longer answers when the user asks for detailed information.
+3. If someone asks about a specific program (like "how much is Muay Thai"), give the price directly — do not ask them to clarify.
+4. If someone asks a vague question about "classes" or "pricing" without specifying a program, ask which program they're interested in: Adult BJJ, Kids BJJ, Muay Thai, Women's Self Defense, or Personal Training.
+5. Format links as markdown: [Schedule Page](https://www.lovittsbjj.com/schedule), [Pricing Page](https://www.lovittsbjj.com/pricing).
+6. If you don't know something, say so and suggest contacting (415) 559-1404 or Markangelolovitt@lovittsjiujitsu.com.
+7. Do NOT add sign-offs like "Best regards" or unnecessary pleasantries.
+8. Remember context from previous messages in the conversation.
 `;
 
     // Additional instructions for general queries with no conversation history
     if (needsSpecificProgram && !specificProgram && conversationHistory.length === 0) {
-      systemMessage += `
-IMPORTANT: This is a general query about classes, schedule, or pricing without specifying a program. Your ENTIRE response should be ONLY:
-
-"Which program are you interested in - Adult BJJ, Kids BJJ, Muay Thai, or Women's Fitness?"
-
-DO NOT add any additional information, links, or pleasantries. Keep it extremely concise.
-`;
+      systemMessage += `\nThe user is asking a general question without specifying a program. Respond ONLY with:\n"Which program are you interested in — Adult BJJ, Kids BJJ, Muay Thai, Women's Self Defense, or Personal Training?"\n`;
     }
 
     // Prepare the messages array for the API call
@@ -107,9 +102,8 @@ DO NOT add any additional information, links, or pleasantries. Keep it extremely
       { role: 'system', content: systemMessage }
     ];
 
-    // Add conversation history if available
+    // Add conversation history if available (last 5 messages)
     if (conversationHistory.length > 0) {
-      // Only include the last 5 messages to keep context manageable
       const recentHistory = conversationHistory.slice(-5);
       messages.push(...recentHistory);
     }
@@ -117,12 +111,12 @@ DO NOT add any additional information, links, or pleasantries. Keep it extremely
     // Add the current user query
     messages.push({ role: 'user', content: query });
 
-    // Call the MistralAI API using the chat method
+    // Call the MistralAI API
     const chatResponse = await mistralClient.chat.complete({
-      model: 'open-mistral-7b', // Using the free Mistral 7B model
+      model: 'open-mistral-nemo',
       messages: messages,
-      temperature: 0.7,
-      maxTokens: 200 // Reduced max tokens to encourage shorter responses
+      temperature: 0.4,
+      maxTokens: 300
     });
 
     // Return the generated response
@@ -130,7 +124,6 @@ DO NOT add any additional information, links, or pleasantries. Keep it extremely
     if (typeof content === 'string') {
       return content.trim();
     } else if (Array.isArray(content)) {
-      // Handle content chunks if returned as an array
       return content.map(chunk => 
         typeof chunk === 'string' ? chunk : JSON.stringify(chunk)
       ).join('').trim();

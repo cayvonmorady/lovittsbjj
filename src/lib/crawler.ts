@@ -126,16 +126,57 @@ export function readCrawledContent(): string {
   }
 }
 
-// Add special information about Muay Thai classes
+// Add comprehensive program, pricing, and schedule information
 export function addSpecialInformation(content: string): string {
-  // Add information about Muay Thai classes based on the memory
-  const muayThaiInfo = `
---- Special Information ---
-Muay Thai Classes:
-- Monday at 7:30pm (1 hour)
-- Saturday at 8:30am (1 hour)
-Muay Thai Attire: Comfortable athletic clothing, hand wraps, and a mouthguard (no uniform requirement like BJJ classes).
+  const detailedInfo = `
+
+--- ACCURATE PRICING INFORMATION (USE THIS DATA) ---
+
+ADULT BJJ PRICING:
+- Monthly Unlimited: $215/month (month-to-month, no commitment)
+- 12-Month Commitment: $175/month (best value)
+- Drop-In Class: $30 per class
+
+KIDS & TINY KIDS BJJ PRICING:
+- Monthly Unlimited: $190/month (month-to-month, no commitment)
+- 12-Month Commitment: $150/month (best value)
+- Drop-In Class: $30 per class
+
+MUAY THAI PRICING:
+- Monthly Unlimited: $120/month
+- Drop-In Class: $30 per class
+
+WOMEN'S SELF DEFENSE PRICING:
+- Monthly Unlimited: $120/month
+- Drop-In Class: $30 per class
+
+PERSONAL TRAINING PRICING:
+- Monthly Package: $300/month
+- Single Session: $75 per session
+
+--- PROGRAM DETAILS ---
+
+ADULT BJJ: Classes for adults of all experience levels focusing on technique, sparring, and competition preparation. Offers both gi and no-gi training.
+
+KIDS BJJ (Ages 6-12): Builds physical skills and character. Students learn self-defense while developing strength, focus, and confidence through structured training. Emphasizes respect, discipline, and perseverance.
+
+TINY KIDS BJJ (Ages 4-5): Children develop essential life skills and physical coordination in a nurturing environment through fun, engaging exercises.
+
+MUAY THAI: Beginner-friendly classes focusing on striking techniques, clinch work, and conditioning. Classes are held Monday at 7:30pm and Saturday at 8:30am (1 hour each). Wear comfortable athletic clothing, hand wraps, and a mouthguard (no uniform requirement like BJJ).
+
+WOMEN'S SELF DEFENSE: Dedicated program for women focusing on practical self-defense skills in a supportive environment.
+
+PERSONAL TRAINING: One-on-one sessions with experienced instructors for personalized skill development.
+
+--- CONTACT & LOCATION ---
+Phone: (415) 559-1404
+Email: Markangelolovitt@lovittsjiujitsu.com
+Address: 2190 Solano Way, Concord, CA 94520
+Hours: Mon-Fri 9:00 AM - 9:30 PM, Sat 8:30 AM - 12:00 PM, Sun Closed
+
+--- INSTRUCTOR ---
+Markangelo Lovitt - BJJ Coach & Owner. 10+ years of training experience. Student of David Freeman (black belt under Caio Terra). Opened the gym in Concord, CA in 2018. Currently a brown belt in Brazilian Jiu-Jitsu.
 `;
 
-  return content + muayThaiInfo;
+  return content + detailedInfo;
 }

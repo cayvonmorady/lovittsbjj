@@ -16,22 +16,16 @@ interface ApiError extends Error {
 
 // Function to convert markdown links to HTML links
 function convertMarkdownLinksToHtml(text: string): string {
-  // Regex to match markdown links: [text](url)
   const markdownLinkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
-  
-  // Replace all markdown links with HTML links
   return text.replace(markdownLinkRegex, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
 }
 
 // Function to ensure concise responses for general queries
 function ensureConciseResponse(query: string, response: string, conversationHistory: Message[]): string {
-  // Check if this is a general query without a specific program
+  // Only override for vague general queries with no specific program and no conversation context
   if (isGeneralQuery(query) && !getSpecificProgram(query) && conversationHistory.length <= 1) {
-    // Always return this exact response for general queries, regardless of what the model generated
-    return "Which program are you interested in - Adult BJJ, Kids BJJ, Muay Thai, or Women's Fitness?";
+    return "Which program are you interested in — Adult BJJ, Kids BJJ, Muay Thai, Women's Self Defense, or Personal Training?";
   }
-  
-  // For specific queries or follow-up questions, return the original response
   return response;
 }
 
@@ -48,46 +42,26 @@ export async function POST(req: Request) {
 
     // Try to use MistralAI first
     try {
-      // Check if Mistral API key is configured
       if (!process.env.MISTRAL_API_KEY) {
-        console.warn('MISTRAL_API_KEY is not set in environment variables. Falling back to static responses.');
+        console.warn('MISTRAL_API_KEY is not set. Falling back to static responses.');
         throw new Error('MISTRAL_API_KEY is not configured');
       }
 
-      // Use the MistralAI integration with conversation history
       const mistralResponse = await generateMistralResponse(query, history);
-      
-      // Ensure the response is concise for general queries
       const conciseResponse = ensureConciseResponse(query, mistralResponse, history);
-      
-      // Convert markdown links to HTML links
       const formattedResponse = convertMarkdownLinksToHtml(conciseResponse);
       
       return NextResponse.json({ response: formattedResponse });
     } catch (error: unknown) {
-      console.error('Error with MistralAI:', error);
-      
-      // Cast error to our ApiError type with type checking
       const apiError = error as ApiError;
+      console.error('MistralAI error:', apiError.message || 'Unknown error');
       
-      // Log detailed error information
-      console.error('MistralAI error details:', {
-        query,
-        history,
-        error: apiError.message || 'Unknown error',
-        stack: apiError.stack || 'No stack trace available',
-      });
-      
-      // Fall back to the static responses if MistralAI fails
+      // Fall back to static keyword-based responses
       const fallbackResponse = findResponse(query);
+      const conciseFallback = ensureConciseResponse(query, fallbackResponse, history);
+      const formattedFallback = convertMarkdownLinksToHtml(conciseFallback);
       
-      // Ensure the fallback response is also concise for general queries
-      const conciseFallbackResponse = ensureConciseResponse(query, fallbackResponse, history);
-      
-      // Also convert markdown links in fallback responses
-      const formattedFallbackResponse = convertMarkdownLinksToHtml(conciseFallbackResponse);
-      
-      return NextResponse.json({ response: formattedFallbackResponse });
+      return NextResponse.json({ response: formattedFallback });
     }
   } catch (error) {
     console.error('Error in chat route:', error);
