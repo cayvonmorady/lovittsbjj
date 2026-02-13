@@ -306,25 +306,25 @@ export default async function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Hours of Operation */}
             <div className="w-full bg-[#111111] p-4 sm:p-6 rounded-lg border border-gray-800 h-full">
-              <div className="flex items-start">
-                <div className="flex-1">
-                  <h3 className="font-[--font-bebas-neue] text-xl sm:text-2xl text-white mb-2 tracking-wide">Hours of Operation</h3>
+              <div className="flex flex-col items-center">
+                <div className="text-center">
+                  <h3 className="font-[--font-bebas-neue] text-xl sm:text-2xl text-white mb-4 tracking-wide">Hours of Operation</h3>
                   <div className="text-gray-400 text-base sm:text-lg">
-                    <div className="grid grid-cols-2 gap-x-2 sm:gap-x-6 gap-y-1">
-                      <span className="font-medium">Monday:</span>
-                      <span>9:00 AM - 9:30 PM</span>
-                      <span className="font-medium">Tuesday:</span>
-                      <span>9:00 AM - 9:30 PM</span>
-                      <span className="font-medium">Wednesday:</span>
-                      <span>9:00 AM - 9:30 PM</span>
-                      <span className="font-medium">Thursday:</span>
-                      <span>9:00 AM - 9:30 PM</span>
-                      <span className="font-medium">Friday:</span>
-                      <span>9:00 AM - 9:30 PM</span>
-                      <span className="font-medium">Saturday:</span>
-                      <span>8:30 AM - 12:00 PM</span>
-                      <span className="font-medium">Sunday:</span>
-                      <span>Closed</span>
+                    <div className="grid grid-cols-2 gap-x-4 sm:gap-x-8 gap-y-2 max-w-sm mx-auto">
+                      <span className="font-medium text-right">Monday:</span>
+                      <span className="text-left">9 AM - 9:30 PM</span>
+                      <span className="font-medium text-right">Tuesday:</span>
+                      <span className="text-left">9 AM - 9:30 PM</span>
+                      <span className="font-medium text-right">Wednesday:</span>
+                      <span className="text-left">9 AM - 9:30 PM</span>
+                      <span className="font-medium text-right">Thursday:</span>
+                      <span className="text-left">9 AM - 9:30 PM</span>
+                      <span className="font-medium text-right">Friday:</span>
+                      <span className="text-left">9 AM - 9:30 PM</span>
+                      <span className="font-medium text-right">Saturday:</span>
+                      <span className="text-left">8:30 AM - 12 PM</span>
+                      <span className="font-medium text-right">Sunday:</span>
+                      <span className="text-left">Closed</span>
                     </div>
                     <p className="mt-4 text-xs sm:text-sm">
                       <span className="text-[#FF9800] font-medium">Note:</span> Class times vary. See our <a href="/schedule" className="text-[#FF9800] hover:underline">schedule page</a> for specific class times.
