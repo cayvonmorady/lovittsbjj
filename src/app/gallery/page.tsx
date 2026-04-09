@@ -1,121 +1,63 @@
-import { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Gallery | Lovitts BJJ",
-  description: "Gallery page is temporarily unavailable while content is being refreshed.",
-  robots: {
-    index: false,
-    follow: true,
-  },
-};
-
-// Gallery page temporarily hidden
-// Will be implemented in the future
-
-export default function GalleryPage() {
-  return null; // Return null to prevent rendering while keeping the file as a valid module
-}
-
-/* Original implementation saved for future use
-'use client';
-
-import React from 'react';
-import Image from 'next/image';
+import { Metadata } from 'next';
 import { client } from '../../../sanity/lib/client';
 import { urlForImage } from '../../../sanity/lib/image';
-import ScrollIndicator from '@/components/ScrollIndicator';
+import GalleryClient from '@/components/GalleryClient';
 
-interface SanityImage {
-  _type: 'image';
-  asset: {
-    _ref: string;
-    _type: 'reference';
-  };
-}
+export const revalidate = 0;
 
-interface GalleryImage {
+export const metadata: Metadata = {
+  title: 'Gallery | Lovitts BJJ',
+  description: 'Photos from Lovitts BJJ — classes, competitions, and community moments.',
+};
+
+interface SanityGalleryImage {
   _id: string;
-  image: SanityImage;
-  alt?: string;
-  order?: number;
+  image: {
+    _type: 'image';
+    asset: { _ref: string; _type: 'reference' };
+  };
+  alt: string;
+  order: number;
 }
 
-function GalleryPageImplementation() {
-  const [images, setImages] = React.useState<GalleryImage[]>([]);
-  const [isLoading, setIsLoading] = React.useState(true);
-
-  React.useEffect(() => {
-    async function fetchImages() {
-      try {
-        const data = await client.fetch<GalleryImage[]>(`
-          *[_type == "galleryImage"] | order(order asc) {
-            _id,
-            image,
-            alt,
-            order
-          }
-        `);
-        if (data && data.length > 0) {
-          setImages(data);
-        }
-      } catch (error) {
-        console.error('Error fetching gallery images:', error);
-      } finally {
-        setIsLoading(false);
+async function getGalleryImages() {
+  try {
+    return await client.fetch<SanityGalleryImage[]>(`
+      *[_type == "galleryImage"] | order(order asc) {
+        _id,
+        image,
+        alt,
+        order
       }
-    }
-
-    fetchImages();
-  }, []);
-
-  if (isLoading) {
-    return (
-      <main className="min-h-[calc(100vh-64px)] py-12 px-4 sm:px-6 lg:px-8">
-        <div className="container mx-auto px-4 py-8 max-w-7xl">
-          <h1 className="text-4xl font-[--font-bebas-neue] text-white mb-8 tracking-wider">
-            Gallery
-          </h1>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {[...Array(8)].map((_, index) => (
-              <div
-                key={index}
-                className="relative aspect-square overflow-hidden rounded-lg bg-[#111111] border border-gray-800 animate-pulse"
-              />
-            ))}
-          </div>
-        </div>
-      </main>
-    );
+    `);
+  } catch {
+    return [];
   }
+}
+
+export default async function GalleryPage() {
+  const raw = await getGalleryImages();
+
+  const images = raw
+    .filter((img) => img.image?.asset)
+    .map((img) => ({
+      _id: img._id,
+      imageUrl: urlForImage(img.image).width(1200).url(),
+      alt: img.alt,
+    }));
 
   return (
-    <main className="min-h-[calc(100vh-64px)] py-12 px-4 sm:px-6 lg:px-8">
-      <ScrollIndicator />
-      <div className="container mx-auto px-4 py-8 max-w-7xl">
-        <h1 className="text-4xl font-[--font-bebas-neue] text-white mb-8 tracking-wider">
+    <main className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto">
+        <h1
+          className="text-5xl uppercase tracking-widest text-text mb-2"
+          style={{ fontFamily: 'var(--font-bebas-neue)' }}
+        >
           Gallery
         </h1>
-
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {images.map((image) => (
-            <div
-              key={image._id}
-              className="relative aspect-square overflow-hidden rounded-lg bg-[#111111] border border-gray-800"
-            >
-              {image.image && image.image.asset && (
-                <Image
-                  src={urlForImage(image.image).url()}
-                  alt={image.alt || 'Gallery image'}
-                  fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                  className="object-cover transition-all duration-300 hover:scale-110"
-                />
-              )}
-            </div>
-          ))}
-        </div>
+        <p className="text-muted mb-8">Photos from the gym — classes, competitions, and community.</p>
+        <GalleryClient images={images} />
       </div>
     </main>
   );
 }
-*/

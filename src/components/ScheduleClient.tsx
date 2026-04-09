@@ -202,14 +202,18 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
   return (
     <main className="py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-[1400px] mx-auto">
-        <h1 className="text-4xl font-[--font-bebas-neue] text-text mb-8 tracking-wider text-center">
+        <h1
+          className="text-2xl uppercase tracking-widest text-text mb-2"
+          style={{ fontFamily: 'var(--font-bebas-neue)' }}
+        >
           Class Schedule
         </h1>
+        <p className="text-muted mb-8">All current classes — times, programs, and uniform requirements.</p>
 
         {/* Filters */}
         <div className="mb-8 space-y-4 card p-5">
           <div className="flex items-center justify-between lg:justify-center">
-            <h2 className="text-2xl font-[--font-bebas-neue] text-text tracking-wider">Filters</h2>
+            <h2 className="text-2xl uppercase font-[--font-bebas-neue] text-text tracking-wider">Filters</h2>
             <button
               type="button"
               className="lg:hidden px-3 py-2 text-xs rounded-lg border border-border text-text2 hover:border-text2"
@@ -483,7 +487,7 @@ export default function ScheduleClient({ initialSchedule }: ScheduleClientProps)
 
         {/* Class Info */}
         <div className="mt-8 card p-6">
-          <h2 className="text-2xl font-[--font-bebas-neue] text-text mb-4 tracking-wider">
+          <h2 className="text-3xl uppercase font-[--font-bebas-neue] text-text mb-4 tracking-wider">
             Class Information
           </h2>
           <div className="space-y-2 text-text2 text-sm leading-relaxed">

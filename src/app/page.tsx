@@ -182,7 +182,7 @@ export default async function Home() {
             className="mx-auto w-[180px] sm:w-[240px] lg:w-[280px] h-auto"
             priority
           />
-          <h1 className="font-[--font-bebas-neue] text-4xl lg:text-5xl text-text tracking-wide">
+          <h1 className="text-5xl uppercase tracking-widest text-text" style={{ fontFamily: 'var(--font-bebas-neue)' }}>
             Train with Purpose, Grow with Community
           </h1>
           <p className="max-w-2xl mx-auto text-text2 text-lg leading-relaxed">
@@ -209,7 +209,7 @@ export default async function Home() {
       {/* Programs FAQ */}
       <section className="py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <h2 className="font-[--font-bebas-neue] text-3xl sm:text-4xl text-text tracking-wide text-center mb-10">
+          <h2 className="font-[--font-bebas-neue] text-3xl uppercase text-text tracking-wide text-center mb-10">
             Our Programs
           </h2>
           <ProgramsAccordion
@@ -236,7 +236,7 @@ export default async function Home() {
       <section className="py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-10">
-            <h2 className="text-4xl font-[--font-bebas-neue] text-text mb-3 tracking-wide">Hours & Location</h2>
+            <h2 className="text-3xl uppercase font-[--font-bebas-neue] text-text mb-3 tracking-wide">Hours & Location</h2>
             <p className="text-muted">
               Ready to start your BJJ journey? Come by anytime to take the first step towards transformation.
             </p>

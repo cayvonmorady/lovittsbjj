@@ -99,7 +99,10 @@ export default async function InstructorPage() {
     return (
       <main className="py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-[1400px] mx-auto">
-          <h1 className="text-4xl font-[--font-bebas-neue] text-text mb-2 tracking-wider">
+          <h1
+            className="text-5xl uppercase tracking-widest text-text mb-2"
+            style={{ fontFamily: 'var(--font-bebas-neue)' }}
+          >
             No instructor data available
           </h1>
         </div>
@@ -116,10 +119,14 @@ export default async function InstructorPage() {
   return (
     <main className="py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-[1400px] mx-auto">
-        <h1 className="text-5xl font-[--font-bebas-neue] text-text mb-8 tracking-wider text-center">
+        <h1
+          className="text-5xl uppercase tracking-widest text-text mb-2"
+          style={{ fontFamily: 'var(--font-bebas-neue)' }}
+        >
           Our Instructors
         </h1>
-        
+        <p className="text-muted mb-8">The coaches behind Lovitts BJJ.</p>
+
         <div className="space-y-20">
           {instructorPairs.map((pair, pairIndex) => (
             <div key={`pair-${pairIndex}`} className="grid grid-cols-1 md:grid-cols-2 gap-12">

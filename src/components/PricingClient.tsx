@@ -37,11 +37,6 @@ export default function PricingClient({ pricingData }: PricingClientProps) {
         }`}
       >
         <div className="px-6 py-8 flex flex-col flex-1">
-          {plan.highlighted && (
-            <div className="mb-4 text-center">
-              <span className="badge-accent">Premium Pick</span>
-            </div>
-          )}
           <h3 className="text-2xl font-[--font-bebas-neue] text-text tracking-wider text-center mb-4">
             {plan.name}
           </h3>
@@ -95,9 +90,13 @@ export default function PricingClient({ pricingData }: PricingClientProps) {
   return (
     <main className="py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-[1400px] mx-auto">
-        <h1 className="text-4xl font-[--font-bebas-neue] text-text mb-8 tracking-wider text-center">
+        <h1
+          className="text-5xl uppercase tracking-widest text-text mb-2"
+          style={{ fontFamily: 'var(--font-bebas-neue)' }}
+        >
           Membership Plans
         </h1>
+        <p className="text-muted mb-8">Simple, transparent pricing for adults and kids.</p>
 
         <div className="card p-8 mb-16">
           <div className="grid md:grid-cols-3 gap-8 text-muted">
@@ -158,14 +157,14 @@ export default function PricingClient({ pricingData }: PricingClientProps) {
         </div>
 
         <div className="mb-16">
-          <h2 className="text-3xl font-[--font-bebas-neue] text-text mb-6 tracking-wider text-center">
+          <h2 className="text-3xl uppercase font-[--font-bebas-neue] text-text mb-6 tracking-wider text-center">
             Adult BJJ Programs
           </h2>
           {renderPricingPlans(adultPlans)}
         </div>
 
         <div className="mb-16">
-          <h2 className="text-3xl font-[--font-bebas-neue] text-text mb-6 tracking-wider text-center">
+          <h2 className="text-3xl uppercase font-[--font-bebas-neue] text-text mb-6 tracking-wider text-center">
             All Kids
           </h2>
           {renderPricingPlans(kidsPlans)}
@@ -173,7 +172,7 @@ export default function PricingClient({ pricingData }: PricingClientProps) {
 
         {womensPlans.length > 0 && (
           <div className="mb-16">
-            <h2 className="text-3xl font-[--font-bebas-neue] text-text mb-6 tracking-wider text-center">
+            <h2 className="text-3xl uppercase font-[--font-bebas-neue] text-text mb-6 tracking-wider text-center">
               Women&apos;s Self Defense
             </h2>
             {renderPricingPlans(womensPlans)}
@@ -182,7 +181,7 @@ export default function PricingClient({ pricingData }: PricingClientProps) {
 
         {muayThaiPlans.length > 0 && (
           <div className="mb-16">
-            <h2 className="text-3xl font-[--font-bebas-neue] text-text mb-6 tracking-wider text-center">
+            <h2 className="text-3xl uppercase font-[--font-bebas-neue] text-text mb-6 tracking-wider text-center">
               Muay Thai Programs
             </h2>
             {renderPricingPlans(muayThaiPlans)}
@@ -191,7 +190,7 @@ export default function PricingClient({ pricingData }: PricingClientProps) {
 
         {personalPlans.length > 0 && (
           <div className="mb-16">
-            <h2 className="text-3xl font-[--font-bebas-neue] text-text mb-6 tracking-wider text-center">
+            <h2 className="text-3xl uppercase font-[--font-bebas-neue] text-text mb-6 tracking-wider text-center">
               Personal Training
             </h2>
             {renderPricingPlans(personalPlans)}
