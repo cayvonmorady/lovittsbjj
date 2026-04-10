@@ -1,36 +1,87 @@
-
-
---- Page: / ---
-HomeInstructorPricingScheduleGalleryThemeHomeInstructorPricingScheduleGalleryTrain with Purpose, Grow with CommunityAt Lovitt's BJJ in Concord, we blend technical excellence with a welcoming atmosphere for students from Concord, Pleasant Hill, Walnut Creek, and nearby communities.View ScheduleSee PricingOur ProgramsTiny Kids BJJ (Ages 4-5)Children develop essential life skills and physical coordination in a nurturing environment. Through fun, engaging exercises, they build confidence while learning fundamental movements and social skills.Kids BJJ (Ages 7-12)Our Kids BJJ program builds physical skills and character. Students learn self-defense while developing strength, focus, and confidence through structured training. We emphasize respect, discipline, and perseverance both on and off the mats.Kids BJJ (Ages 13+)Our Kids BJJ 13+ classes are designed for older youth ready for more advanced technique development, positional awareness, and structured sparring in a supportive, disciplined environment.Adults BJJJoin our welcoming adult BJJ program, suitable for all skill levels. Classes focus developing fundamental and advanced techniques with a curriculum featuring both gi and no-gi.Muay ThaiOur beginner friendly classes focus on striking techniques, clinch work, and conditioning. Students can expect to focus on pad and bag work, with the option to spar at the instructor's discretion.Hours & LocationReady to start your BJJ journey? Come by anytime to take the first step towards transformation.Hours of OperationMonday – Friday9:00 AM – 9:30 PMSaturday8:30 AM – 12:00 PMSundayClosedNote: Class times vary. See our schedule page for specific class times.Lovitt's BJJTrain with purpose, grow with community. Brazilian Jiu-Jitsu for all ages in Concord, CA.Quick LinksHomeInstructorPricingScheduleContact(415) 559-1404Markangelolovitt@lovittsjiujitsu.com2190 Solano WayConcord, CA 94520© 2026 Lovitt's BJJ. All rights reserved.
-
---- Page: /schedule ---
-Schedule Information:
-
-
---- Page: /pricing ---
-Pricing Information:
-
-
---- Page: /instructor ---
-HomeInstructorPricingScheduleGalleryThemeHomeInstructorPricingScheduleGalleryOur InstructorsThe coaches behind Lovitts BJJ.Markangelo LovittBJJ CoachOwnerMarkangelo Lovitt has been training Brazilian jiu-jitsu for over 10 years. A student of David Freeman, a black belt under Caio Terra, Coach Markangelo began teaching after opening his gym in Concord, CA in 2018 as a purple belt. Since then, he has continued his life-long journey of learning the art of Brazilian jiu-jitsu through David Freeman and the Caio Terra Academy, holding the rank of a 2-stripe brown belt.Roger SeversonMuay Thai CoachRoger Severson has 12 years of martial arts experience, including two years as an amateur and ten as a professional. With a decade of coaching, Coach Roger is committed to helping students grow both mentally and physically. Rather than following a single philosophy, they share what has worked and what hasn’t, emphasizing the fundamentals. Their key belief: Master the basics.Lovitt's BJJTrain with purpose, grow with community. Brazilian Jiu-Jitsu for all ages in Concord, CA.Quick LinksHomeInstructorPricingScheduleContact(415) 559-1404Markangelolovitt@lovittsjiujitsu.com2190 Solano WayConcord, CA 94520© 2026 Lovitt's BJJ. All rights reserved.
---- Program Information ---
-
-Adult BJJ:
-- For adults of all experience levels
-- Classes available throughout the week (see [Schedule Page](https://www.lovittsbjj.com/schedule) for specific times)
-- Focus on technique, sparring, and competition preparation
-
-Kids BJJ:
-- Age-appropriate classes for children
-- Classes available throughout the week (see [Schedule Page](https://www.lovittsbjj.com/schedule) for specific times)
-- Focus on discipline, respect, and self-confidence
-
+--- SITE PROFILE & HOMEPAGE ---
+Gym: Lovitt's BJJ
+Website: https://www.lovittsbjj.com
+Phone: (415) 559-1404
+Email: Markangelolovitt@lovittsjiujitsu.com
+Address: 2190 Solano Way, Concord, CA 94520
+Google Maps: https://maps.google.com/?q=2190+Solano+Way+Concord+CA+94520
+Hours: Monday-Friday: 9:00 AM-9:30 PM; Saturday: 8:30 AM-12:00 PM; Sunday: Closed
+Area Served: Concord, Pleasant Hill, Walnut Creek, Martinez, Pacheco
+Social Links: https://www.facebook.com/people/Lovitt-s-Jiujitsu-of-Concord/100063572163018/, https://www.instagram.com/lovittsbjj/
+Important Pages: Schedule https://www.lovittsbjj.com/schedule | Pricing https://www.lovittsbjj.com/pricing | Instructors https://www.lovittsbjj.com/instructor
+Hero Title: Train with Purpose, Grow with Community
+Hero Subtitle: At Lovitt's BJJ, we blend technical excellence with a welcoming atmosphere, creating an environment where both beginners and advanced practitioners can thrive.
+Programs:
+- Tiny Kids BJJ (Ages 4-5): Children develop essential life skills and physical coordination in a nurturing environment. Through fun, engaging exercises, they build confidence while learning fundamental movements and social skills.
+- Kids BJJ
+(Ages 7-12): Our Kids BJJ program builds physical skills and character. Students learn self-defense while developing strength, focus, and confidence through structured training. We emphasize respect, discipline, and perseverance both on and off the mats.
+- Adults BJJ: Join our welcoming adult BJJ program, suitable for all skill levels. Classes focus developing fundamental and advanced techniques with a curriculum featuring both gi and no-gi.
+- Muay Thai: Our beginner friendly classes focus on striking techniques, clinch work, and conditioning. Students can expect to focus on pad and bag work, with the option to spar at the instructor's discretion.
+- Kids BJJ 13+: Our Kids BJJ 13+ classes are designed for older youth ready for more advanced technique development, positional awareness, and structured sparring in a supportive, disciplined environment.
+--- WEEKLY CLASS SCHEDULE ---
+Monday:
+- 7:30 PM | Muay Thai | 60 minutes. Audience: Adults, Muay Thai. Uniform: No Uniform. Note: Bring gloves and shin guards.
+Tuesday:
+- 9:00 AM | Women's Fitness | 60 minutes. Audience: Women's. Uniform: No Uniform.
+- 12:00 PM | Adults BJJ | 60 minutes. Audience: Adults. Uniform: Gi.
+- 5:00 PM | Tiny Kids BJJ | 30 minutes. Audience: Tiny Kids. Uniform: Gi.
+- 5:30 PM | Kids BJJ | 60 minutes. Audience: Kids. Uniform: Gi.
+- 6:30 PM | Kids BJJ 13+ | 60 minutes. Audience: Kids 13+. Uniform: Gi.
+- 7:30 PM | Adults BJJ | 120 minutes. Audience: Adults. Uniform: Gi.
+Wednesday:
+- 9:00 AM | Women's Fitness | 60 minutes. Audience: Women's. Uniform: No Uniform.
+- 12:00 PM | Adults BJJ | 60 minutes. Audience: Adults. Uniform: No Gi.
+- 5:30 PM | Kids BJJ | 60 minutes. Audience: Kids. Uniform: No Gi.
+- 6:30 PM | Kids BJJ 13+ | 60 minutes. Audience: Kids 13+. Uniform: No Gi.
+- 7:30 PM | Adults BJJ | 120 minutes. Audience: Adults. Uniform: No Gi.
+Thursday:
+- 9:00 AM | Women's Fitness | 60 minutes. Audience: Women's. Uniform: No Uniform.
+- 12:00 PM | Adults BJJ | 60 minutes. Audience: Adults. Uniform: Gi.
+- 5:00 PM | Tiny Kids BJJ | 30 minutes. Audience: Tiny Kids. Uniform: Gi.
+- 5:30 PM | Kids BJJ | 60 minutes. Audience: Kids. Uniform: Gi.
+- 6:30 PM | Kids BJJ 13+ | 60 minutes. Audience: Kids 13+. Uniform: Gi.
+- 7:30 PM | Adults BJJ | 120 minutes. Audience: Adults. Uniform: Gi.
+Friday:
+- 9:00 AM | Women's Fitness | 60 minutes. Audience: Women's. Uniform: No Uniform.
+- 12:00 PM | Adults BJJ | 60 minutes. Audience: Adults. Uniform: Gi.
+- 5:30 PM | Kids BJJ | 60 minutes. Audience: Kids. Uniform: Gi.
+- 6:30 PM | Kids BJJ 13+ | 60 minutes. Audience: Kids 13+. Uniform: Gi.
+- 7:30 PM | Adults BJJ | 120 minutes. Audience: Adults. Uniform: Gi.
+Saturday:
+- 8:30 AM | Muay Thai | 60 minutes. Audience: Adults, Muay Thai. Uniform: No Uniform. Note: Bring gloves and shin guards.
+- 10:00 AM | Tiny Kids BJJ | 45 minutes. Audience: Tiny Kids. Uniform: Gi.
+- 10:45 AM | Kids BJJ | 75 minutes. Audience: Kids. Uniform: Gi.
+- 1:00 PM | Adults BJJ | 60 minutes. Audience: Adults. Uniform: Gi.
+Sunday:
+- 12:00 PM | Open Mat | 120 minutes. Audience: Adults. Uniform: Gi, No Gi. Note: No drop-in fee.
+General Schedule Notes:
+- Arrive 10-15 minutes before class starts.
+- Gi classes require a BJJ gi; No Gi classes require a rash guard with shorts or spats.
+- Muay Thai classes use athletic clothing, hand wraps, and a mouthguard.
+- Contact the gym to schedule a private lesson if regular class times do not work.
+--- PRICING PLANS ---
+Adult Programs:
+- Monthly: $215 per month. Includes: Month-to-Month Commitment; Unlimited Classes.
+- Yearly - 12 Month Committment: $175 per month. Includes: Best Value - Save $780/year; Unlimited Classes; Lovitts's BJJ Gi. Recommended option.
+- Drop-In: $30. Includes: Single Class Access; No Commitment; Ideal for Visitors.
+Kids Programs:
+- Monthly: $190 per month. Includes: Unlimited Kids Classes; Age-Appropriate Training; Month-to-Month Commitment.
+- Yearly - 12 Month Committment: $150 per month. Includes: Reduced Monthly Rate; Unlimited Kids Classes; Lovitt's BJJ Gi. Recommended option.
+- Drop-In: $30. Includes: Single Class Access; No Commitment; Great for Visitors.
 Muay Thai:
-- Classes on Monday at 7:30pm and Saturday at 8:30am (1 hour each)
-- Attire: Comfortable athletic clothing, hand wraps, and a mouthguard (no uniform requirement)
-- Focus on striking techniques, clinch work, and conditioning
-
-Women's Fitness:
-- Classes designed specifically for women
-- See [Schedule Page](https://www.lovittsbjj.com/schedule) for class times
-- Focus on fitness, self-defense, and empowerment
+- Monthly Unlimited: $120 per month. Includes: All Muay Thai Classes; Monday & Saturday Sessions; Technique Development; Conditioning Training. Recommended option.
+- Drop-In Class: $30. Includes: Single Class Access; No Commitment Required; Great for Visitors; Available for Any Muay Thai Class.
+Personal Training:
+- Monthly Package: $300 per month. Includes: 4 Sessions Per Month; Personalized Training Plan; One-on-One Instruction; Flexible Scheduling. Recommended option.
+- Single Session: $75. Includes: 1-Hour Private Session; Focused Skill Development; Customized to Your Goals; Available for Any Discipline.
+Women's Programs:
+- Monthly Unlimited: $120 per month. Includes: All Women's Self Defense and Fitness Classes; Practical Defense Techniques; Confidence Building; Supportive Environment. Recommended option.
+- Drop-In Class: $30. Includes: Single Class Access; No Commitment Required; Learn Essential Techniques; Beginner Friendly.
+--- INSTRUCTORS ---
+Markangelo Lovitt:
+- Title: BJJ Coach
+- Secondary Title: Owner
+- Bio: Markangelo Lovitt has been training Brazilian jiu-jitsu for over 10 years. A student of David Freeman, a black belt under Caio Terra, Coach Markangelo began teaching after opening his gym in Concord, CA in 2018 as a purple belt. Since then, he has continued his life-long journey of learning the art of Brazilian jiu-jitsu through David Freeman and the Caio Terra Academy, holding the rank of a 2-stripe brown belt.
+Roger Severson:
+- Title: Muay Thai Coach
+- Bio: Roger Severson has 12 years of martial arts experience, including two years as an amateur and ten as a professional. With a decade of coaching, Coach Roger is committed to helping students grow both mentally and physically. Rather than following a single philosophy, they share what has worked and what hasn’t, emphasizing the fundamentals. Their key belief: Master the basics.

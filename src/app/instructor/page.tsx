@@ -3,6 +3,7 @@ import { client } from '../../../sanity/lib/client'
 import Image from 'next/image'
 import imageUrlBuilder from '@sanity/image-url'
 import { SanityImageSource } from '@sanity/image-url/lib/types/types'
+import { endTimer, startTimer, timeAsync, timeSync } from '@/lib/serverTiming'
 
 export const metadata: Metadata = {
   title: "Our Instructors | Lovitts BJJ",
@@ -84,7 +85,10 @@ async function getInstructorsData(): Promise<InstructorData[]> {
       certifications,
       socialMedia
     }`
-    const data = await client.fetch(query)
+    const data = await timeAsync(
+      'GET /instructor Sanity query',
+      () => client.fetch(query)
+    )
     return data || []
   } catch (error) {
     console.error('Error fetching instructor data:', error)
@@ -93,30 +97,35 @@ async function getInstructorsData(): Promise<InstructorData[]> {
 }
 
 export default async function InstructorPage() {
-  const instructorsData = await getInstructorsData()
+  const totalLabel = startTimer('GET /instructor total')
 
-  if (!instructorsData || instructorsData.length === 0) {
+  try {
+    const instructorsData = await getInstructorsData()
+
+    if (!instructorsData || instructorsData.length === 0) {
+      return (
+        <main className="py-12 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-[1400px] mx-auto">
+            <h1
+              className="text-5xl uppercase tracking-widest text-text mb-2"
+              style={{ fontFamily: 'var(--font-bebas-neue)' }}
+            >
+              No instructor data available
+            </h1>
+          </div>
+        </main>
+      )
+    }
+
+    const instructorPairs = timeSync('GET /instructor pair-instructors', () => {
+      const pairs: InstructorData[][] = []
+      for (let i = 0; i < instructorsData.length; i += 2) {
+        pairs.push(instructorsData.slice(i, i + 2))
+      }
+      return pairs
+    })
+
     return (
-      <main className="py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-[1400px] mx-auto">
-          <h1
-            className="text-5xl uppercase tracking-widest text-text mb-2"
-            style={{ fontFamily: 'var(--font-bebas-neue)' }}
-          >
-            No instructor data available
-          </h1>
-        </div>
-      </main>
-    )
-  }
-
-  // Create pairs of instructors for the grid layout
-  const instructorPairs = []
-  for (let i = 0; i < instructorsData.length; i += 2) {
-    instructorPairs.push(instructorsData.slice(i, i + 2))
-  }
-
-  return (
     <main className="py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-[1400px] mx-auto">
         <h1
@@ -250,5 +259,8 @@ export default async function InstructorPage() {
         </div>
       </div>
     </main>
-  )
+    )
+  } finally {
+    endTimer(totalLabel)
+  }
 }

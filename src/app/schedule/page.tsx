@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { client } from '../../../sanity/lib/client';
 import ScheduleClient from '@/components/ScheduleClient';
+import { endTimer, startTimer, timeAsync, timeSync } from '@/lib/serverTiming';
 
 export const metadata: Metadata = {
   title: "Class Schedule | Lovitts BJJ",
@@ -112,7 +113,10 @@ async function getScheduleData(): Promise<ScheduleData> {
       note
     }`
     
-    const classes = await client.fetch(query);
+    const classes = await timeAsync(
+      'GET /schedule Sanity query',
+      () => client.fetch(query)
+    );
     
     if (!classes || classes.length === 0) {
       console.log('No classes found in Sanity, using development data');
@@ -120,33 +124,35 @@ async function getScheduleData(): Promise<ScheduleData> {
     }
 
     // Organize classes by day and time
-    const schedule: ScheduleData = {
-      'Monday': {},
-      'Tuesday': {},
-      'Wednesday': {},
-      'Thursday': {},
-      'Friday': {},
-      'Saturday': {},
-      'Sunday': {},
-    };
-
-    // Add each class to the appropriate day and time slot
-    classes.forEach((classItem: SanityClassItem) => {
-      if (!schedule[classItem.dayOfWeek]) {
-        schedule[classItem.dayOfWeek] = {};
-      }
-      
-      schedule[classItem.dayOfWeek][classItem.startTime] = {
-        name: classItem.name,
-        startTime: classItem.startTime,
-        duration: classItem.duration,
-        types: normalizeTypes(classItem.type),
-        uniform: classItem.uniform || ['Gi'], // Default to Gi if uniform is not specified
-        note: classItem.note || '',
+    return timeSync('GET /schedule transform-classes', () => {
+      const schedule: ScheduleData = {
+        'Monday': {},
+        'Tuesday': {},
+        'Wednesday': {},
+        'Thursday': {},
+        'Friday': {},
+        'Saturday': {},
+        'Sunday': {},
       };
-    });
 
-    return schedule;
+      // Add each class to the appropriate day and time slot
+      classes.forEach((classItem: SanityClassItem) => {
+        if (!schedule[classItem.dayOfWeek]) {
+          schedule[classItem.dayOfWeek] = {};
+        }
+        
+        schedule[classItem.dayOfWeek][classItem.startTime] = {
+          name: classItem.name,
+          startTime: classItem.startTime,
+          duration: classItem.duration,
+          types: normalizeTypes(classItem.type),
+          uniform: classItem.uniform || ['Gi'], // Default to Gi if uniform is not specified
+          note: classItem.note || '',
+        };
+      });
+
+      return schedule;
+    });
   } catch (error) {
     console.error('Error fetching classes:', error);
     return devSchedule;
@@ -154,7 +160,13 @@ async function getScheduleData(): Promise<ScheduleData> {
 }
 
 export default async function SchedulePage() {
-  const scheduleData = await getScheduleData();
+  const totalLabel = startTimer('GET /schedule total');
 
-  return <ScheduleClient initialSchedule={scheduleData} />;
+  try {
+    const scheduleData = await getScheduleData();
+
+    return <ScheduleClient initialSchedule={scheduleData} />;
+  } finally {
+    endTimer(totalLabel);
+  }
 }

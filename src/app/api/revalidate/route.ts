@@ -1,7 +1,10 @@
 import { revalidatePath } from 'next/cache';
 import { NextRequest, NextResponse } from 'next/server';
+import { endTimer, startTimer, timeSync } from '@/lib/serverTiming';
 
 export async function POST(request: NextRequest) {
+  const totalLabel = startTimer('POST /api/revalidate total');
+
   try {
     // Check if this is a batch revalidation request
     const { searchParams } = new URL(request.url);
@@ -9,12 +12,14 @@ export async function POST(request: NextRequest) {
     
     if (isBatch) {
       // Revalidate all main paths for batch publishing
-      revalidatePath('/');
-      revalidatePath('/pricing');
-      revalidatePath('/schedule');
-      revalidatePath('/instructor');
-      // Gallery page is temporarily hidden, but we'll revalidate it anyway
-      revalidatePath('/gallery');
+      timeSync('POST /api/revalidate batch-paths', () => {
+        revalidatePath('/');
+        revalidatePath('/pricing');
+        revalidatePath('/schedule');
+        revalidatePath('/instructor');
+        // Gallery page is temporarily hidden, but we'll revalidate it anyway
+        revalidatePath('/gallery');
+      });
       
       return NextResponse.json({ 
         revalidated: true, 
@@ -27,7 +32,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     
     // Get the paths to revalidate based on the document type
-    const paths = [];
+    const paths: string[] = [];
     if (body._type === 'pricing') {
       paths.push('/pricing');
     } else if (body._type === 'schedule') {
@@ -41,9 +46,11 @@ export async function POST(request: NextRequest) {
     }
 
     // Revalidate all affected paths
-    for (const path of paths) {
-      revalidatePath(path);
-    }
+    timeSync('POST /api/revalidate targeted-paths', () => {
+      for (const path of paths) {
+        revalidatePath(path);
+      }
+    });
 
     return NextResponse.json({ revalidated: true, now: Date.now() });
   } catch (err) {
@@ -52,5 +59,7 @@ export async function POST(request: NextRequest) {
       { message: 'Error revalidating' },
       { status: 500 }
     );
+  } finally {
+    endTimer(totalLabel);
   }
 }

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { generateMistralResponse, isGeneralQuery, getSpecificProgram } from '@/lib/mistral';
 import { findResponse } from '@/lib/chatResponses';
+import { endTimer, startTimer, timeAsync, timeSync } from '@/lib/serverTiming';
 
 // Define the message interface
 interface Message {
@@ -13,6 +14,8 @@ interface ApiError extends Error {
   message: string;
   stack?: string;
 }
+
+export const maxDuration = 15;
 
 // Function to convert markdown links to HTML links
 function convertMarkdownLinksToHtml(text: string): string {
@@ -30,8 +33,15 @@ function ensureConciseResponse(query: string, response: string, conversationHist
 }
 
 export async function POST(req: Request) {
+  const totalLabel = startTimer('POST /api/chat total');
+
   try {
-    const { query, history = [] } = await req.json();
+    const { query, history = [] } = await timeAsync(
+      'POST /api/chat parse-body',
+      () => req.json()
+    );
+
+    const conversationHistory = Array.isArray(history) ? history : [];
 
     if (!query) {
       return NextResponse.json(
@@ -40,6 +50,11 @@ export async function POST(req: Request) {
       );
     }
 
+    console.log('POST /api/chat request', {
+      historyLength: conversationHistory.length,
+      queryLength: typeof query === 'string' ? query.length : 0,
+    });
+
     // Try to use MistralAI first
     try {
       if (!process.env.MISTRAL_API_KEY) {
@@ -47,9 +62,18 @@ export async function POST(req: Request) {
         throw new Error('MISTRAL_API_KEY is not configured');
       }
 
-      const mistralResponse = await generateMistralResponse(query, history);
-      const conciseResponse = ensureConciseResponse(query, mistralResponse, history);
-      const formattedResponse = convertMarkdownLinksToHtml(conciseResponse);
+      const mistralResponse = await timeAsync(
+        'POST /api/chat generate-response',
+        () => generateMistralResponse(query, conversationHistory)
+      );
+      const conciseResponse = timeSync(
+        'POST /api/chat format-mistral-response',
+        () => ensureConciseResponse(query, mistralResponse, conversationHistory)
+      );
+      const formattedResponse = timeSync(
+        'POST /api/chat convert-mistral-links',
+        () => convertMarkdownLinksToHtml(conciseResponse)
+      );
       
       return NextResponse.json({ response: formattedResponse });
     } catch (error: unknown) {
@@ -57,9 +81,18 @@ export async function POST(req: Request) {
       console.error('MistralAI error:', apiError.message || 'Unknown error');
       
       // Fall back to static keyword-based responses
-      const fallbackResponse = findResponse(query);
-      const conciseFallback = ensureConciseResponse(query, fallbackResponse, history);
-      const formattedFallback = convertMarkdownLinksToHtml(conciseFallback);
+      const fallbackResponse = timeSync(
+        'POST /api/chat build-fallback-response',
+        () => findResponse(query)
+      );
+      const conciseFallback = timeSync(
+        'POST /api/chat format-fallback-response',
+        () => ensureConciseResponse(query, fallbackResponse, conversationHistory)
+      );
+      const formattedFallback = timeSync(
+        'POST /api/chat convert-fallback-links',
+        () => convertMarkdownLinksToHtml(conciseFallback)
+      );
       
       return NextResponse.json({ response: formattedFallback });
     }
@@ -69,5 +102,7 @@ export async function POST(req: Request) {
       { error: 'Internal server error' },
       { status: 500 }
     );
+  } finally {
+    endTimer(totalLabel);
   }
 }

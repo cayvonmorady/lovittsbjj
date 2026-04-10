@@ -19,7 +19,7 @@
     "@vercel/speed-insights": "^2.0.0",
     "@sanity/client": "^7.20.0",
     "@sanity/image-url": "^1.2.0",
-    "@sanity/vision": "^3.99.0",
+    "@sanity/ui": "^3.1.14",
     "cheerio": "^1.0.0",
     "dotenv": "^16.4.7",
     "langchain": "^0.3.19",

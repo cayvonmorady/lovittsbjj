@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { client } from '../../../sanity/lib/client';
 import PricingClient from '@/components/PricingClient';
+import { endTimer, startTimer, timeAsync } from '@/lib/serverTiming';
 
 interface PricingPlan {
   name: string;
@@ -127,7 +128,10 @@ async function getPricingData(): Promise<PricingCategory[]> {
       }
     }`;
     
-    const data = await client.fetch(query);
+    const data = await timeAsync(
+      'GET /pricing Sanity query',
+      () => client.fetch(query)
+    );
     
     if (!data || data.length === 0) {
       console.log('No pricing data from Sanity, using development data');
@@ -142,6 +146,12 @@ async function getPricingData(): Promise<PricingCategory[]> {
 }
 
 export default async function PricingPage() {
-  const pricingData = await getPricingData();
-  return <PricingClient pricingData={pricingData} />;
+  const totalLabel = startTimer('GET /pricing total');
+
+  try {
+    const pricingData = await getPricingData();
+    return <PricingClient pricingData={pricingData} />;
+  } finally {
+    endTimer(totalLabel);
+  }
 }

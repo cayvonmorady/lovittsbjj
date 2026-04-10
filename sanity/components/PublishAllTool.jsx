@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 import { Button, Card, Flex, Stack, Text, useToast } from '@sanity/ui'
 import { PublishIcon } from '@sanity/icons'
