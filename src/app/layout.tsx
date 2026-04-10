@@ -7,6 +7,7 @@ import ChatBot from "@/components/ChatBot";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import StructuredData from "@/components/StructuredData";
 import { THEME_STORAGE_KEY } from "@/lib/theme";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const bebasNeue = Bebas_Neue({
   weight: "400",
@@ -92,6 +93,7 @@ export default function RootLayout({
         <main className="app-content">{children}</main>
         <Footer />
         <ChatBot />
+        <SpeedInsights />
       </body>
     </html>
   );
