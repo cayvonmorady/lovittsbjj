@@ -97,7 +97,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-10 pt-6 border-t border-border text-center text-muted text-sm">
+        <div className="pt-10 text-center text-muted text-sm">
           <p>&copy; {currentYear} Lovitt&apos;s BJJ. All rights reserved.</p>
         </div>
       </div>
