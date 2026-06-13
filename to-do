@@ -1,3 +1,8 @@
 - Integrate LlamaIndex and Chroma DB; ensuring we're set for Chroma to run in production
 - Move indexing script to a githib action so that it indexes on commit
 - Correct integration with Sanity CMS
+- Revisit the website AI assistant before re-enabling it:
+  - Audit response quality and fallback behavior.
+  - Improve assistant UI and error states.
+  - Confirm the chat knowledge base stays current with site content.
+  - Re-enable the global ChatBot mount in src/app/layout.tsx when ready.

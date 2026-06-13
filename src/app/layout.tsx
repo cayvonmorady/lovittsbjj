@@ -3,7 +3,6 @@ import { Bebas_Neue } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import ChatBot from "@/components/ChatBot";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import StructuredData from "@/components/StructuredData";
 import { THEME_STORAGE_KEY } from "@/lib/theme";
@@ -92,7 +91,6 @@ export default function RootLayout({
         <Navbar />
         <main className="app-content">{children}</main>
         <Footer />
-        <ChatBot />
         <SpeedInsights />
       </body>
     </html>
