@@ -29,7 +29,7 @@ export default function ProgramsAccordion({ programs }: ProgramsAccordionProps) 
           >
             <button
               onClick={() => toggle(index)}
-              className="w-full flex items-center justify-between px-6 py-5 text-left cursor-pointer focus:outline-none"
+              className="w-full flex items-center justify-between px-6 py-5 text-left cursor-pointer focus:outline-none hover:bg-surface2 transition-colors duration-200"
             >
               <h3 className="font-[--font-bebas-neue] text-xl text-text tracking-wide whitespace-normal">
                 {program.title}
@@ -50,15 +50,13 @@ export default function ProgramsAccordion({ programs }: ProgramsAccordionProps) 
                 />
               </svg>
             </button>
-            <div
-              className={`transition-all duration-300 ease-in-out overflow-hidden ${
-                isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
-              }`}
-            >
-              <div className="px-6 pb-5">
-                <p className="text-muted text-md leading-relaxed">
-                  {program.description}
-                </p>
+            <div className={`accordion-body ${isOpen ? 'is-open' : ''}`}>
+              <div className="accordion-inner">
+                <div className="accordion-content px-6 pb-5">
+                  <p className="text-muted text-md leading-relaxed">
+                    {program.description}
+                  </p>
+                </div>
               </div>
             </div>
           </div>

@@ -30,7 +30,7 @@ export default function PricingClient({ pricingData }: PricingClientProps) {
     const renderPlanCard = (plan: PricingPlan) => (
       <div
         key={plan.name}
-        className={`relative flex flex-col rounded-lg overflow-hidden h-full transition-transform duration-200 ${
+        className={`card-hover relative flex flex-col rounded-lg overflow-hidden h-full ${
           plan.highlighted
             ? "bg-surface2 border-2 border-brand/70 shadow-lg shadow-brand/10 scale-[1.02]"
             : "bg-surface border border-border"

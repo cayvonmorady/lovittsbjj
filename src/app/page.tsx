@@ -1,5 +1,6 @@
 import Map from '@/components/Map';
 import ProgramsAccordion from '@/components/ProgramsAccordion';
+import ScrollReveal from '@/components/ScrollReveal';
 import { client } from "../../sanity/lib/client";
 
 import Image from 'next/image';
@@ -199,22 +200,24 @@ export default async function Home() {
       {/* Hero Section */}
       <section className="py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto text-center space-y-6">
-          <Image
-            src="/assets/images/logo.png"
-            alt="Lovitt's BJJ Logo"
-            width={280}
-            height={280}
-            className="mx-auto w-[180px] sm:w-[240px] lg:w-[280px] h-auto"
-            priority
-          />
-          <h1 className="text-5xl uppercase tracking-widest text-text" style={{ fontFamily: 'var(--font-bebas-neue)' }}>
+          <div className="animate-fade-up mx-auto w-[180px] sm:w-[240px] lg:w-[280px]">
+            <Image
+              src="/assets/images/logo.png"
+              alt="Lovitt's BJJ Logo"
+              width={280}
+              height={280}
+              className="w-full h-auto"
+              priority
+            />
+          </div>
+          <h1 className="animate-fade-up anim-delay-100 text-5xl uppercase tracking-widest text-text" style={{ fontFamily: 'var(--font-bebas-neue)' }}>
             Train with Purpose, Grow with Community
           </h1>
-          <p className="max-w-2xl mx-auto text-text2 text-lg leading-relaxed">
+          <p className="animate-fade-up anim-delay-200 max-w-2xl mx-auto text-text2 text-lg leading-relaxed">
             At Lovitt&apos;s BJJ in Concord, we blend technical excellence with a welcoming atmosphere for students from Concord, Pleasant Hill, Walnut Creek, and nearby communities.
           </p>
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+          <div className="animate-fade-up anim-delay-300 flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
             <Link
               href="/schedule"
               className="btn-primary w-full sm:w-auto px-8"
@@ -234,57 +237,65 @@ export default async function Home() {
       {/* Programs FAQ */}
       <section className="py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <h2 className="font-[--font-bebas-neue] text-3xl uppercase text-text tracking-wide text-center mb-10">
-            Our Programs
-          </h2>
-          <ProgramsAccordion programs={accordionPrograms} />
+          <ScrollReveal>
+            <h2 className="font-[--font-bebas-neue] text-3xl uppercase text-text tracking-wide text-center mb-10">
+              Our Programs
+            </h2>
+          </ScrollReveal>
+          <ScrollReveal delay={120}>
+            <ProgramsAccordion programs={accordionPrograms} />
+          </ScrollReveal>
         </div>
       </section>
 
       {/* Contact Section */}
       <section className="py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-10">
-            <h2 className="text-3xl uppercase font-[--font-bebas-neue] text-text mb-3 tracking-wide">Hours & Location</h2>
-            <p className="text-muted">
-              Ready to start your BJJ journey? Come by anytime to take the first step towards transformation.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
-            {/* Hours of Operation */}
-            <div className="card p-6 flex flex-col">
-              <h3 className="font-[--font-bebas-neue] text-2xl text-text mb-5 tracking-wide text-center">
-                Hours of Operation
-              </h3>
-              <div className="flex-1 flex flex-col justify-center">
-                <div className="rounded-lg overflow-hidden border border-border">
-                  <div className="flex items-center justify-between px-5 py-3 bg-surface2">
-                    <span className="text-text2 font-medium">Monday – Friday</span>
-                    <span className="text-text">9:00 AM – 9:30 PM</span>
-                  </div>
-                  <div className="flex items-center justify-between px-5 py-3 bg-surface">
-                    <span className="text-text2 font-medium">Saturday</span>
-                    <span className="text-text">8:30 AM – 12:00 PM</span>
-                  </div>
-                  <div className="flex items-center justify-between px-5 py-3 bg-surface2">
-                    <span className="text-text2 font-medium">Sunday</span>
-                    <span className="text-muted">Closed</span>
-                  </div>
-                </div>
-              </div>
-              <p className="mt-5 text-sm text-center text-muted">
-                <span className="text-brand font-medium">Note:</span> Class times vary. See our{' '}
-                <Link href="/schedule" className="text-brand hover:underline">schedule page</Link>{' '}
-                for specific class times.
+          <ScrollReveal>
+            <div className="text-center mb-10">
+              <h2 className="text-3xl uppercase font-[--font-bebas-neue] text-text mb-3 tracking-wide">Hours & Location</h2>
+              <p className="text-muted">
+                Ready to start your BJJ journey? Come by anytime to take the first step towards transformation.
               </p>
             </div>
+          </ScrollReveal>
 
-            {/* Map */}
-            <div className="rounded-lg overflow-hidden border border-border min-h-[300px]">
-              <Map />
+          <ScrollReveal delay={120}>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+              {/* Hours of Operation */}
+              <div className="card p-6 flex flex-col">
+                <h3 className="font-[--font-bebas-neue] text-2xl text-text mb-5 tracking-wide text-center">
+                  Hours of Operation
+                </h3>
+                <div className="flex-1 flex flex-col justify-center">
+                  <div className="rounded-lg overflow-hidden border border-border">
+                    <div className="flex items-center justify-between px-5 py-3 bg-surface2">
+                      <span className="text-text2 font-medium">Monday – Friday</span>
+                      <span className="text-text">9:00 AM – 9:30 PM</span>
+                    </div>
+                    <div className="flex items-center justify-between px-5 py-3 bg-surface">
+                      <span className="text-text2 font-medium">Saturday</span>
+                      <span className="text-text">8:30 AM – 12:00 PM</span>
+                    </div>
+                    <div className="flex items-center justify-between px-5 py-3 bg-surface2">
+                      <span className="text-text2 font-medium">Sunday</span>
+                      <span className="text-muted">Closed</span>
+                    </div>
+                  </div>
+                </div>
+                <p className="mt-5 text-sm text-center text-muted">
+                  <span className="text-brand font-medium">Note:</span> Class times vary. See our{' '}
+                  <Link href="/schedule" className="text-brand hover:underline">schedule page</Link>{' '}
+                  for specific class times.
+                </p>
+              </div>
+
+              {/* Map */}
+              <div className="rounded-lg overflow-hidden border border-border min-h-[300px]">
+                <Map />
+              </div>
             </div>
-          </div>
+          </ScrollReveal>
         </div>
       </section>
     </>

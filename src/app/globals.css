@@ -13,6 +13,8 @@
   --brand: #e10600;
   --brand-hover: #a00000;
   --accent: #b8a27a;
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .dark {
@@ -28,6 +30,70 @@
   --accent: #b8a27a;
 }
 
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.65s var(--ease-out-expo) both;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.5s var(--ease-out-quart) both;
+}
+
+.anim-delay-100 { animation-delay: 100ms; }
+.anim-delay-200 { animation-delay: 200ms; }
+.anim-delay-300 { animation-delay: 300ms; }
+.anim-delay-400 { animation-delay: 400ms; }
+
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s var(--ease-out-expo), transform 0.6s var(--ease-out-expo);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.accordion-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 320ms var(--ease-out-quart);
+}
+
+.accordion-body.is-open {
+  grid-template-rows: 1fr;
+}
+
+.accordion-inner {
+  overflow: hidden;
+}
+
+.accordion-content {
+  opacity: 0;
+  transition: opacity 180ms var(--ease-out-quart);
+}
+
+.accordion-body.is-open .accordion-content {
+  opacity: 1;
+  transition-delay: 90ms;
+}
+
 @layer base {
   html,
   body {
@@ -38,6 +104,7 @@
 
   * {
     border-color: var(--border);
+    outline-color: color-mix(in srgb, var(--brand) 35%, transparent);
   }
 }
 
@@ -62,11 +129,21 @@
   }
 
   .btn-primary {
-    @apply inline-flex items-center justify-center rounded-lg bg-brand px-6 py-3 font-[--font-bebas-neue] text-xl tracking-wide text-white transition-colors duration-200 hover:bg-brandHover focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 focus:ring-offset-bg;
+    @apply inline-flex items-center justify-center rounded-lg bg-brand px-6 py-3 font-[--font-bebas-neue] text-xl tracking-wide text-white hover:bg-brandHover focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 focus:ring-offset-bg;
+    transition: background-color 200ms var(--ease-out-quart), transform 120ms var(--ease-out-quart);
+  }
+
+  .btn-primary:active {
+    transform: scale(0.97);
   }
 
   .btn-outline {
-    @apply inline-flex items-center justify-center rounded-lg border border-border bg-transparent px-6 py-3 font-[--font-bebas-neue] text-xl tracking-wide text-text transition-colors duration-200 hover:bg-surface2 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 focus:ring-offset-bg;
+    @apply inline-flex items-center justify-center rounded-lg border border-border bg-transparent px-6 py-3 font-[--font-bebas-neue] text-xl tracking-wide text-text hover:bg-surface2 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 focus:ring-offset-bg;
+    transition: background-color 200ms var(--ease-out-quart), transform 120ms var(--ease-out-quart);
+  }
+
+  .btn-outline:active {
+    transform: scale(0.97);
   }
 
   .nav-link {
@@ -81,5 +158,51 @@
     @apply inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-accent;
     border-color: color-mix(in srgb, var(--accent) 50%, transparent);
     background-color: color-mix(in srgb, var(--accent) 15%, transparent);
+  }
+
+  .card-hover {
+    transition: transform 240ms var(--ease-out-quart), box-shadow 240ms var(--ease-out-quart);
+  }
+
+  .card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+  }
+
+  .dark .card-hover:hover {
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.32);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-up,
+  .animate-fade-in {
+    animation: none !important;
+    opacity: 1;
+    transform: none;
+  }
+
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .accordion-body {
+    transition: none !important;
+  }
+
+  .accordion-content {
+    opacity: 1 !important;
+    transition: none !important;
+  }
+
+  .card-hover {
+    transition: none !important;
+  }
+
+  .btn-primary,
+  .btn-outline {
+    transition: background-color 200ms !important;
   }
 }
